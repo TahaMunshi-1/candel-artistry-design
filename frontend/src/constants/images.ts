@@ -1,8 +1,8 @@
 /**
  * Client product & brand imagery for Candle Artistry Design.
- * Files live in /public/images
+ * Files live in /public/images — prefix with Vite base for subdirectory hosts.
  */
-const img = (file: string) => `/images/${file}`;
+const img = (file: string) => `${import.meta.env.BASE_URL}images/${file}`;
 
 export const images = {
   logo: img("logo.png"),

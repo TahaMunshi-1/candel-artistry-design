@@ -3,7 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react(), tailwindcss()],
-  base: "/candel-artistry-design",
-});
+  // Subfolder on customdev; root path for local `npm run dev`
+  base: mode === "production" ? "/candel-artistry-design/" : "/",
+}));

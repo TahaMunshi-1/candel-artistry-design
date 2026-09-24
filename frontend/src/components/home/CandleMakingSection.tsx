@@ -1,7 +1,7 @@
 import { BotanicalPetal, FloralCorner, PetalAccent } from "../decor/BotanicalAssets";
 import { images } from "../../constants/images";
 
-const videoSrc = "/videos/candle_spatial2.mp4";
+const videoSrc = `${import.meta.env.BASE_URL}videos/candle_spatial2.mp4`;
 
 export default function CandleMakingSection() {
   return (
