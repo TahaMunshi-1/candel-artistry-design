@@ -41,6 +41,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
           CI: false
+          VITE_BASE: /candel-artistry-design/
 
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
