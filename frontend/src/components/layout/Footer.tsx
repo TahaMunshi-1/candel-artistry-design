@@ -3,6 +3,7 @@ import { images } from "../../constants/images";
 import { FloralCorner } from "../decor/BotanicalAssets";
 
 const links = [
+  { label: "Our Story", href: "#our-story" },
   { label: "Moments", href: "#experience" },
   { label: "Romance", href: "#featured" },
   { label: "Collection", href: "#shop" },

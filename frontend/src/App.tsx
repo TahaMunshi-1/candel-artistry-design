@@ -1,13 +1,13 @@
-import "antd/dist/reset.css"; // Import Ant Design styles
+import "antd/dist/reset.css";
 import "./App.css";
-import CurtainPreloader from "./components/layout/CurtainPreloader";
+import PrologueGate from "./components/layout/PrologueGate";
 import AppRoutes from "./Routes.tsx";
 
 function App() {
   return (
-    <CurtainPreloader>
+    <PrologueGate>
       <AppRoutes />
-    </CurtainPreloader>
+    </PrologueGate>
   );
 }
 

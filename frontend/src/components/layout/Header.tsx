@@ -4,13 +4,13 @@ import { images } from "../../constants/images";
 
 const leftLinks = [
   { label: "Home", href: "/" },
+  { label: "Our Story", href: "#our-story" },
   { label: "Moments", href: "#experience" },
-  { label: "Romance", href: "#featured" },
 ];
 
 const rightLinks = [
+  { label: "Romance", href: "#featured" },
   { label: "Collection", href: "#shop" },
-  { label: "Candle Making", href: "#story" },
   { label: "The Artistry", href: "#experience-gallery" },
 ];
 

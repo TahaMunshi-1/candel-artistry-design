@@ -6,6 +6,7 @@ import FeaturedCollection from "../../components/home/FeaturedCollection";
 import GreetingCardsGallery from "../../components/home/GreetingCardsGallery";
 import ProductShowcase from "../../components/home/ProductShowcase";
 import CandleMakingSection from "../../components/home/CandleMakingSection";
+import OurStory from "../../components/home/OurStory";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
         <ExperienceSelector />
         <FeaturedCollection />
         <ProductShowcase />
+        <OurStory />
         <CandleMakingSection />
         <GreetingCardsGallery />
       </main>

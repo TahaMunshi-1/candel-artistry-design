@@ -51,4 +51,7 @@ export const images = {
   archBorder: img("decor/arch-border-gold.png"),
   botanical: img("decor/botanical-gold.png"),
   floralCorner: img("decor/floral-corner.png"),
+  familyMotherDaughter: img("family/mother-daughter.jpg"),
+  familyFatherDaughter: img("family/father-daughter.jpg"),
+  familyDaughterGarden: img("family/daughter-garden.jpg"),
 } as const;
