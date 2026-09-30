@@ -3,8 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // Root path for Vercel / local. Use VITE_BASE=/candel-artistry-design/ for subfolder hosts.
+  // Default `/` for Vercel/local. Set VITE_BASE=/candel-artistry-design/ for customdev FTP.
   base: process.env.VITE_BASE || "/",
-}));
+});
