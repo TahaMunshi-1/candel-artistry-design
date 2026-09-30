@@ -5,6 +5,6 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [react(), tailwindcss()],
-  // Subfolder on customdev; root path for local `npm run dev`
-  base: mode === "production" ? "/candel-artistry-design/" : "/",
+  // Root path for Vercel / local. Use VITE_BASE=/candel-artistry-design/ for subfolder hosts.
+  base: process.env.VITE_BASE || "/",
 }));
