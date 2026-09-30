@@ -496,20 +496,57 @@
   }
 }
 
-/* ——— Curtain preloader ——— */
+/* ——— Cinematic prologue gate (replaces curtain loader) ——— */
+html.prologue-locked,
+html.prologue-locked body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+.prologue-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #030105;
+}
+
+.prologue-gate__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #030105;
+}
+
+.our-story__frame {
+  border-radius: 2px;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(232, 212, 168, 0.18);
+  position: relative;
+}
+
+.our-story__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 45%, rgba(8, 3, 4, 0.35) 100%),
+    linear-gradient(180deg, rgba(255, 220, 170, 0.06), transparent 40%);
+  mix-blend-mode: soft-light;
+}
+
+/* ——— Legacy curtain preloader (unused) ——— */
 html.curtains-locked,
 html.curtains-locked body {
   overflow: hidden;
 }
 
 .site-stage {
-  opacity: 0;
-  transform: scale(1.02);
-  filter: blur(6px);
-  transition:
-    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s,
-    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
-    filter 1s ease 0.25s;
+  opacity: 1;
+  transform: none;
+  filter: none;
 }
 
 .site-stage.is-revealed {

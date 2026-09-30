@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Kingdom in Darkness — Prologue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <canvas class="atmo-canvas" id="atmoCanvas" aria-hidden="true"></canvas>
+
+    <main class="shell">
+      <section class="cinema" id="cinema" aria-label="Ethereal cinematic prologue">
+        <div class="stage" id="stage">
+          <div class="world" id="world"></div>
+
+          <!-- Ethereal fantasy overlays -->
+          <div class="rays" id="rays" aria-hidden="true"></div>
+          <div class="bloom" id="bloom" aria-hidden="true"></div>
+          <div class="sparkle-veil" id="sparkleVeil" aria-hidden="true"></div>
+          <div class="letterbox" aria-hidden="true">
+            <span class="letterbox__bar letterbox__bar--top"></span>
+            <span class="letterbox__bar letterbox__bar--bot"></span>
+          </div>
+
+          <div class="veil" id="veil" aria-hidden="true"></div>
+          <div class="vignette" aria-hidden="true"></div>
+
+          <!-- Opening title card -->
+          <div class="prologue" id="prologue">
+            <p class="prologue__eyebrow">A fairy tale · born of real love</p>
+            <h1 class="prologue__title">A Kingdom<br />in Darkness</h1>
+            <p class="prologue__sub">Scroll to awaken the tale</p>
+            <div class="prologue__ornament" aria-hidden="true"></div>
+          </div>
+
+          <!-- Whisper line that floats at peak emotional beats -->
+          <p class="whisper" id="whisper" aria-live="polite"></p>
+
+          <aside class="beats" id="beats" aria-label="Chapters"></aside>
+        </div>
+      </section>
+
+      <!-- Bridge from fantasy → the family’s true story -->
+      <section class="origin" id="origin" aria-label="The family behind Candle Artistry Design">
+        <header class="origin__header">
+          <div class="origin__ornament" aria-hidden="true"></div>
+          <p class="origin__kicker">End of Prologue</p>
+          <h2 class="origin__title">The Story Behind the Flame</h2>
+          <p class="origin__lead">
+            The kingdom was never only a fairy tale. It was a love letter —
+            written by parents who built a world of beauty for their daughter.
+          </p>
+        </header>
+
+        <article class="origin__beat origin__beat--mother">
+          <figure class="origin__figure">
+            <img
+              src="./assets/family/mother-daughter.jpg"
+              alt="Mother and daughter smiling together, heads leaning close"
+              loading="lazy"
+            />
+          </figure>
+          <div class="origin__copy">
+            <p class="origin__chapter">I · A Mother’s Light</p>
+            <h3 class="origin__heading">Held close. Always.</h3>
+            <p class="origin__body">
+              Before there were candles and illustrated labels, there was this —
+              a mother’s smile beside her daughter’s. Every scent, every story,
+              every golden detail began as devotion made visible.
+            </p>
+          </div>
+        </article>
+
+        <article class="origin__beat origin__beat--father">
+          <div class="origin__copy">
+            <p class="origin__chapter">II · A Father’s Tale</p>
+            <h3 class="origin__heading">Pages shared. Worlds imagined.</h3>
+            <p class="origin__body">
+              Side by side with an open book, a father and daughter lingered in
+              wonder. That is the heart of Candle Artistry Design: storytelling
+              you can hold — romance, mystery, and magic poured into wax and art.
+            </p>
+          </div>
+          <figure class="origin__figure">
+            <img
+              src="./assets/family/father-daughter.jpg"
+              alt="Father and daughter sharing a book on the sofa, smiling"
+              loading="lazy"
+            />
+          </figure>
+        </article>
+
+        <article class="origin__beat origin__beat--daughter">
+          <figure class="origin__figure origin__figure--wide">
+            <img
+              src="./assets/family/daughter-garden.jpg"
+              alt="Their daughter smiling outdoors in the garden built with love"
+              loading="lazy"
+            />
+          </figure>
+          <div class="origin__copy origin__copy--center">
+            <p class="origin__chapter">III · The Reason</p>
+            <h3 class="origin__heading">Their brightest flame.</h3>
+            <p class="origin__body">
+              For her, they shaped gardens and daydreams — and a brand where
+              fantasy feels like home. Candle Artistry Design is their kingdom
+              made real: handcrafted light, storybook artistry, and a love that
+              never dimmed.
+            </p>
+          </div>
+        </article>
+
+        <footer class="origin__footer">
+          <div class="origin__ornament" aria-hidden="true"></div>
+          <p class="origin__brand">Candle Artistry Design</p>
+          <p class="origin__tagline">
+            Built with love — for the daughter who lit the way.
+          </p>
+          <button type="button" class="end__again" id="again">Begin the tale again</button>
+          <button type="button" class="end__enter" id="enterSite">Enter the Atelier</button>
+        </footer>
+      </section>
+    </main>
+
+    <button type="button" class="skip-prologue" id="skipPrologue">Skip prologue</button>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
