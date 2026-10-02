@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /candel-artistry-design/
+
+  # Don't rewrite real files or directories
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+
+  # SPA fallback — /admin, /candles, /our-story, etc.
+  RewriteRule . /candel-artistry-design/index.html [L]
+</IfModule>

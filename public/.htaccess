@@ -6,7 +6,10 @@
     RewriteCond %{HTTPS} off
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    # Existing rewrites
+    # If request is under the app folder, let that directory's .htaccess handle it
+    RewriteRule ^candel-artistry-design(/|$) - [L]
+
+    # Legacy root fallback into the app
     RewriteRule ^index\.html$ - [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
