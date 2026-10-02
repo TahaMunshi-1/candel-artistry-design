@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCatalog } from "../../catalog/CatalogContext";
 import type { GalleryItem, ProductStatus } from "../../constants/catalog";
-import { Field, IMAGE_OPTIONS, inputClass, selectClass } from "./adminUi";
+import { Field, IMAGE_OPTIONS, ImagePicker, inputClass, selectClass } from "./adminUi";
 
 type Kind = "paintings" | "cards";
 
@@ -78,19 +78,10 @@ function GalleryAdmin({
                 placeholder="Inquire for availability"
               />
             </Field>
-            <Field label="Image">
-              <select
-                className={selectClass}
-                value={draft.image}
-                onChange={(e) => setDraft((d) => ({ ...d, image: e.target.value }))}
-              >
-                {IMAGE_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
+            <ImagePicker
+              value={draft.image}
+              onChange={(image) => setDraft((d) => ({ ...d, image }))}
+            />
           </div>
           <div className="mt-4 flex gap-3">
             <button
@@ -179,22 +170,10 @@ function GalleryRow({
             onChange={(e) => onChange({ note: e.target.value })}
           />
         </Field>
-        <Field label="Image">
-          <select
-            className={selectClass}
-            value={item.image}
-            onChange={(e) => onChange({ image: e.target.value })}
-          >
-            {IMAGE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-            {!IMAGE_OPTIONS.some((o) => o.value === item.image) ? (
-              <option value={item.image}>Current image</option>
-            ) : null}
-          </select>
-        </Field>
+        <ImagePicker
+          value={item.image}
+          onChange={(image) => onChange({ image })}
+        />
         <div className="flex items-end sm:col-span-2">
           <button
             type="button"

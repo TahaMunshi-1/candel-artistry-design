@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCatalog } from "../../catalog/CatalogContext";
 import { DEFAULT_CANDLE_PRICE, type ProductStatus } from "../../constants/catalog";
-import { Field, IMAGE_OPTIONS, inputClass, selectClass } from "./adminUi";
+import { Field, IMAGE_OPTIONS, ImagePicker, inputClass, selectClass } from "./adminUi";
 
 export default function AdminCandlesPage() {
   const {
@@ -122,27 +122,13 @@ export default function AdminCandlesPage() {
                               }
                             />
                           </Field>
-                          <Field label="Image">
-                            <select
-                              className={selectClass}
-                              value={product.image}
-                              onChange={(e) =>
-                                updateCandleProduct(collection.id, product.id, {
-                                  image: e.target.value,
-                                })
-                              }
-                            >
-                              {IMAGE_OPTIONS.map((opt) => (
-                                <option key={opt.value} value={opt.value}>
-                                  {opt.label}
-                                </option>
-                              ))}
-                              {!IMAGE_OPTIONS.some((o) => o.value === product.image) ? (
-                                <option value={product.image}>Current image</option>
-                              ) : null}
-                            </select>
-                          </Field>
-                          <div className="flex items-end">
+                          <ImagePicker
+                            value={product.image}
+                            onChange={(image) =>
+                              updateCandleProduct(collection.id, product.id, { image })
+                            }
+                          />
+                          <div className="flex items-end sm:col-span-2">
                             <button
                               type="button"
                               className="font-serif text-[0.72rem] tracking-[0.16em] uppercase text-royal hover:underline"
@@ -210,19 +196,10 @@ export default function AdminCandlesPage() {
                             }
                           />
                         </Field>
-                        <Field label="Image">
-                          <select
-                            className={selectClass}
-                            value={draft.image}
-                            onChange={(e) => setDraft((d) => ({ ...d, image: e.target.value }))}
-                          >
-                            {IMAGE_OPTIONS.map((opt) => (
-                              <option key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </option>
-                            ))}
-                          </select>
-                        </Field>
+                        <ImagePicker
+                          value={draft.image}
+                          onChange={(image) => setDraft((d) => ({ ...d, image }))}
+                        />
                       </div>
                       <div className="mt-4 flex gap-3">
                         <button
