@@ -1,10 +1,12 @@
 import { Link } from "react-router";
+import { useCatalog } from "../../catalog/CatalogContext";
 import { DiamondMark } from "../../components/decor/Ornaments";
 import { FloralCorner } from "../../components/decor/BotanicalAssets";
 import ShopPageShell from "../../components/shop/ShopPageShell";
-import { candleCollections } from "../../constants/catalog";
 
 export default function CandlesPage() {
+  const { collections } = useCatalog();
+
   return (
     <ShopPageShell>
       <section className="relative overflow-hidden section-pad">
@@ -33,7 +35,7 @@ export default function CandlesPage() {
           </header>
 
           <div className="mx-auto mt-14 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {candleCollections.map((collection) => (
+            {collections.map((collection) => (
               <Link
                 key={collection.id}
                 to={`/candles/${collection.slug}`}

@@ -2,9 +2,11 @@ import { DiamondMark } from "../../components/decor/Ornaments";
 import { FloralCorner } from "../../components/decor/BotanicalAssets";
 import { GalleryProductCard } from "../../components/shop/ProductCard";
 import ShopPageShell from "../../components/shop/ShopPageShell";
-import { greetingCards } from "../../constants/catalog";
+import { useCatalog } from "../../catalog/CatalogContext";
 
 export default function GreetingCardsPage() {
+  const { cards } = useCatalog();
+
   return (
     <ShopPageShell>
       <section className="relative overflow-hidden section-pad">
@@ -30,7 +32,7 @@ export default function GreetingCardsPage() {
           </header>
 
           <div className="mx-auto mt-14 grid max-w-4xl gap-12 sm:grid-cols-2">
-            {greetingCards.map((item) => (
+            {cards.map((item) => (
               <GalleryProductCard key={item.id} item={item} />
             ))}
           </div>

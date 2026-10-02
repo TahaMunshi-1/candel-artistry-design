@@ -3,11 +3,12 @@ import { DiamondMark } from "../../components/decor/Ornaments";
 import { FloralCorner } from "../../components/decor/BotanicalAssets";
 import { CandleProductCard } from "../../components/shop/ProductCard";
 import ShopPageShell from "../../components/shop/ShopPageShell";
-import { getCandleCollection } from "../../constants/catalog";
+import { useCatalog } from "../../catalog/CatalogContext";
 
 export default function CandleCollectionPage() {
   const { collectionSlug } = useParams<{ collectionSlug: string }>();
-  const collection = collectionSlug ? getCandleCollection(collectionSlug) : undefined;
+  const { getCollection } = useCatalog();
+  const collection = collectionSlug ? getCollection(collectionSlug) : undefined;
 
   if (!collection) {
     return <Navigate to="/candles" replace />;

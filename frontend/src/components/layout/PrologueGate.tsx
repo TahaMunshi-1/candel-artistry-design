@@ -5,17 +5,20 @@ type PrologueGateProps = {
 };
 
 /**
- * Full-screen cinematic prologue on every load.
+ * Full-screen cinematic prologue on every load (skipped for /admin).
  * Completes via postMessage from /prologue/?embed=1
  */
 export default function PrologueGate({ children }: PrologueGateProps) {
-  const [done, setDone] = useState(false);
+  const isAdminPath =
+    typeof window !== "undefined" && window.location.pathname.includes("/admin");
+
+  const [done, setDone] = useState(isAdminPath);
   const reduced =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
-    if (reduced) {
+    if (isAdminPath || reduced) {
       setDone(true);
       return;
     }
@@ -32,7 +35,7 @@ export default function PrologueGate({ children }: PrologueGateProps) {
       window.removeEventListener("message", onMessage);
       document.documentElement.classList.remove("prologue-locked");
     };
-  }, [reduced]);
+  }, [isAdminPath, reduced]);
 
   useEffect(() => {
     if (done) {
