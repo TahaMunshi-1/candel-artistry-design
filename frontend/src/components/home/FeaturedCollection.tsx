@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { images } from "../../constants/images";
 import { BotanicalPetal, FloralCorner } from "../decor/BotanicalAssets";
 
@@ -128,21 +129,21 @@ export default function FeaturedCollection() {
               moment that lingers, a feeling that stays.
             </p>
             <div className="mt-5 text-center lg:text-left">
-              <a
-                href="#shop"
+              <Link
+                to="/candles/moments"
                 className="outline-btn !border-[#D8C19A] !text-[#FBF8F2] hover:!bg-[#D8C19A]/15 hover:!border-[#F5EBD8]"
               >
                 Discover this Moment <span className="arrow">→</span>
-              </a>
+              </Link>
             </div>
           </div>
 
           {/* Square stack */}
           <div className="hidden lg:flex flex-col gap-2 self-center">
             {strip.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href="#shop"
+                to="/candles/moments"
                 className="group relative aspect-square w-full overflow-hidden rounded-[2px] ring-1 ring-gold/35 shadow-[0_10px_24px_rgba(26,4,8,0.35)] transition-transform duration-500 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                 style={{ backgroundColor: royalBg }}
               >
@@ -153,15 +154,15 @@ export default function FeaturedCollection() {
                   loading="lazy"
                 />
                 <span className="sr-only">{item.label}</span>
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="lg:hidden grid grid-cols-3 gap-2 sm:gap-2.5">
             {strip.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href="#shop"
+                to="/candles/moments"
                 className="group relative aspect-square overflow-hidden rounded-[2px] ring-1 ring-gold/35"
                 style={{ backgroundColor: royalBg }}
               >
@@ -172,7 +173,7 @@ export default function FeaturedCollection() {
                   loading="lazy"
                 />
                 <span className="sr-only">{item.label}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

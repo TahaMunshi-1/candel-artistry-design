@@ -948,10 +948,16 @@ html.is-embed .end__again {
   transform: scale(1.02);
 }
 
+/* Portrait crop — avoid banner stretch that warps Katherine's features */
+.origin__figure--wide {
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
 .origin__figure--wide img {
-  aspect-ratio: 16 / 9;
-  object-position: center 35%;
-  max-height: min(62vh, 520px);
+  aspect-ratio: 4 / 5;
+  object-position: 18% 18%;
+  max-height: none;
 }
 
 .origin__copy {
@@ -1033,7 +1039,7 @@ html.is-embed .end__again {
   }
 
   .origin__figure--wide img {
-    max-height: 42vh;
+    object-position: 18% 18%;
   }
 }
 

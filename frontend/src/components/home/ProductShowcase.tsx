@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router";
 import { images } from "../../constants/images";
 import { BotanicalPetal, FloralCorner } from "../decor/BotanicalAssets";
 import { DiamondMark } from "../decor/Ornaments";
@@ -6,6 +7,7 @@ import { DiamondMark } from "../decor/Ornaments";
 const chapters = [
   {
     id: "vampire",
+    slug: "vampire",
     eyebrow: "Chapter I",
     title: "Vampire Collection",
     line: "Midnight rituals. Velvet shadows. Desire lit.",
@@ -15,15 +17,17 @@ const chapters = [
   },
   {
     id: "romance",
+    slug: "moments",
     eyebrow: "Chapter II",
-    title: "Romance Collection",
+    title: "Moments Collection",
     line: "Candlelight. Music. A moment that lingers.",
     image: images.craftRomance,
-    alt: "Romance Collection — ivory soy candles with gold lids on leather-bound books",
+    alt: "Moments Collection — ivory soy candles with gold lids on leather-bound books",
     align: "right" as const,
   },
   {
     id: "rodeo",
+    slug: "rodeo",
     eyebrow: "Chapter III",
     title: "Rodeo Collection",
     line: "Dust, dusk, and stories told under open sky.",
@@ -33,11 +37,12 @@ const chapters = [
   },
   {
     id: "atelier",
+    slug: "signature",
     eyebrow: "Chapter IV",
-    title: "Atelier Still Life",
+    title: "Signature Collection",
     line: "Stories poured in gold light — waiting to be lit.",
     image: images.craftAtelier,
-    alt: "Atelier still life — colored glass candles among books, pearls, and roses",
+    alt: "Signature still life — colored glass candles among books, pearls, and roses",
     align: "right" as const,
   },
 ];
@@ -138,8 +143,8 @@ export default function ProductShowcase() {
             <div className="h-px w-8 bg-gold/45" />
           </div>
           <p className="mt-3 text-body text-taupe">
-            Four worlds from the atelier — shown exactly as they are meant to
-            be seen.
+            Worlds from the atelier — enter each collection to see scents, prices,
+            and what&apos;s coming soon.
           </p>
         </div>
       </div>
@@ -185,12 +190,12 @@ export default function ProductShowcase() {
               <p className="mt-2 text-lead text-taupe !text-[0.98rem]">
                 {ch.line}
               </p>
-              <a
-                href={`#${ch.id}`}
+              <Link
+                to={`/candles/${ch.slug}`}
                 className="mt-3.5 inline-flex items-center gap-2 font-serif text-[0.72rem] tracking-[0.24em] uppercase text-ink border-b border-gold/55 pb-1 transition-colors duration-500 hover:border-burgundy hover:text-burgundy"
               >
                 Enter the collection <span aria-hidden>→</span>
-              </a>
+              </Link>
             </div>
           </article>
         ))}

@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { images } from "../../constants/images";
 import { FloralCorner, BotanicalPetal, PetalAccent } from "../decor/BotanicalAssets";
 import { DiamondMark } from "../decor/Ornaments";
@@ -82,11 +83,17 @@ export default function GreetingCardsGallery() {
             <div className="hidden sm:block h-px flex-1 max-w-[100px] bg-gold/40" />
             <DiamondMark className="h-2 w-2 text-gold shrink-0" />
             <p className="font-serif text-[0.62rem] md:text-[0.68rem] tracking-[0.28em] uppercase text-taupe text-center leading-relaxed">
-              Candles
+              <Link to="/candles" className="hover:text-burgundy transition-colors">
+                Candles
+              </Link>
               <span className="mx-2 md:mx-3 text-gold">•</span>
-              Original Paintings
+              <Link to="/paintings" className="hover:text-burgundy transition-colors">
+                Original Paintings
+              </Link>
               <span className="mx-2 md:mx-3 text-gold">•</span>
-              Greeting Cards
+              <Link to="/greeting-cards" className="hover:text-burgundy transition-colors">
+                Greeting Cards
+              </Link>
             </p>
             <DiamondMark className="h-2 w-2 text-gold shrink-0" />
             <div className="hidden sm:block h-px flex-1 max-w-[100px] bg-gold/40" />
@@ -111,8 +118,8 @@ export default function GreetingCardsGallery() {
         <ul className="m-0 mx-auto grid w-full list-none grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-2 sm:gap-x-5 lg:gap-x-6 p-0 items-end flex-1 min-h-0 content-center">
           {greetingCards.map((card) => (
             <li key={card.id} className="min-w-0 flex justify-center h-full items-end">
-              <a
-                href="#shop"
+              <Link
+                to="/greeting-cards"
                 className="group relative block w-full max-w-[270px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
               >
                 <div
@@ -137,18 +144,18 @@ export default function GreetingCardsGallery() {
                 </div>
 
                 <span className="sr-only">{card.name} greeting card</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="mt-2 md:mt-2.5 text-center shrink-0">
-          <a
-            href="#shop"
+          <Link
+            to="/greeting-cards"
             className="outline-btn !border-burgundy !text-burgundy hover:!bg-burgundy hover:!text-[#FBF8F2]"
           >
             Explore the Artistry <span className="arrow">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

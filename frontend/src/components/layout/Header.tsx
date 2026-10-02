@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { images } from "../../constants/images";
 
-const leftLinks = [
-  { label: "Home", href: "/" },
-  { label: "Our Story", href: "#our-story" },
-  { label: "Moments", href: "#experience" },
+type NavItem = { label: string; to?: string; href?: string };
+
+const leftLinks: NavItem[] = [
+  { label: "Home", to: "/" },
+  { label: "Our Story", to: "/our-story" },
+  { label: "Moments", href: "/#experience" },
 ];
 
-const rightLinks = [
-  { label: "Romance", href: "#featured" },
-  { label: "Collection", href: "#shop" },
-  { label: "The Artistry", href: "#experience-gallery" },
+const rightLinks: NavItem[] = [
+  { label: "Candles", to: "/candles" },
+  { label: "Paintings", to: "/paintings" },
+  { label: "Cards", to: "/greeting-cards" },
 ];
 
 function IconSearch() {
@@ -60,17 +62,49 @@ function IconBag() {
   );
 }
 
-export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
+function NavAnchor({
+  item,
+  className,
+  onClick,
+}: {
+  item: NavItem;
+  className: string;
+  onClick?: () => void;
+}) {
+  if (item.to) {
+    return (
+      <Link to={item.to} className={className} onClick={onClick}>
+        {item.label}
+      </Link>
+    );
+  }
+  return (
+    <a href={item.href} className={className} onClick={onClick}>
+      {item.label}
+    </a>
+  );
+}
+
+type HeaderProps = {
+  /** Keep solid ivory header (inner pages) */
+  forceSolid?: boolean;
+};
+
+export default function Header({ forceSolid = false }: HeaderProps) {
+  const [scrolled, setScrolled] = useState(forceSolid);
   const [open, setOpen] = useState(false);
-  const solid = scrolled || open;
+  const solid = forceSolid || scrolled || open;
 
   useEffect(() => {
+    if (forceSolid) {
+      setScrolled(true);
+      return;
+    }
     const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [forceSolid]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -102,9 +136,7 @@ export default function Header() {
             aria-label="Primary left"
           >
             {leftLinks.map((link) => (
-              <a key={link.label} href={link.href} className={navClass}>
-                {link.label}
-              </a>
+              <NavAnchor key={link.label} item={link} className={navClass} />
             ))}
           </nav>
 
@@ -167,9 +199,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-6 xl:gap-7 justify-self-end">
             <nav className="flex items-center gap-6 xl:gap-8" aria-label="Primary right">
               {rightLinks.map((link) => (
-                <a key={link.label} href={link.href} className={navClass}>
-                  {link.label}
-                </a>
+                <NavAnchor key={link.label} item={link} className={navClass} />
               ))}
             </nav>
             <div className={`flex items-center gap-3.5 ${iconClass}`}>
@@ -206,14 +236,12 @@ export default function Header() {
           aria-label="Mobile"
         >
           {[...leftLinks, ...rightLinks].map((link) => (
-            <a
+            <NavAnchor
               key={link.label}
-              href={link.href}
+              item={link}
               className="text-nav text-ink py-1"
               onClick={() => setOpen(false)}
-            >
-              {link.label}
-            </a>
+            />
           ))}
           <button
             type="button"

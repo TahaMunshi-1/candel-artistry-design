@@ -9,3 +9,7 @@ dist/
 
 # Local image-processing binaries
 frontend/tools/**/*.exe
+
+# Client briefs / local previews (not for deploy)
+.pdf-preview/
+*.pdf

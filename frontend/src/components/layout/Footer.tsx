@@ -1,15 +1,18 @@
+import { Link } from "react-router";
 import { DiamondMark } from "../decor/Ornaments";
 import { images } from "../../constants/images";
 import { FloralCorner } from "../decor/BotanicalAssets";
 
-const links = [
-  { label: "Our Story", href: "#our-story" },
-  { label: "Moments", href: "#experience" },
-  { label: "Romance", href: "#featured" },
-  { label: "Collection", href: "#shop" },
-  { label: "Candle Making", href: "#story" },
-  { label: "The Artistry", href: "#experience-gallery" },
-  { label: "Contact", href: "#contact" },
+type FooterLink = { label: string; to?: string; href?: string };
+
+const links: FooterLink[] = [
+  { label: "Our Story", to: "/our-story" },
+  { label: "Moments", href: "/#experience" },
+  { label: "Candles", to: "/candles" },
+  { label: "Oil Paintings", to: "/paintings" },
+  { label: "Greeting Cards", to: "/greeting-cards" },
+  { label: "Candle Making", href: "/#story" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
@@ -46,11 +49,17 @@ export default function Footer() {
             className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
             aria-label="Footer"
           >
-            {links.map((link) => (
-              <a key={link.label} href={link.href} className="text-nav nav-link">
-                {link.label}
-              </a>
-            ))}
+            {links.map((link) =>
+              link.to ? (
+                <Link key={link.label} to={link.to} className="text-nav nav-link">
+                  {link.label}
+                </Link>
+              ) : (
+                <a key={link.label} href={link.href} className="text-nav nav-link">
+                  {link.label}
+                </a>
+              ),
+            )}
           </nav>
 
           <form

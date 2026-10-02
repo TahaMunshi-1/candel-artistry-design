@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { BotanicalPetal, FloralCorner, PetalAccent } from "../decor/BotanicalAssets";
 import { images } from "../../constants/images";
 
@@ -111,12 +112,12 @@ export default function CandleMakingSection() {
               is crafted with intention, care and artistry.
             </p>
             <div className="mt-6">
-              <a
-                href="#shop"
+              <Link
+                to="/candles"
                 className="outline-btn !border-[#D8C19A] !text-[#FBF8F2] hover:!bg-[#D8C19A]/15 hover:!border-[#F5EBD8]"
               >
                 Discover the Collection <span className="arrow">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

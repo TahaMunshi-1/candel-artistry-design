@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { images } from "../../constants/images";
 import { BotanicalPetal, FloralCorner } from "../decor/BotanicalAssets";
 
@@ -7,18 +8,21 @@ const cards = [
     cta: "View the Collection →",
     image: images.paintings,
     alt: "Original greeting card artwork — angel with lantern",
+    to: "/paintings",
   },
   {
     title: "Inspired Candles",
     cta: "Discover the Scents →",
     image: images.candles,
     alt: "Handcrafted soy candles with gold lids and storybook labels",
+    to: "/candles",
   },
   {
     title: "Greeting Cards",
     cta: "Send the Feeling →",
     image: images.cards,
     alt: "Original storybook greeting card illustration",
+    to: "/greeting-cards",
   },
 ];
 
@@ -54,7 +58,7 @@ export default function ArtistrySection() {
           className="mx-auto grid max-w-4xl grid-cols-1 sm:grid-cols-3 gap-8 md:gap-6"
         >
           {cards.map((card) => (
-            <a key={card.title} href="#shop" className="group block text-center">
+            <Link key={card.title} to={card.to} className="group block text-center">
               <div className="frame-ornate">
                 <div className="frame-ornate-inner">
                   <img
@@ -71,7 +75,7 @@ export default function ArtistrySection() {
               <p className="mt-2 font-serif italic text-[0.88rem] text-taupe group-hover:text-burgundy transition-colors duration-500">
                 {card.cta}
               </p>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { images } from "../../constants/images";
 
 const beats = [
@@ -71,11 +72,11 @@ export default function OurStory() {
             if (beat.layout === "wide") {
               return (
                 <article key={beat.id} className="grid gap-6 text-center">
-                  <figure className="our-story__frame overflow-hidden">
+                  <figure className="our-story__frame mx-auto max-w-md overflow-hidden md:max-w-lg">
                     <img
                       src={beat.image}
                       alt={beat.alt}
-                      className="h-auto max-h-[min(62vh,520px)] w-full object-cover object-[center_35%]"
+                      className="aspect-[4/5] h-auto w-full object-cover object-[18%_18%] md:object-[20%_15%]"
                       loading="lazy"
                     />
                   </figure>
@@ -140,6 +141,12 @@ export default function OurStory() {
           <p className="mt-3 font-[Cormorant_Garamond,Georgia,serif] text-[1.1rem] font-light italic text-[rgba(244,235,225,0.78)]">
             Built with love — for the daughter who lit the way.
           </p>
+          <Link
+            to="/our-story"
+            className="mt-6 inline-flex items-center gap-2 font-[Cinzel,serif] text-[0.62rem] uppercase tracking-[0.28em] text-[#e4d2a8] border-b border-[#e4d2a8]/50 pb-1 transition-colors hover:text-[#f3ebe0]"
+          >
+            Read the family story <span aria-hidden>→</span>
+          </Link>
         </footer>
       </div>
     </section>
