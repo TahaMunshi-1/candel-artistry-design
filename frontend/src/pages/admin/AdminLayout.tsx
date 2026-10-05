@@ -21,16 +21,12 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
           setError("");
         }}
       >
-        <p className="text-[0.62rem] tracking-[0.28em] uppercase text-[#e4d2a8]">
-          Atelier
+        <p className="text-[0.7rem] tracking-[0.18em] uppercase text-white/50">Commerce</p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-white">CAD Admin</h1>
+        <p className="mt-3 text-sm text-white/60">
+          Demo console for catalog + store operations. Local browser storage only.
         </p>
-        <h1 className="mt-2 font-display text-2xl tracking-[0.12em] uppercase text-white">
-          Admin
-        </h1>
-        <p className="mt-3 font-serif text-sm text-white/65">
-          Frontend-only catalog editor. Changes save in this browser.
-        </p>
-        <label className="mt-6 block font-serif text-sm text-white/80" htmlFor="admin-pw">
+        <label className="mt-6 block text-sm text-white/75" htmlFor="admin-pw">
           Password
         </label>
         <input
@@ -38,18 +34,18 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-2 w-full border border-white/20 bg-black/25 px-3 py-2.5 font-serif text-white outline-none focus:border-[#e4d2a8]"
+          className="mt-2 w-full rounded-xl border border-white/15 bg-black/30 px-3 py-2.5 text-white outline-none focus:border-[#c4a574]"
           autoComplete="current-password"
         />
         {error ? <p className="mt-2 text-sm text-[#f0b4b0]">{error}</p> : null}
         <button
           type="submit"
-          className="mt-5 w-full bg-[#b99a68] py-2.5 font-serif text-[0.7rem] tracking-[0.22em] uppercase text-[#1a0a0c] transition-colors hover:bg-[#e4d2a8]"
+          className="mt-5 w-full rounded-xl bg-[#c4a574] py-2.5 text-sm font-medium text-[#1a0a0c] transition-colors hover:bg-[#e4d2a8]"
         >
-          Enter
+          Enter dashboard
         </button>
-        <p className="mt-4 text-center font-serif text-[0.75rem] text-white/45">
-          Default: <code className="text-white/80">{ADMIN_PASSWORD}</code>
+        <p className="mt-4 text-center text-xs text-white/40">
+          Default: <code className="text-white/70">{ADMIN_PASSWORD}</code>
         </p>
       </form>
     </div>
@@ -65,7 +61,7 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="admin-shell min-h-screen text-ink">
+    <div className="admin-shell min-h-screen">
       <div className="admin-shell__glow" aria-hidden />
       <div className="admin-shell__frame">
         <AdminSidebar
@@ -76,17 +72,16 @@ export default function AdminLayout() {
         />
         <div className="admin-shell__main">
           <header className="admin-topbar">
-            <div>
-              <p className="font-display text-[0.58rem] tracking-[0.28em] uppercase text-gold">
-                Candle Artistry Design
-              </p>
-              <h1 className="mt-1 font-serif text-xl tracking-[0.04em] text-ink md:text-2xl">
-                Dashboard
-              </h1>
+            <div className="admin-topbar__search">
+              <span aria-hidden>⌕</span>
+              <input placeholder="Search orders, customers, products…" readOnly />
             </div>
-            <p className="hidden max-w-xs text-right font-serif text-sm text-taupe sm:block">
-              Catalog edits update the shop in this browser.
-            </p>
+            <div className="admin-topbar__right">
+              <span className="admin-pill">Demo mode</span>
+              <span className="admin-avatar" aria-hidden>
+                AD
+              </span>
+            </div>
           </header>
           <main className="admin-shell__content">
             <Outlet />

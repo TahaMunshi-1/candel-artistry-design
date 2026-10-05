@@ -1,21 +1,45 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 
+type IconName =
+  | "home"
+  | "orders"
+  | "users"
+  | "candle"
+  | "paint"
+  | "card";
+
 type NavItem = {
   to: string;
   label: string;
   end?: boolean;
-  icon: "home" | "candle" | "paint" | "card";
+  icon: IconName;
 };
 
-const nav: NavItem[] = [
-  { to: "/admin", label: "Overview", end: true, icon: "home" },
-  { to: "/admin/candles", label: "Candles", icon: "candle" },
-  { to: "/admin/paintings", label: "Paintings", icon: "paint" },
-  { to: "/admin/greeting-cards", label: "Cards", icon: "card" },
+type NavSection = { title: string; items: NavItem[] };
+
+const sections: NavSection[] = [
+  {
+    title: "Main",
+    items: [
+      { to: "/admin", label: "Dashboard", end: true, icon: "home" },
+      { to: "/admin/orders", label: "Orders", icon: "orders" },
+      { to: "/admin/customers", label: "Customers", icon: "users" },
+    ],
+  },
+  {
+    title: "Catalog",
+    items: [
+      { to: "/admin/candles", label: "Candles", icon: "candle" },
+      { to: "/admin/paintings", label: "Paintings", icon: "paint" },
+      { to: "/admin/greeting-cards", label: "Cards", icon: "card" },
+    ],
+  },
 ];
 
-function NavIcon({ name }: { name: NavItem["icon"] }) {
+const flatNav = sections.flatMap((s) => s.items);
+
+function NavIcon({ name }: { name: IconName }) {
   const common = {
     width: 18,
     height: 18,
@@ -32,6 +56,22 @@ function NavIcon({ name }: { name: NavItem["icon"] }) {
       return (
         <svg {...common}>
           <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" />
+        </svg>
+      );
+    case "orders":
+      return (
+        <svg {...common}>
+          <path d="M7 7h12l-1.2 11.2a1.5 1.5 0 0 1-1.5 1.3H9.2a1.5 1.5 0 0 1-1.5-1.3L6.5 4H4" />
+          <path d="M10 11h6M10 15h4" />
+        </svg>
+      );
+    case "users":
+      return (
+        <svg {...common}>
+          <circle cx="9" cy="8" r="3" />
+          <path d="M3.5 19c1.2-3 3.2-4.5 5.5-4.5S15.3 16 16.5 19" />
+          <circle cx="17" cy="9" r="2.2" />
+          <path d="M17 14.2c1.6.3 2.9 1.4 3.6 3.3" />
         </svg>
       );
     case "candle":
@@ -59,18 +99,13 @@ function NavIcon({ name }: { name: NavItem["icon"] }) {
   }
 }
 
-type Pill = { top: number; height: number; opacity: number };
+type Pill = { top: number; height: number };
 
 type AdminSidebarProps = {
   onLogout: () => void;
   onReset: () => void;
 };
 
-/**
- * Floating liquid-glass sidebar.
- * Hover: vertical sliding pill follows cursor between items (ref video, vertical axis).
- * Click/active: darker frosted capsule (reference screenshot).
- */
 export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
   const location = useLocation();
   const listRef = useRef<HTMLDivElement>(null);
@@ -89,32 +124,26 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
     return {
       top: box.top - listBox.top + list.scrollTop,
       height: box.height,
-      opacity: 1,
     };
   }, []);
 
   const activeKey =
-    nav.find((n) =>
+    flatNav.find((n) =>
       n.end ? location.pathname === n.to : location.pathname.startsWith(n.to),
     )?.to ?? "/admin";
 
   useLayoutEffect(() => {
-    const el = itemRefs.current.get(activeKey) ?? null;
-    setActivePill(measure(el));
+    setActivePill(measure(itemRefs.current.get(activeKey) ?? null));
   }, [activeKey, measure, location.pathname]);
 
   useEffect(() => {
-    const onResize = () => {
-      const el = itemRefs.current.get(activeKey) ?? null;
-      setActivePill(measure(el));
-    };
+    const onResize = () =>
+      setActivePill(measure(itemRefs.current.get(activeKey) ?? null));
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [activeKey, measure]);
 
   const onListMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const list = listRef.current;
-    if (!list) return;
     let bestEl: HTMLAnchorElement | null = null;
     let bestDist = Infinity;
     itemRefs.current.forEach((el) => {
@@ -130,16 +159,13 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
   };
 
   const spawnRipple = (key: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = e.currentTarget;
-    const box = el.getBoundingClientRect();
+    const box = e.currentTarget.getBoundingClientRect();
     const id = Date.now() + Math.random();
     setRipples((r) => [
       ...r,
       { id, key, x: e.clientX - box.left, y: e.clientY - box.top },
     ]);
-    window.setTimeout(() => {
-      setRipples((r) => r.filter((x) => x.id !== id));
-    }, 650);
+    window.setTimeout(() => setRipples((r) => r.filter((x) => x.id !== id)), 650);
   };
 
   return (
@@ -150,12 +176,8 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
             C
           </div>
           <div className="min-w-0">
-            <p className="truncate font-serif text-[0.95rem] tracking-[0.04em] text-white">
-              Candle Admin
-            </p>
-            <p className="truncate text-[0.62rem] tracking-[0.18em] uppercase text-white/55">
-              Catalog
-            </p>
+            <p className="truncate text-[0.95rem] font-medium text-white">CAD Admin</p>
+            <p className="truncate text-[0.68rem] text-white/50">Commerce console</p>
           </div>
         </div>
 
@@ -167,7 +189,6 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
           onMouseMove={onListMove}
           onMouseLeave={() => setHoverPill(null)}
         >
-          {/* Sliding hover / liquid follow pill */}
           <div
             className="admin-glass-pill admin-glass-pill--hover"
             style={{
@@ -177,7 +198,6 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
             }}
             aria-hidden
           />
-          {/* Active / clicked capsule */}
           <div
             className="admin-glass-pill admin-glass-pill--active"
             style={{
@@ -188,44 +208,58 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
             aria-hidden
           />
 
-          {nav.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              ref={(node) => {
-                if (node) itemRefs.current.set(item.to, node);
-                else itemRefs.current.delete(item.to);
-              }}
-              className={({ isActive }) =>
-                `admin-glass-link ${isActive ? "is-active" : ""}`
-              }
-              onMouseEnter={spawnRipple(item.to)}
-              onClick={spawnRipple(item.to)}
-            >
-              <span className="admin-glass-link__icon">
-                <NavIcon name={item.icon} />
-              </span>
-              <span>{item.label}</span>
-              {ripples
-                .filter((r) => r.key === item.to)
-                .map((r) => (
-                  <span
-                    key={r.id}
-                    className="admin-glass-ripple"
-                    style={{ left: r.x, top: r.y }}
-                  />
-                ))}
-            </NavLink>
+          {sections.map((section) => (
+            <div key={section.title} className="admin-nav-section">
+              <p className="admin-nav-section__title">{section.title}</p>
+              {section.items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.end}
+                  ref={(node) => {
+                    if (node) itemRefs.current.set(item.to, node);
+                    else itemRefs.current.delete(item.to);
+                  }}
+                  className={({ isActive }) =>
+                    `admin-glass-link ${isActive ? "is-active" : ""}`
+                  }
+                  onMouseEnter={spawnRipple(item.to)}
+                  onClick={spawnRipple(item.to)}
+                >
+                  <span className="admin-glass-link__icon">
+                    <NavIcon name={item.icon} />
+                  </span>
+                  <span>{item.label}</span>
+                  {ripples
+                    .filter((r) => r.key === item.to)
+                    .map((r) => (
+                      <span
+                        key={r.id}
+                        className="admin-glass-ripple"
+                        style={{ left: r.x, top: r.y }}
+                      />
+                    ))}
+                </NavLink>
+              ))}
+            </div>
           ))}
         </div>
 
         <div className="admin-glass-sidebar__foot">
+          <div className="admin-side-profile">
+            <span className="admin-avatar admin-avatar--sm" aria-hidden>
+              AD
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[0.85rem] text-white">Admin</p>
+              <p className="truncate text-[0.68rem] text-white/45">demo@candle.local</p>
+            </div>
+          </div>
           <Link to="/" className="admin-glass-foot-link">
-            View site
+            View storefront
           </Link>
           <button type="button" className="admin-glass-foot-link" onClick={onReset}>
-            Reset data
+            Reset catalog data
           </button>
           <button type="button" className="admin-glass-foot-btn" onClick={onLogout}>
             Log out

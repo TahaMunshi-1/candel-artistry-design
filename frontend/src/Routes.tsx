@@ -12,6 +12,8 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverviewPage from "./pages/admin/AdminOverviewPage";
 import AdminCandlesPage from "./pages/admin/AdminCandlesPage";
 import { AdminCardsPage, AdminPaintingsPage } from "./pages/admin/AdminGalleryPages";
+import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
+import AdminCustomersPage from "./pages/admin/AdminCustomersPage";
 import { store } from "./redux/store";
 
 const PrivateRoute = () => {
@@ -36,6 +38,8 @@ function AppRoutes() {
 
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminOverviewPage />} />
+                <Route path="orders" element={<AdminOrdersPage />} />
+                <Route path="customers" element={<AdminCustomersPage />} />
                 <Route path="candles" element={<AdminCandlesPage />} />
                 <Route path="paintings" element={<AdminPaintingsPage />} />
                 <Route path="greeting-cards" element={<AdminCardsPage />} />
