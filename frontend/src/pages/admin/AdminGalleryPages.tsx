@@ -31,8 +31,8 @@ function GalleryAdmin({
   return (
     <div>
       <header className="max-w-2xl">
-        <h2 className="font-display text-2xl tracking-[0.1em] uppercase text-ink">{title}</h2>
-        <p className="mt-3 font-serif text-taupe">{blurb}</p>
+        <h2 className="text-[1.15rem] font-semibold text-ink">{title}</h2>
+        <p className="mt-1.5 text-[0.82rem] text-taupe">{blurb}</p>
       </header>
 
       <div className="mt-8 space-y-5">
@@ -86,7 +86,7 @@ function GalleryAdmin({
           <div className="mt-4 flex gap-3">
             <button
               type="button"
-              className="rounded-full bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory hover:bg-burgundy"
+              className="rounded-full bg-gold px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-ivory hover:bg-burgundy"
               onClick={() => {
                 if (!draft.name.trim()) return;
                 add({
@@ -109,7 +109,7 @@ function GalleryAdmin({
             </button>
             <button
               type="button"
-              className="font-serif text-[0.72rem] tracking-[0.16em] uppercase text-taupe"
+              className="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-taupe"
               onClick={() => setAdding(false)}
             >
               Cancel
@@ -119,7 +119,7 @@ function GalleryAdmin({
       ) : (
         <button
           type="button"
-          className="mt-6 font-serif text-[0.72rem] tracking-[0.2em] uppercase text-burgundy hover:underline"
+          className="mt-6 text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-burgundy hover:underline"
           onClick={() => setAdding(true)}
         >
           + Add item
@@ -177,7 +177,7 @@ function GalleryRow({
         <div className="flex items-end sm:col-span-2">
           <button
             type="button"
-            className="font-serif text-[0.72rem] tracking-[0.16em] uppercase text-royal hover:underline"
+            className="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-royal hover:underline"
             onClick={onRemove}
           >
             Remove

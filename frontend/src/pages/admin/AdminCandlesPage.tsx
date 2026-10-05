@@ -23,8 +23,8 @@ export default function AdminCandlesPage() {
   return (
     <div>
       <header className="max-w-2xl">
-        <h2 className="font-display text-2xl tracking-[0.1em] uppercase text-ink">Candles</h2>
-        <p className="mt-3 font-serif text-taupe">
+        <h2 className="text-[1.15rem] font-semibold text-ink">Candles</h2>
+        <p className="mt-1.5 text-[0.82rem] text-taupe">
           Edit fragrances by collection. Toggle Coming Soon vs available, price, and scent
           nomenclature.
         </p>
@@ -44,14 +44,14 @@ export default function AdminCandlesPage() {
                 onClick={() => setOpenId(open ? null : collection.id)}
               >
                 <div>
-                  <h3 className="font-serif text-lg tracking-[0.08em] uppercase text-ink">
+                  <h3 className="text-[0.88rem] font-semibold uppercase tracking-[0.04em] text-ink">
                     {collection.title}
                   </h3>
-                  <p className="font-serif text-sm text-taupe">
+                  <p className="text-[0.72rem] text-taupe">
                     {collection.products.length} products
                   </p>
                 </div>
-                <span className="font-serif text-taupe" aria-hidden>
+                <span className="text-sm text-taupe" aria-hidden>
                   {open ? "−" : "+"}
                 </span>
               </button>
@@ -131,7 +131,7 @@ export default function AdminCandlesPage() {
                           <div className="flex items-end sm:col-span-2">
                             <button
                               type="button"
-                              className="font-serif text-[0.72rem] tracking-[0.16em] uppercase text-royal hover:underline"
+                              className="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-royal hover:underline"
                               onClick={() => {
                                 if (confirm(`Remove ${product.name}?`)) {
                                   removeCandleProduct(collection.id, product.id);
@@ -148,7 +148,7 @@ export default function AdminCandlesPage() {
 
                   {addingFor === collection.id ? (
                     <div className="mt-6 rounded-2xl border border-dashed border-gold/50 bg-champagne/40 p-4">
-                      <p className="font-serif text-sm tracking-[0.08em] uppercase text-ink">
+                      <p className="text-[0.8rem] font-semibold text-ink">
                         New fragrance
                       </p>
                       <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -204,7 +204,7 @@ export default function AdminCandlesPage() {
                       <div className="mt-4 flex gap-3">
                         <button
                           type="button"
-                          className="rounded-full bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory hover:bg-burgundy"
+                          className="rounded-full bg-gold px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-ivory hover:bg-burgundy"
                           onClick={() => {
                             if (!draft.name.trim()) return;
                             addCandleProduct(collection.id, {
@@ -229,7 +229,7 @@ export default function AdminCandlesPage() {
                         </button>
                         <button
                           type="button"
-                          className="font-serif text-[0.72rem] tracking-[0.16em] uppercase text-taupe"
+                          className="text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-taupe"
                           onClick={() => setAddingFor(null)}
                         >
                           Cancel
@@ -239,7 +239,7 @@ export default function AdminCandlesPage() {
                   ) : (
                     <button
                       type="button"
-                      className="mt-5 font-serif text-[0.72rem] tracking-[0.2em] uppercase text-burgundy hover:underline"
+                      className="mt-5 text-[0.68rem] font-semibold uppercase tracking-[0.06em] text-burgundy hover:underline"
                       onClick={() => setAddingFor(collection.id)}
                     >
                       + Add fragrance

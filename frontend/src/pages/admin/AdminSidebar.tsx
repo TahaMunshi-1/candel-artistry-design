@@ -147,8 +147,8 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
             C
           </div>
           <div className="min-w-0">
-            <p className="truncate text-[0.95rem] font-medium text-white">CAD Admin</p>
-            <p className="truncate text-[0.68rem] text-white/50">Commerce console</p>
+            <p className="truncate text-[0.85rem] font-medium text-white">CAD Admin</p>
+            <p className="truncate text-[0.65rem] text-white/50">Commerce console</p>
           </div>
         </div>
 

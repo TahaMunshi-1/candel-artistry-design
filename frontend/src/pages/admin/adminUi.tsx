@@ -35,16 +35,19 @@ type FieldProps = {
 export function Field({ label, children }: FieldProps) {
   return (
     <label className="block">
-      <span className="font-serif text-[0.78rem] tracking-[0.06em] text-taupe">{label}</span>
-      <div className="mt-1.5">{children}</div>
+      <span className="text-[0.7rem] font-medium text-taupe">{label}</span>
+      <div className="mt-1">{children}</div>
     </label>
   );
 }
 
 export const inputClass =
-  "w-full rounded-2xl border border-gold/45 bg-ivory px-3.5 py-2.5 font-serif text-sm text-ink outline-none focus:border-gold";
+  "w-full rounded-2xl border border-gold/45 bg-ivory px-3 py-2 text-[0.8rem] text-ink outline-none focus:border-gold";
 
 export const selectClass = inputClass;
+
+const btnClass =
+  "inline-flex cursor-pointer items-center rounded-full px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.06em]";
 
 const MAX_EDGE = 900;
 const JPEG_QUALITY = 0.78;
@@ -108,21 +111,19 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
 
   return (
     <div className={`sm:col-span-2 ${className}`}>
-      <span className="font-serif text-[0.78rem] tracking-[0.06em] text-taupe">
-        Product image
-      </span>
+      <span className="text-[0.7rem] font-medium text-taupe">Product image</span>
 
       <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
         <div className="shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-champagne shadow-[0_12px_28px_rgba(0,0,0,0.28)]">
           <img
             src={value}
             alt="Selected product"
-            className="aspect-[3/4] w-[120px] object-cover"
+            className="aspect-[3/4] w-[100px] object-cover"
           />
         </div>
 
-        <div className="min-w-0 flex-1 space-y-3">
-          <p className="font-serif text-sm text-ink">
+        <div className="min-w-0 flex-1 space-y-2.5">
+          <p className="text-[0.8rem] text-ink">
             {isUpload
               ? "Custom upload"
               : selectedPreset
@@ -133,7 +134,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
           <div className="flex flex-wrap gap-2">
             <label
               htmlFor={inputId}
-              className={`inline-flex cursor-pointer items-center rounded-full bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-ivory transition-colors hover:bg-burgundy ${
+              className={`${btnClass} bg-gold text-ivory transition-colors hover:bg-burgundy ${
                 busy ? "opacity-60 pointer-events-none" : ""
               }`}
             >
@@ -150,15 +151,15 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
             />
             <button
               type="button"
-              className="rounded-full border border-gold/50 px-4 py-2 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-ink hover:border-burgundy hover:text-burgundy"
+              className={`${btnClass} border border-gold/50 text-ink hover:border-burgundy hover:text-burgundy`}
               onClick={() => setShowLibrary((v) => !v)}
             >
               {showLibrary ? "Hide library" : "Choose from library"}
             </button>
           </div>
 
-          {error ? <p className="font-serif text-sm text-royal">{error}</p> : null}
-          <p className="font-serif text-[0.75rem] text-taupe">
+          {error ? <p className="text-[0.75rem] text-royal">{error}</p> : null}
+          <p className="text-[0.7rem] text-taupe">
             Uploads are stored in this browser (compressed). Prefer JPG under ~2MB.
           </p>
         </div>
@@ -190,7 +191,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
                     className="aspect-square w-full object-cover bg-champagne"
                     loading="lazy"
                   />
-                  <span className="block truncate px-1.5 py-1 font-serif text-[0.62rem] text-taupe group-hover:text-ink">
+                  <span className="block truncate px-1.5 py-1 text-[0.62rem] text-taupe group-hover:text-ink">
                     {opt.label}
                   </span>
                 </button>
@@ -201,14 +202,14 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
                 type="button"
                 title="Current custom image"
                 onClick={() => setShowLibrary(false)}
-                className="overflow-hidden border border-burgundy ring-1 ring-burgundy text-left"
+                className="overflow-hidden rounded-xl border border-burgundy ring-1 ring-burgundy text-left"
               >
                 <img
                   src={value}
                   alt="Current"
                   className="aspect-square w-full object-cover bg-champagne"
                 />
-                <span className="block truncate px-1.5 py-1 font-serif text-[0.62rem] text-ink">
+                <span className="block truncate px-1.5 py-1 text-[0.62rem] text-ink">
                   Current
                 </span>
               </button>
