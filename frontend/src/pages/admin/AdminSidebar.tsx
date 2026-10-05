@@ -110,11 +110,7 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
   const location = useLocation();
   const listRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
-  const [hoverPill, setHoverPill] = useState<Pill | null>(null);
   const [activePill, setActivePill] = useState<Pill | null>(null);
-  const [ripples, setRipples] = useState<
-    { id: number; key: string; x: number; y: number }[]
-  >([]);
 
   const measure = useCallback((el: HTMLElement | null): Pill | null => {
     const list = listRef.current;
@@ -143,31 +139,6 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
     return () => window.removeEventListener("resize", onResize);
   }, [activeKey, measure]);
 
-  const onListMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    let bestEl: HTMLAnchorElement | null = null;
-    let bestDist = Infinity;
-    itemRefs.current.forEach((el) => {
-      const box = el.getBoundingClientRect();
-      const mid = box.top + box.height / 2;
-      const dist = Math.abs(e.clientY - mid);
-      if (dist < bestDist) {
-        bestDist = dist;
-        bestEl = el;
-      }
-    });
-    if (bestEl) setHoverPill(measure(bestEl));
-  };
-
-  const spawnRipple = (key: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const box = e.currentTarget.getBoundingClientRect();
-    const id = Date.now() + Math.random();
-    setRipples((r) => [
-      ...r,
-      { id, key, x: e.clientX - box.left, y: e.clientY - box.top },
-    ]);
-    window.setTimeout(() => setRipples((r) => r.filter((x) => x.id !== id)), 650);
-  };
-
   return (
     <aside className="admin-glass-sidebar" aria-label="Admin navigation">
       <div className="admin-glass-sidebar__inner">
@@ -183,23 +154,10 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
 
         <div className="admin-glass-sidebar__rule" aria-hidden />
 
-        <div
-          ref={listRef}
-          className="admin-glass-sidebar__list"
-          onMouseMove={onListMove}
-          onMouseLeave={() => setHoverPill(null)}
-        >
+        <div ref={listRef} className="admin-glass-sidebar__list">
+          <div className="admin-glass-sidebar__ambient" aria-hidden />
           <div
-            className="admin-glass-pill admin-glass-pill--hover"
-            style={{
-              transform: `translateY(${hoverPill?.top ?? activePill?.top ?? 0}px)`,
-              height: hoverPill?.height ?? activePill?.height ?? 44,
-              opacity: hoverPill ? 0.55 : 0,
-            }}
-            aria-hidden
-          />
-          <div
-            className="admin-glass-pill admin-glass-pill--active"
+            className="admin-glass-pill"
             style={{
               transform: `translateY(${activePill?.top ?? 0}px)`,
               height: activePill?.height ?? 44,
@@ -223,22 +181,11 @@ export default function AdminSidebar({ onLogout, onReset }: AdminSidebarProps) {
                   className={({ isActive }) =>
                     `admin-glass-link ${isActive ? "is-active" : ""}`
                   }
-                  onMouseEnter={spawnRipple(item.to)}
-                  onClick={spawnRipple(item.to)}
                 >
                   <span className="admin-glass-link__icon">
                     <NavIcon name={item.icon} />
                   </span>
                   <span>{item.label}</span>
-                  {ripples
-                    .filter((r) => r.key === item.to)
-                    .map((r) => (
-                      <span
-                        key={r.id}
-                        className="admin-glass-ripple"
-                        style={{ left: r.x, top: r.y }}
-                      />
-                    ))}
                 </NavLink>
               ))}
             </div>
