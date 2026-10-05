@@ -36,12 +36,12 @@
   color: var(--admin-text);
   position: relative;
   min-height: 100vh;
-  background: transparent;
+  background: #f4eee6;
   overflow-x: hidden;
 }
 
 .admin-shell--login {
-  background: transparent;
+  background: #f4eee6;
 }
 
 .admin-shell__glow {
@@ -1990,8 +1990,9 @@
   --admin-text-secondary: #5c453e;
   --admin-muted: #7a635a;
   --admin-success: #557351;
+  --admin-cream: #f4eee6;
   isolation: isolate;
-  background: transparent !important;
+  background: var(--admin-cream) !important;
 }
 
 .admin-shell__atmosphere {
@@ -2000,28 +2001,21 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  background: transparent;
+  background: var(--admin-cream);
 }
 
 .admin-shell__atmosphere-img {
-  position: absolute;
-  inset: 0;
-  background: url("/images/admin-glass-bg.jpg") center / cover no-repeat;
-  /* Keep sunset warmth readable through glass */
-  filter: saturate(0.92) brightness(1.02) contrast(1.02);
-  opacity: 1;
+  display: none !important;
 }
 
 .admin-shell__atmosphere-wash {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  /* Neutral white veil only */
-  background: rgba(255, 255, 255, 0.12);
+  display: none !important;
 }
 
-.admin-shell__atmosphere-wash::before,
-.admin-shell__atmosphere-wash::after {
+.admin-shell__blooms,
+.admin-shell__hotspots,
+.dashboard-light-bloom,
+.glass-hotspot {
   display: none !important;
 }
 
@@ -2338,23 +2332,16 @@
 .admin-shell--login {
   position: relative;
   isolation: isolate;
+  background: var(--admin-cream, #f4eee6) !important;
 }
 
-.admin-shell--login .admin-shell__atmosphere-img {
-  background-image: url("/images/admin-login-bg.jpg");
-  background-position: center 45%;
-  filter: saturate(1) brightness(0.98) contrast(1.04);
+.admin-shell--login .admin-shell__atmosphere {
+  background: var(--admin-cream, #f4eee6);
 }
 
+.admin-shell--login .admin-shell__atmosphere-img,
 .admin-shell--login .admin-shell__atmosphere-wash {
-  /* Soft warm veil — keeps frosty card readable over bright sun */
-  background:
-    radial-gradient(
-      ellipse at 50% 42%,
-      rgba(40, 22, 14, 0.12) 0%,
-      rgba(28, 16, 12, 0.28) 70%,
-      rgba(22, 12, 10, 0.38) 100%
-    );
+  display: none !important;
 }
 
 /* Login card — denser frost so type + controls share one material */
@@ -2919,6 +2906,7 @@ body.admin-app,
 html:has(.admin-shell),
 body:has(.admin-shell) {
   overflow-x: hidden;
+  background: #f4eee6;
 }
 
 body.admin-nav-lock {

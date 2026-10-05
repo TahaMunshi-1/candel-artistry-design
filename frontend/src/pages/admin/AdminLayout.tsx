@@ -11,10 +11,6 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
 
   return (
     <div className="admin-shell admin-shell--login">
-      <div className="admin-shell__atmosphere" aria-hidden>
-        <div className="admin-shell__atmosphere-img" />
-        <div className="admin-shell__atmosphere-wash" />
-      </div>
       <form
         className="admin-login-card liquid-glass liquid-glass-strong"
         onSubmit={(e) => {
@@ -103,21 +99,6 @@ export default function AdminLayout() {
 
   return (
     <div className={`admin-shell min-h-screen${navOpen ? " is-nav-open" : ""}`}>
-      <div className="admin-shell__atmosphere" aria-hidden>
-        <div className="admin-shell__atmosphere-img" />
-        <div className="admin-shell__atmosphere-wash" />
-      </div>
-      <div className="admin-shell__blooms" aria-hidden>
-        <span className="dashboard-light-bloom dashboard-light-bloom--tr" />
-        <span className="dashboard-light-bloom dashboard-light-bloom--cl" />
-        <span className="dashboard-light-bloom dashboard-light-bloom--bc" />
-      </div>
-      <div className="admin-shell__hotspots" aria-hidden>
-        <span className="glass-hotspot glass-hotspot--1" />
-        <span className="glass-hotspot glass-hotspot--2" />
-        <span className="glass-hotspot glass-hotspot--3" />
-      </div>
-
       <div className="admin-shell__frame">
         {/* Backdrop must live in the same stacking context as the sidebar
             so it cannot sit above the drawer and steal tab clicks. */}
