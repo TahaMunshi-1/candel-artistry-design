@@ -40,9 +40,18 @@ export const salesSeries: SalesPoint[] = [
 ];
 
 export const categoryShare = [
-  { label: "Candles", value: 62, color: "#c4a574" },
-  { label: "Paintings", value: 21, color: "#8b5b58" },
-  { label: "Cards", value: 17, color: "#6b8f71" },
+  { label: "Candles", value: 62, color: "#C89958" },
+  { label: "Paintings", value: 21, color: "#C9897F" },
+  { label: "Cards", value: 17, color: "#6D8B66" },
+];
+
+/** Visual breakdown for order-status donut (derived presentation colors) */
+export const orderStatusShare = [
+  { label: "Completed", key: "delivered" as const, color: "#6E8663" },
+  { label: "Processing", key: "shipped" as const, color: "#C67A70" },
+  { label: "Pending", key: "pending" as const, color: "#D6AA6B" },
+  { label: "Paid", key: "paid" as const, color: "#C89958" },
+  { label: "Cancelled", key: "cancelled" as const, color: "#A95454" },
 ];
 
 export const demoOrders: DemoOrder[] = [

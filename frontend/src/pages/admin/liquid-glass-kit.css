@@ -1,0 +1,1232 @@
+/* =========================================================
+   LIQUID GLASS — luminous shell + living light
+   Quiet center · champagne rim · specular drift · rim flow
+   ========================================================= */
+
+@property --lg-rim-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 120deg;
+}
+
+@property --lg-shine-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 18%;
+}
+
+@property --lg-shine-y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -8%;
+}
+
+.admin-shell {
+  --glass-text: #1f1210;
+  --glass-radius-sm: 12px;
+  --glass-radius-md: 20px;
+  --glass-radius-lg: 24px;
+  --glass-gold: #d8b278;
+  --glass-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+/* ---------- Motion ---------- */
+@keyframes lg-rim-flow {
+  0% { --lg-rim-angle: 0deg; }
+  100% { --lg-rim-angle: 360deg; }
+}
+
+@keyframes lg-specular-drift {
+  0%,
+  100% {
+    --lg-shine-x: 14%;
+    --lg-shine-y: -10%;
+    opacity: 0.88;
+  }
+  40% {
+    --lg-shine-x: 42%;
+    --lg-shine-y: -4%;
+    opacity: 1;
+  }
+  70% {
+    --lg-shine-x: 78%;
+    --lg-shine-y: 8%;
+    opacity: 0.92;
+  }
+}
+
+@keyframes lg-bloom-breathe {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 0 1px rgba(255, 255, 255, 0.85))
+      drop-shadow(0 0 4px rgba(255, 246, 226, 0.85))
+      drop-shadow(0 0 10px rgba(230, 180, 103, 0.48))
+      drop-shadow(0 0 18px rgba(221, 163, 80, 0.22));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 2px rgba(255, 255, 255, 0.95))
+      drop-shadow(0 0 7px rgba(255, 246, 226, 0.95))
+      drop-shadow(0 0 16px rgba(230, 180, 103, 0.62))
+      drop-shadow(0 0 28px rgba(221, 163, 80, 0.32));
+  }
+}
+
+@keyframes lg-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes lg-nav-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 236, 200, 0.30),
+      0 0 6px rgba(255, 246, 226, 0.55),
+      0 0 14px rgba(221, 165, 80, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 246, 226, 0.55),
+      0 0 10px rgba(255, 246, 226, 0.75),
+      0 0 22px rgba(221, 165, 80, 0.50),
+      inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  }
+}
+
+@keyframes lg-hotspot-twinkle {
+  0%,
+  100% { opacity: 0.55; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* ---------- Base liquid glass ---------- */
+.liquid-glass,
+.admin-login-card.liquid-glass,
+.admin-login-card {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+
+  background:
+    radial-gradient(
+      ellipse at 50% -20%,
+      rgba(255, 255, 255, 0.22),
+      transparent 52%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 252, 247, 0.28) 0%,
+      rgba(255, 246, 235, 0.16) 45%,
+      rgba(245, 228, 208, 0.12) 100%
+    ) !important;
+
+  background-color: transparent !important;
+
+  backdrop-filter:
+    blur(20px)
+    saturate(112%)
+    brightness(1.02) !important;
+
+  -webkit-backdrop-filter:
+    blur(20px)
+    saturate(112%)
+    brightness(1.02) !important;
+
+  border: 1px solid rgba(255, 246, 226, 0.58) !important;
+  border-radius: 20px !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 240, 210, 0.40),
+    0 0 3px rgba(255, 255, 255, 0.55),
+    0 0 10px rgba(255, 230, 180, 0.42),
+    0 0 24px rgba(221, 163, 80, 0.18),
+    0 16px 40px rgba(78, 47, 31, 0.10),
+    inset 0 0 28px rgba(255, 248, 238, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.16),
+    inset 1px 0 0 rgba(255, 255, 255, 0.30),
+    inset -1px 0 0 rgba(183, 123, 61, 0.12) !important;
+
+  color: var(--glass-text);
+  opacity: 1 !important;
+  transform: translateZ(0);
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms ease,
+    border-color 320ms ease;
+  animation: lg-float-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Specular sheet — drifts like liquid light */
+.liquid-glass::before,
+.admin-login-card::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: calc(20px - 2px) !important;
+
+  background:
+    radial-gradient(
+      circle at 8% 8%,
+      rgba(255, 255, 255, 0.95) 0 1.2px,
+      rgba(255, 246, 220, 0.55) 3px,
+      transparent 9px
+    ),
+    radial-gradient(
+      circle at 94% 88%,
+      rgba(236, 186, 110, 0.55) 0 1.4px,
+      rgba(220, 160, 80, 0.18) 5px,
+      transparent 14px
+    ),
+    radial-gradient(
+      ellipse at var(--lg-shine-x) var(--lg-shine-y),
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.14) 28%,
+      transparent 55%
+    ),
+    linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.16),
+      transparent 38%
+    ),
+    var(--glass-noise) !important;
+
+  background-size: auto, auto, auto, auto, 130px 130px !important;
+  background-blend-mode: screen, screen, screen, screen, soft-light;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.14),
+    inset 1px 0 0 rgba(255, 255, 255, 0.28),
+    inset -1px 0 0 rgba(183, 123, 61, 0.10) !important;
+
+  animation: lg-specular-drift 9s ease-in-out infinite;
+}
+
+/* Living champagne rim */
+.liquid-glass::after,
+.admin-login-card::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+  padding: 2.2px !important;
+  box-sizing: border-box !important;
+
+  background:
+    linear-gradient(
+      var(--lg-rim-angle),
+      #ffffff 0%,
+      #fff7e2 12%,
+      #ffd98a 28%,
+      #dea95c 42%,
+      #ffffff 58%,
+      #ffe4a8 74%,
+      #e0ab5c 88%,
+      #fff8e8 100%
+    ) !important;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  animation:
+    lg-rim-flow 10s linear infinite,
+    lg-bloom-breathe 5.5s ease-in-out infinite;
+}
+
+.liquid-glass > *,
+.admin-login-card > * {
+  position: relative;
+  z-index: 3;
+}
+
+.admin-panel.liquid-glass,
+.admin-kpi.liquid-glass {
+  overflow: visible !important;
+}
+
+/* KPI cards — slightly denser frost so dark type stays readable */
+.admin-kpi.liquid-glass {
+  background:
+    radial-gradient(
+      ellipse at 50% -20%,
+      rgba(255, 255, 255, 0.42),
+      transparent 55%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 252, 248, 0.52) 0%,
+      rgba(255, 248, 240, 0.38) 50%,
+      rgba(255, 244, 232, 0.32) 100%
+    ) !important;
+  color: #1a100e !important;
+}
+
+.admin-kpi,
+.admin-kpi.liquid-glass,
+.admin-panel,
+.admin-panel.liquid-glass {
+  border-radius: 20px !important;
+  background-color: transparent !important;
+}
+
+/* Stagger entrance slightly across KPI row */
+.admin-kpi:nth-child(1) { animation-delay: 40ms; }
+.admin-kpi:nth-child(2) { animation-delay: 100ms; }
+.admin-kpi:nth-child(3) { animation-delay: 160ms; }
+.admin-kpi:nth-child(4) { animation-delay: 220ms; }
+
+.liquid-glass-hover:hover,
+.admin-kpi:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(255, 248, 230, 0.85) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 246, 226, 0.55),
+    0 0 6px rgba(255, 255, 255, 0.55),
+    0 0 16px rgba(255, 230, 180, 0.55),
+    0 0 32px rgba(221, 163, 80, 0.28),
+    0 20px 44px rgba(78, 47, 31, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.18) !important;
+}
+
+.liquid-glass-hover:hover::before,
+.admin-kpi:hover::before {
+  animation-duration: 3.5s;
+  opacity: 1 !important;
+}
+
+.liquid-glass-hover:hover::after,
+.admin-kpi:hover::after {
+  animation-duration: 4s, 2.2s;
+  padding: 2.6px !important;
+}
+
+/* ---------- Soft glass — search / profile ---------- */
+.liquid-glass-soft,
+.admin-topbar__search,
+.admin-profile-chip {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+
+  background:
+    radial-gradient(
+      ellipse at 20% 0%,
+      rgba(255, 255, 255, 0.18),
+      transparent 50%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 248, 238, 0.08)
+    ) !important;
+
+  background-color: transparent !important;
+
+  backdrop-filter:
+    blur(18px)
+    saturate(110%)
+    brightness(1.01) !important;
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(110%)
+    brightness(1.01) !important;
+
+  border: 1px solid rgba(255, 246, 226, 0.62) !important;
+  border-radius: 18px !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 248, 230, 0.45),
+    0 0 4px rgba(255, 255, 255, 0.55),
+    0 0 12px rgba(255, 230, 180, 0.40),
+    0 0 20px rgba(221, 163, 80, 0.16),
+    inset 0 0 16px rgba(70, 45, 35, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.24) !important;
+
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms ease;
+  animation: lg-float-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.liquid-glass-soft:hover,
+.admin-topbar__search:focus-within,
+.admin-profile-chip:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255, 248, 230, 0.62),
+    0 0 6px rgba(255, 255, 255, 0.65),
+    0 0 16px rgba(255, 230, 180, 0.50),
+    0 0 26px rgba(221, 163, 80, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.28) !important;
+}
+
+.liquid-glass-soft::before,
+.admin-topbar__search::before,
+.admin-profile-chip::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+
+  background:
+    radial-gradient(
+      circle at 10% 30%,
+      rgba(255, 255, 255, 0.95) 0 1px,
+      transparent 6px
+    ),
+    radial-gradient(
+      ellipse at var(--lg-shine-x) var(--lg-shine-y),
+      rgba(255, 255, 255, 0.42) 0%,
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.14),
+      transparent 42%
+    ),
+    var(--glass-noise) !important;
+
+  background-size: auto, auto, auto, 120px 120px !important;
+  animation: lg-specular-drift 8s ease-in-out infinite;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.18) !important;
+}
+
+.liquid-glass-soft::after,
+.admin-topbar__search::after,
+.admin-profile-chip::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+  padding: 1.9px !important;
+  box-sizing: border-box !important;
+
+  background:
+    linear-gradient(
+      var(--lg-rim-angle),
+      #ffffff 0%,
+      #fff7e2 18%,
+      #dea95c 40%,
+      #ffffff 62%,
+      #e0ab5c 100%
+    ) !important;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  animation:
+    lg-rim-flow 9s linear infinite,
+    lg-bloom-breathe 4.8s ease-in-out infinite;
+}
+
+.liquid-glass-soft > *,
+.admin-topbar__search > *,
+.admin-profile-chip > * {
+  position: relative;
+  z-index: 3;
+}
+
+.admin-topbar__search input {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.liquid-glass-strong {
+  background:
+    radial-gradient(
+      ellipse at 50% -20%,
+      rgba(255, 255, 255, 0.28),
+      transparent 55%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.34),
+      rgba(255, 248, 238, 0.20)
+    ) !important;
+}
+
+/* ---------- Hero luminous frame ---------- */
+.liquid-glass-gold,
+.admin-hero {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+
+  border: 1px solid rgba(255, 236, 200, 0.78) !important;
+  border-radius: 20px !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 240, 210, 0.42),
+    0 0 6px rgba(255, 246, 226, 0.60),
+    0 0 18px rgba(230, 180, 103, 0.42),
+    0 0 34px rgba(221, 163, 80, 0.20),
+    0 16px 42px rgba(70, 42, 29, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.22) !important;
+
+  background: transparent !important;
+  backdrop-filter: none !important;
+  animation: lg-float-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.liquid-glass-gold::before,
+.admin-hero::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 4 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+
+  background:
+    radial-gradient(
+      circle at 4% 6%,
+      rgba(255, 255, 255, 0.98) 0 1.6px,
+      rgba(255, 246, 220, 0.50) 5px,
+      transparent 22px
+    ),
+    radial-gradient(
+      ellipse at 96% 92%,
+      rgba(230, 175, 95, 0.32) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.16) 0%,
+      transparent 10%
+    ) !important;
+
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.24),
+    inset 1px 0 0 rgba(255, 255, 255, 0.20),
+    inset -1px 0 0 rgba(183, 123, 61, 0.18) !important;
+
+  animation: lg-specular-drift 11s ease-in-out infinite;
+}
+
+.liquid-glass-gold::after,
+.admin-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+  padding: 2px !important;
+  box-sizing: border-box !important;
+
+  background:
+    linear-gradient(
+      var(--lg-rim-angle),
+      #ffffff 0%,
+      #fff4d4 14%,
+      #dea95c 36%,
+      #ffffff 58%,
+      #e0ab5c 82%,
+      #fff8e8 100%
+    ) !important;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  animation:
+    lg-rim-flow 12s linear infinite,
+    lg-bloom-breathe 6s ease-in-out infinite;
+}
+
+.admin-hero > .admin-hero__media {
+  position: absolute !important;
+  z-index: 0 !important;
+}
+
+.admin-hero > .admin-hero__overlay {
+  position: absolute !important;
+  z-index: 1 !important;
+}
+
+.admin-hero > .admin-hero__content,
+.admin-hero > .admin-hero__quote {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+.admin-hero__media {
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.admin-panel--products.liquid-glass {
+  box-shadow:
+    0 0 0 1px rgba(255, 240, 210, 0.42),
+    0 0 6px rgba(255, 246, 226, 0.55),
+    0 0 18px rgba(230, 180, 103, 0.36),
+    0 0 30px rgba(215, 159, 77, 0.16),
+    0 16px 40px rgba(70, 42, 29, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(190, 130, 65, 0.14) !important;
+}
+
+/* ---------- Sidebar — frosty white glass ---------- */
+.glass-sidebar,
+.admin-glass-sidebar__inner {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+
+  background:
+    radial-gradient(
+      ellipse at 50% -10%,
+      rgba(255, 255, 255, 0.85),
+      transparent 55%
+    ),
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(255, 255, 255, 0.76) 50%,
+      rgba(255, 252, 248, 0.68) 100%
+    ) !important;
+
+  background-color: transparent !important;
+
+  backdrop-filter:
+    blur(24px)
+    saturate(108%)
+    brightness(1.06) !important;
+
+  -webkit-backdrop-filter:
+    blur(24px)
+    saturate(108%)
+    brightness(1.06) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  border-radius: 20px !important;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.45),
+    0 0 10px rgba(255, 236, 210, 0.35),
+    0 0 24px rgba(221, 178, 120, 0.14),
+    0 16px 40px rgba(78, 47, 31, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(210, 170, 120, 0.10) !important;
+
+  animation: lg-float-in 750ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.glass-sidebar::before,
+.admin-glass-sidebar__inner::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: calc(20px - 2px) !important;
+
+  background:
+    radial-gradient(
+      circle at 14% 6%,
+      rgba(255, 255, 255, 0.9) 0 1px,
+      transparent 9px
+    ),
+    radial-gradient(
+      ellipse at var(--lg-shine-x) var(--lg-shine-y),
+      rgba(255, 255, 255, 0.45) 0%,
+      transparent 50%
+    ),
+    var(--glass-noise) !important;
+
+  background-size: auto, auto, 130px 130px !important;
+  animation: lg-specular-drift 12s ease-in-out infinite;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(210, 170, 120, 0.08) !important;
+}
+
+.glass-sidebar::after,
+.admin-glass-sidebar__inner::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+  padding: 1.5px !important;
+  box-sizing: border-box !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 240, 210, 0.75) 35%,
+      rgba(230, 190, 130, 0.45) 65%,
+      rgba(255, 248, 235, 0.90) 100%
+    ) !important;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  filter:
+    drop-shadow(0 0 2px rgba(255, 246, 226, 0.45))
+    drop-shadow(0 0 8px rgba(221, 178, 120, 0.18));
+}
+
+.glass-sidebar > *,
+.admin-glass-sidebar__inner > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* ---------- Nav items — quiet by default, glass pill when active ---------- */
+.glass-nav-item,
+.admin-glass-link {
+  position: relative !important;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 14px;
+  color: #2a1a16 !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  overflow: hidden !important;
+  box-shadow: none !important;
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease,
+    color 200ms ease;
+}
+
+.glass-nav-item > *,
+.admin-glass-link > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* No heavy rim ring on idle items */
+.glass-nav-item::after,
+.admin-glass-link::after {
+  content: none !important;
+  display: none !important;
+}
+
+.glass-nav-item:hover,
+.admin-glass-link:hover {
+  color: #1a100e !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(216, 178, 120, 0.28) !important;
+  transform: translateX(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
+}
+
+.glass-nav-item.active,
+.admin-glass-link.is-active {
+  color: #1a100e !important;
+  font-weight: 600 !important;
+  background:
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 248, 238, 0.58)
+    ) !important;
+  border: 1px solid rgba(216, 178, 120, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 245, 220, 0.35),
+    0 0 14px rgba(221, 178, 120, 0.22),
+    0 4px 14px rgba(78, 47, 31, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  animation: none !important;
+}
+
+.admin-glass-link__icon {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(216, 178, 120, 0.22);
+  color: #a67c3d !important;
+  flex-shrink: 0;
+}
+
+.admin-glass-link.is-active .admin-glass-link__icon,
+.glass-nav-item.active .admin-glass-link__icon {
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 245, 220, 0.7),
+      rgba(232, 201, 149, 0.28)
+    );
+  border-color: rgba(216, 178, 120, 0.5);
+  color: #8f6a35 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.admin-glass-pill {
+  border-radius: 14px;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+/* ---------- Secondary / ghost buttons — clean outline ---------- */
+.glass-btn:not(.admin-btn--hero-ghost):not(.glass-btn-primary),
+.admin-btn--ghost,
+.admin-glass-foot-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 18px;
+  color: #3d2a24 !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.62),
+      rgba(255, 252, 248, 0.42)
+    ) !important;
+
+  backdrop-filter: blur(12px) saturate(110%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(110%) !important;
+
+  border: 1px solid rgba(190, 160, 130, 0.34) !important;
+  border-radius: 12px !important;
+
+  box-shadow:
+    0 2px 10px rgba(78, 47, 31, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.glass-btn:not(.admin-btn--hero-ghost):not(.glass-btn-primary):hover,
+.admin-btn--ghost:hover,
+.admin-glass-foot-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(180, 145, 105, 0.5) !important;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 252, 248, 0.62)
+    ) !important;
+  box-shadow:
+    0 6px 16px rgba(78, 47, 31, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+}
+
+.glass-btn:not(.admin-btn--hero-ghost)::before,
+.admin-btn--ghost::before,
+.admin-glass-foot-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 55%);
+}
+
+/* Hero ghost — soft frosted on dark photo, hairline white edge */
+.admin-btn--hero-ghost {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 18px;
+  color: #fffaf3 !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(14px) saturate(110%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(110%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.admin-btn--hero-ghost::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 60%);
+}
+
+.admin-btn--hero-ghost:hover {
+  color: #fffaf3 !important;
+  background: rgba(255, 255, 255, 0.26) !important;
+  border-color: rgba(255, 255, 255, 0.62) !important;
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ---------- Primary CTA — refined gold edge, no heavy rim ring ---------- */
+.glass-btn-primary,
+.admin-btn:not(.admin-btn--ghost):not(.admin-btn--hero-ghost):not(.admin-glass-foot-btn),
+.admin-btn--primary,
+.admin-login-submit {
+  position: relative !important;
+  overflow: hidden !important;
+  color: #fff9f3 !important;
+
+  background:
+    linear-gradient(
+      165deg,
+      #9a4540 0%,
+      #873A37 45%,
+      #7a322f 100%
+    ) !important;
+
+  border: 1px solid rgba(240, 210, 160, 0.55) !important;
+  border-radius: 12px !important;
+
+  box-shadow:
+    0 6px 18px rgba(116, 48, 43, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    filter 220ms ease;
+}
+
+.glass-btn-primary:hover,
+.admin-btn:not(.admin-btn--ghost):not(.admin-btn--hero-ghost):not(.admin-glass-foot-btn):hover,
+.admin-btn--primary:hover,
+.admin-login-submit:hover {
+  transform: translateY(-1px);
+  border-color: rgba(242, 210, 160, 0.9) !important;
+  filter: brightness(1.04);
+  box-shadow:
+    0 10px 24px rgba(116, 48, 43, 0.28),
+    0 0 12px rgba(221, 178, 120, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+}
+
+/* Kill ugly animated rim rings on buttons */
+.glass-btn-primary::after,
+.admin-btn.glass-btn-primary::after,
+.admin-btn::after,
+.admin-btn--primary::after,
+.admin-login-submit::after,
+.glass-btn::after,
+.admin-btn--ghost::after,
+.admin-btn--hero-ghost::after,
+.admin-glass-foot-btn::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* ---------- Inputs / chips / icons ---------- */
+.glass-input,
+.admin-products-search {
+  width: auto;
+  max-width: 100%;
+  min-height: 36px;
+  height: 36px;
+  padding: 0 12px;
+  color: var(--glass-text);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 250, 243, 0.12)
+    ) !important;
+
+  backdrop-filter: blur(14px) saturate(110%) brightness(1.02) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(110%) brightness(1.02) !important;
+
+  border: 1px solid rgba(255, 242, 218, 0.70) !important;
+  border-radius: 14px;
+  outline: none;
+
+  box-shadow:
+    0 0 8px rgba(255, 230, 180, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
+}
+
+.glass-chip,
+.admin-panel__chip,
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.20) !important;
+  backdrop-filter: blur(12px) saturate(110%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(110%) !important;
+  border: 1px solid rgba(255, 242, 218, 0.70) !important;
+  border-radius: 999px;
+  box-shadow:
+    0 0 6px rgba(230, 180, 103, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
+}
+
+.glass-icon,
+.admin-kpi__icon,
+.admin-quick-list__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.22) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 242, 218, 0.70) !important;
+  border-radius: 12px;
+  box-shadow:
+    0 0 6px rgba(230, 180, 103, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.70) !important;
+}
+
+.admin-kpi__icon--champagne {
+  background: rgba(222, 172, 102, 0.16) !important;
+  color: #c99a5e !important;
+}
+.admin-kpi__icon--blush {
+  background: rgba(215, 119, 119, 0.14) !important;
+  color: #b96660 !important;
+}
+.admin-kpi__icon--amber {
+  background: rgba(220, 173, 105, 0.14) !important;
+  color: #d5af78 !important;
+}
+.admin-kpi__icon--sage {
+  background: rgba(111, 137, 101, 0.14) !important;
+  color: #6b8164 !important;
+}
+
+.admin-kpi__sparkle {
+  color: rgba(255, 236, 200, 0.95) !important;
+  text-shadow:
+    0 0 4px rgba(255, 246, 226, 0.95),
+    0 0 10px rgba(230, 180, 103, 0.55) !important;
+  animation: lg-hotspot-twinkle 3.4s ease-in-out infinite;
+}
+
+/* ---------- Soft gold bloom ---------- */
+.admin-shell__blooms {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.dashboard-light-bloom {
+  position: fixed;
+  pointer-events: none;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 225, 179, 0.22),
+      rgba(242, 194, 124, 0.08) 38%,
+      transparent 70%
+    );
+  filter: blur(26px);
+  mix-blend-mode: screen;
+  z-index: 0;
+  animation: lg-bloom-breathe 8s ease-in-out infinite;
+}
+
+.dashboard-light-bloom--tr {
+  top: -30px;
+  right: 10%;
+}
+
+.dashboard-light-bloom--cl {
+  top: 40%;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  animation-delay: 1.4s;
+}
+
+.dashboard-light-bloom--bc {
+  bottom: 6%;
+  left: 45%;
+  width: 240px;
+  height: 240px;
+  animation-delay: 2.2s;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 225, 179, 0.16),
+      rgba(242, 194, 124, 0.06) 38%,
+      transparent 70%
+    );
+}
+
+/* ---------- Sparse edge hotspots ---------- */
+.admin-shell__hotspots {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-hotspot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 246, 226, 0.98);
+  box-shadow:
+    0 0 4px rgba(255, 246, 226, 0.98),
+    0 0 10px rgba(230, 180, 103, 0.55),
+    0 0 18px rgba(221, 163, 80, 0.22);
+  pointer-events: none;
+  animation: lg-hotspot-twinkle 2.8s ease-in-out infinite;
+}
+
+.glass-hotspot--1 {
+  top: 17%;
+  left: 27%;
+}
+
+.glass-hotspot--2 {
+  top: 49%;
+  right: 16%;
+  animation-delay: 0.9s;
+}
+
+.glass-hotspot--3 {
+  bottom: 24%;
+  left: 61%;
+  animation-delay: 1.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass,
+  .liquid-glass-soft,
+  .admin-topbar__search,
+  .admin-profile-chip,
+  .admin-hero,
+  .glass-sidebar,
+  .admin-glass-sidebar__inner,
+  .admin-kpi,
+  .glass-btn,
+  .admin-btn--ghost,
+  .admin-btn--hero-ghost,
+  .dashboard-light-bloom,
+  .glass-hotspot,
+  .admin-kpi__sparkle,
+  .glass-nav-item.active,
+  .admin-glass-link.is-active {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .liquid-glass::before,
+  .liquid-glass::after,
+  .liquid-glass-soft::before,
+  .liquid-glass-soft::after,
+  .admin-topbar__search::before,
+  .admin-topbar__search::after,
+  .admin-profile-chip::before,
+  .admin-profile-chip::after,
+  .admin-hero::before,
+  .admin-hero::after,
+  .glass-sidebar::before,
+  .glass-sidebar::after,
+  .admin-glass-sidebar__inner::before,
+  .admin-glass-sidebar__inner::after,
+  .glass-btn-primary::after,
+  .admin-login-submit::after {
+    animation: none !important;
+  }
+
+  .dashboard-light-bloom {
+    filter: blur(16px);
+  }
+}

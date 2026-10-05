@@ -28,17 +28,17 @@ export default function AdminCustomersPage() {
       </header>
 
       <div className="admin-kpi-grid admin-kpi-grid--3">
-        <div className="admin-kpi">
+        <div className="admin-kpi liquid-glass liquid-glass-hover">
           <p className="admin-kpi__label">Customers</p>
           <p className="admin-kpi__value">{demoCustomers.length}</p>
           <p className="admin-kpi__delta is-up">Demo list</p>
         </div>
-        <div className="admin-kpi">
+        <div className="admin-kpi liquid-glass liquid-glass-hover">
           <p className="admin-kpi__label">Active</p>
           <p className="admin-kpi__value">{active}</p>
           <p className="admin-kpi__delta is-up">Can place orders</p>
         </div>
-        <div className="admin-kpi">
+        <div className="admin-kpi liquid-glass liquid-glass-hover">
           <p className="admin-kpi__label">Lifetime spent</p>
           <p className="admin-kpi__value">
             {money(demoCustomers.reduce((n, c) => n + c.spent, 0))}
@@ -49,7 +49,7 @@ export default function AdminCustomersPage() {
 
       <div className="admin-toolbar">
         <input
-          className="admin-search"
+          className="admin-search glass-input"
           placeholder="Search name, email, location…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -59,7 +59,7 @@ export default function AdminCustomersPage() {
             <button
               key={s}
               type="button"
-              className={`admin-chip ${status === s ? "is-on" : ""}`}
+              className={`admin-chip glass-chip ${status === s ? "is-on" : ""}`}
               onClick={() => setStatus(s)}
             >
               {s}
@@ -68,7 +68,7 @@ export default function AdminCustomersPage() {
         </div>
       </div>
 
-      <section className="admin-panel">
+      <section className="admin-panel liquid-glass">
         <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
