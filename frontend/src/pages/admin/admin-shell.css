@@ -286,6 +286,14 @@
   min-height: 100vh;
   padding: 24px 16px;
   box-sizing: border-box;
+  /* Local theme tokens — warm ink throughout */
+  --login-ink: #2a1a16;
+  --login-ink-soft: #5c453e;
+  --login-muted: #8a7268;
+  --login-gold: #c89958;
+  --login-gold-bright: #d8b278;
+  --login-wine: #843936;
+  --login-cream: #fff9f2;
 }
 
 .admin-login-card {
@@ -294,15 +302,15 @@
   width: 100%;
   max-width: 380px;
   margin: 0 auto;
-  padding: 36px 32px 28px;
+  padding: 40px 34px 30px;
   border-radius: 22px;
-  /* material owned by liquid-glass-kit */
   background: transparent;
   border: 1px solid transparent;
   box-shadow: none;
-  color: var(--admin-text);
+  color: var(--login-ink);
   overflow: visible;
   box-sizing: border-box;
+  font-family: var(--admin-font);
 }
 
 .admin-login-card > * {
@@ -312,10 +320,11 @@
 
 .admin-login-card .admin-login-kicker {
   margin: 0;
-  color: var(--admin-gold);
-  letter-spacing: 0.18em;
+  color: var(--login-gold) !important;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-size: 0.68rem;
+  font-family: var(--admin-font);
+  font-size: 0.7rem;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -324,61 +333,84 @@
   margin: 10px 0 0;
   font-family: var(--admin-display);
   font-weight: 500;
-  font-size: 2rem;
-  line-height: 1.15;
-  color: var(--admin-deep);
+  font-size: 2.05rem;
+  line-height: 1.12;
+  color: var(--login-ink) !important;
+  letter-spacing: -0.01em;
 }
 
 .admin-login-card .admin-login-lead {
   margin: 12px 0 0;
+  font-family: var(--admin-font);
   font-size: 0.875rem;
-  line-height: 1.45;
-  color: var(--admin-text-secondary);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--login-ink-soft) !important;
 }
 
 .admin-login-fields {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 8px;
+  gap: 10px;
   margin-top: 28px;
 }
 
 .admin-login-card label {
   margin: 0;
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-family: var(--admin-font);
+  font-size: 0.8rem;
+  font-weight: 600;
   line-height: 1.2;
-  color: var(--admin-text-secondary);
+  letter-spacing: 0.02em;
+  color: var(--login-ink-soft) !important;
 }
 
 .admin-login-card input {
   width: 100%;
-  height: 44px;
+  height: 46px;
   margin: 0;
-  padding: 0 14px;
-  border-radius: 12px !important;
-  border: 1px solid rgba(122, 89, 70, 0.18) !important;
-  background: rgba(255, 255, 255, 0.72) !important;
-  color: var(--admin-text) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
-  font: inherit;
+  padding: 0 16px;
+  border-radius: 14px !important;
+  border: 1px solid rgba(216, 178, 120, 0.42) !important;
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.78),
+      rgba(255, 248, 240, 0.55)
+    ) !important;
+  color: var(--login-ink) !important;
+  box-shadow:
+    0 2px 10px rgba(78, 47, 31, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--admin-font);
   font-size: 0.9rem;
+  font-weight: 500;
   line-height: 1;
   outline: none;
   box-sizing: border-box;
+  transition: border-color 180ms var(--admin-ease), box-shadow 180ms var(--admin-ease);
+}
+
+.admin-login-card input::placeholder {
+  color: var(--login-muted);
 }
 
 .admin-login-card input:focus {
-  border-color: rgba(176, 112, 82, 0.45) !important;
+  border-color: rgba(216, 178, 120, 0.75) !important;
   box-shadow:
-    0 0 0 4px rgba(176, 112, 82, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+    0 0 0 4px rgba(216, 178, 120, 0.14),
+    0 2px 12px rgba(78, 47, 31, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
 }
 
 .admin-login-error {
   margin: 0 !important;
+  font-family: var(--admin-font) !important;
   font-size: 0.8rem !important;
+  font-weight: 500 !important;
   line-height: 1.3 !important;
   color: #a95454 !important;
 }
@@ -388,47 +420,64 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 44px;
-  margin: 8px 0 0;
+  height: 46px;
+  margin: 6px 0 0;
   padding: 0 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(240, 210, 160, 0.55);
-  background: linear-gradient(165deg, #9a4540 0%, #873a37 45%, #7a322f 100%);
-  color: #fff9f2;
+  border-radius: 14px;
+  border: 1px solid rgba(240, 210, 160, 0.62);
+  background:
+    linear-gradient(
+      165deg,
+      #9a4540 0%,
+      #873a37 42%,
+      #7a322f 100%
+    );
+  color: var(--login-cream);
   box-shadow:
     0 6px 18px rgba(116, 48, 43, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
-  font: inherit;
+    0 0 0 1px rgba(255, 246, 226, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  font-family: var(--admin-font);
   font-size: 0.88rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   line-height: 1;
   cursor: pointer;
   box-sizing: border-box;
   transition: transform 180ms var(--admin-ease), box-shadow 180ms var(--admin-ease),
-    filter 180ms var(--admin-ease);
+    filter 180ms var(--admin-ease), border-color 180ms var(--admin-ease);
 }
 
 .admin-login-card .admin-login-submit:hover {
   transform: translateY(-1px);
   filter: brightness(1.04);
+  border-color: rgba(242, 210, 160, 0.9);
   box-shadow:
     0 10px 24px rgba(116, 48, 43, 0.28),
-    0 0 12px rgba(221, 178, 120, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    0 0 14px rgba(221, 178, 120, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 .admin-login-hint {
-  margin: 18px 0 0 !important;
+  margin: 22px 0 0 !important;
   text-align: center;
-  font-size: 0.72rem !important;
-  line-height: 1.35 !important;
-  color: #a08d83 !important;
+  font-family: var(--admin-font) !important;
+  font-size: 0.74rem !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  color: var(--login-muted) !important;
 }
 
 .admin-login-card code {
-  color: var(--admin-wine);
-  font-size: 0.78em;
+  font-family: var(--admin-font);
+  font-size: 0.92em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--login-wine) !important;
+  background: rgba(255, 248, 238, 0.45);
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(216, 178, 120, 0.28);
 }
 
 /* â€”â€”â€” Sidebar â€”â€”â€” */
@@ -2298,22 +2347,69 @@
 }
 
 .admin-shell--login .admin-shell__atmosphere-wash {
-  /* Soft veil so the glass card stays legible over the bright sun */
-  background: rgba(28, 16, 12, 0.18);
+  /* Soft warm veil — keeps frosty card readable over bright sun */
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(40, 22, 14, 0.12) 0%,
+      rgba(28, 16, 12, 0.28) 70%,
+      rgba(22, 12, 10, 0.38) 100%
+    );
 }
 
+/* Login card — denser frost so type + controls share one material */
+.admin-shell--login .admin-login-card.liquid-glass,
 .admin-shell--login .admin-login-card {
   z-index: 1;
   border-radius: 22px !important;
+  color: #2a1a16 !important;
+  background:
+    radial-gradient(
+      ellipse at 50% -18%,
+      rgba(255, 255, 255, 0.42),
+      transparent 55%
+    ),
+    linear-gradient(
+      150deg,
+      rgba(255, 252, 247, 0.55) 0%,
+      rgba(255, 246, 238, 0.38) 48%,
+      rgba(250, 236, 220, 0.32) 100%
+    ) !important;
+  backdrop-filter: blur(28px) saturate(118%) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(118%) brightness(1.04) !important;
+  border-color: rgba(255, 246, 226, 0.7) !important;
 }
 
 .admin-shell--login .admin-login-submit {
-  height: 44px !important;
-  min-height: 44px !important;
-  max-height: 44px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
   padding: 0 18px !important;
-  border-radius: 12px !important;
+  border-radius: 14px !important;
   font-size: 0.88rem !important;
+  font-family: var(--admin-font) !important;
+  color: #fff9f2 !important;
+  border: 1px solid rgba(240, 210, 160, 0.62) !important;
+  background:
+    linear-gradient(
+      165deg,
+      #9a4540 0%,
+      #873a37 42%,
+      #7a322f 100%
+    ) !important;
+  box-shadow:
+    0 6px 18px rgba(116, 48, 43, 0.22),
+    0 0 0 1px rgba(255, 246, 226, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+}
+
+.admin-shell--login .admin-login-hint,
+.admin-shell--login .admin-login-hint * {
+  color: #8a7268 !important;
+}
+
+.admin-shell--login .admin-login-hint code {
+  color: #843936 !important;
 }
 
 @media (max-width: 1100px) {
