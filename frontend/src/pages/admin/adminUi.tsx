@@ -42,7 +42,7 @@ export function Field({ label, children }: FieldProps) {
 }
 
 export const inputClass =
-  "w-full border border-gold/45 bg-ivory px-3 py-2 font-serif text-sm text-ink outline-none focus:border-gold";
+  "w-full rounded-2xl border border-gold/45 bg-ivory px-3.5 py-2.5 font-serif text-sm text-ink outline-none focus:border-gold";
 
 export const selectClass = inputClass;
 
@@ -113,7 +113,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
       </span>
 
       <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
-        <div className="shrink-0 overflow-hidden border border-gold/40 bg-champagne">
+        <div className="shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-champagne shadow-[0_12px_28px_rgba(0,0,0,0.28)]">
           <img
             src={value}
             alt="Selected product"
@@ -133,7 +133,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
           <div className="flex flex-wrap gap-2">
             <label
               htmlFor={inputId}
-              className={`inline-flex cursor-pointer items-center bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-ivory transition-colors hover:bg-burgundy ${
+              className={`inline-flex cursor-pointer items-center rounded-full bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-ivory transition-colors hover:bg-burgundy ${
                 busy ? "opacity-60 pointer-events-none" : ""
               }`}
             >
@@ -150,7 +150,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
             />
             <button
               type="button"
-              className="border border-gold/50 px-4 py-2 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-ink hover:border-burgundy hover:text-burgundy"
+              className="rounded-full border border-gold/50 px-4 py-2 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-ink hover:border-burgundy hover:text-burgundy"
               onClick={() => setShowLibrary((v) => !v)}
             >
               {showLibrary ? "Hide library" : "Choose from library"}
@@ -165,7 +165,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
       </div>
 
       {showLibrary ? (
-        <div className="mt-4 max-h-64 overflow-y-auto border border-gold/30 bg-ivory p-3">
+        <div className="mt-4 max-h-64 overflow-y-auto rounded-2xl border border-gold/30 bg-ivory p-3">
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
             {IMAGE_OPTIONS.map((opt) => {
               const active = value === opt.value;
@@ -178,7 +178,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
                     onChange(opt.value);
                     setShowLibrary(false);
                   }}
-                  className={`group overflow-hidden border text-left transition-colors ${
+                  className={`group overflow-hidden rounded-xl border text-left transition-colors ${
                     active
                       ? "border-burgundy ring-1 ring-burgundy"
                       : "border-gold/30 hover:border-gold"

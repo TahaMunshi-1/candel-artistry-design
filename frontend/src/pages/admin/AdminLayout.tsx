@@ -34,13 +34,13 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-2 w-full rounded-xl border border-white/15 bg-black/30 px-3 py-2.5 text-white outline-none focus:border-[#c4a574]"
+          className="mt-2 w-full rounded-2xl border border-white/15 bg-black/30 px-3 py-2.5 text-white outline-none focus:border-[#c4a574]"
           autoComplete="current-password"
         />
         {error ? <p className="mt-2 text-sm text-[#f0b4b0]">{error}</p> : null}
         <button
           type="submit"
-          className="mt-5 w-full rounded-xl bg-[#c4a574] py-2.5 text-sm font-medium text-[#1a0a0c] transition-colors hover:bg-[#e4d2a8]"
+          className="mt-5 w-full rounded-full bg-[#c4a574] py-2.5 text-sm font-medium text-[#1a0a0c] transition-colors hover:bg-[#e4d2a8]"
         >
           Enter dashboard
         </button>

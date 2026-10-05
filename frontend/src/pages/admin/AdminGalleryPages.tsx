@@ -49,7 +49,7 @@ function GalleryAdmin({
       </div>
 
       {adding ? (
-        <div className="mt-6 border border-dashed border-gold/50 bg-champagne/40 p-4">
+        <div className="mt-6 rounded-2xl border border-dashed border-gold/50 bg-champagne/40 p-4">
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Name">
               <input
@@ -86,7 +86,7 @@ function GalleryAdmin({
           <div className="mt-4 flex gap-3">
             <button
               type="button"
-              className="bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory hover:bg-burgundy"
+              className="rounded-full bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory hover:bg-burgundy"
               onClick={() => {
                 if (!draft.name.trim()) return;
                 add({
@@ -139,11 +139,11 @@ function GalleryRow({
   onRemove: () => void;
 }) {
   return (
-    <article className="grid gap-4 border border-gold/35 bg-ivory p-4 md:grid-cols-[120px_1fr]">
+    <article className="grid gap-4 rounded-3xl border border-gold/35 bg-ivory p-4 md:grid-cols-[120px_1fr]">
       <img
         src={item.image}
         alt=""
-        className="aspect-[3/4] w-full object-cover bg-champagne"
+        className="aspect-[3/4] w-full rounded-2xl object-cover bg-champagne"
       />
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Name">

@@ -36,7 +36,7 @@ export default function AdminCandlesPage() {
           return (
             <section
               key={collection.id}
-              className="border border-gold/35 bg-ivory overflow-hidden"
+              className="overflow-hidden rounded-3xl border border-gold/35 bg-ivory"
             >
               <button
                 type="button"
@@ -62,12 +62,12 @@ export default function AdminCandlesPage() {
                     {collection.products.map((product) => (
                       <article
                         key={product.id}
-                        className="grid gap-4 border border-gold/25 bg-cream/60 p-4 md:grid-cols-[120px_1fr]"
+                        className="grid gap-4 rounded-2xl border border-gold/25 bg-cream/60 p-4 md:grid-cols-[120px_1fr]"
                       >
                         <img
                           src={product.image}
                           alt=""
-                          className="aspect-[3/4] w-full object-cover bg-champagne"
+                          className="aspect-[3/4] w-full rounded-2xl object-cover bg-champagne"
                         />
                         <div className="grid gap-3 sm:grid-cols-2">
                           <Field label="Name">
@@ -147,7 +147,7 @@ export default function AdminCandlesPage() {
                   </div>
 
                   {addingFor === collection.id ? (
-                    <div className="mt-6 border border-dashed border-gold/50 bg-champagne/40 p-4">
+                    <div className="mt-6 rounded-2xl border border-dashed border-gold/50 bg-champagne/40 p-4">
                       <p className="font-serif text-sm tracking-[0.08em] uppercase text-ink">
                         New fragrance
                       </p>
@@ -204,7 +204,7 @@ export default function AdminCandlesPage() {
                       <div className="mt-4 flex gap-3">
                         <button
                           type="button"
-                          className="bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory hover:bg-burgundy"
+                          className="rounded-full bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory hover:bg-burgundy"
                           onClick={() => {
                             if (!draft.name.trim()) return;
                             addCandleProduct(collection.id, {
