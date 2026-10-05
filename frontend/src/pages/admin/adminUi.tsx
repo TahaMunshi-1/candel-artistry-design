@@ -42,7 +42,7 @@ export function Field({ label, children }: FieldProps) {
 }
 
 export const inputClass =
-  "w-full rounded-2xl border border-gold/45 bg-ivory px-3 py-2 text-[0.8rem] text-ink outline-none focus:border-gold";
+  "w-full rounded-xl border border-gold/45 bg-ivory px-3 py-2 text-[0.84rem] text-ink outline-none focus:border-gold";
 
 export const selectClass = inputClass;
 

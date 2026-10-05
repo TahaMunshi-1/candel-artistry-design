@@ -1,17 +1,22 @@
-import { useState } from "react";
-import { Outlet } from "react-router";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router";
 import { ADMIN_PASSWORD, useAdminAuth, useCatalog } from "../../catalog/CatalogContext";
 import AdminSidebar from "./AdminSidebar";
 import "./admin-shell.css";
+import "./liquid-glass-kit.css";
 
 function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   return (
-    <div className="admin-shell admin-shell--login flex min-h-screen items-center justify-center px-4">
+    <div className="admin-shell admin-shell--login">
+      <div className="admin-shell__atmosphere" aria-hidden>
+        <div className="admin-shell__atmosphere-img" />
+        <div className="admin-shell__atmosphere-wash" />
+      </div>
       <form
-        className="admin-login-card w-full max-w-sm p-8"
+        className="admin-login-card liquid-glass liquid-glass-strong"
         onSubmit={(e) => {
           e.preventDefault();
           if (!onLogin(password)) {
@@ -21,31 +26,29 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
           setError("");
         }}
       >
-        <p className="text-[0.7rem] tracking-[0.18em] uppercase text-white/50">Commerce</p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-white">CAD Admin</h1>
-        <p className="mt-3 text-sm text-white/60">
+        <p className="admin-login-kicker">Commerce</p>
+        <h1>CAD Admin</h1>
+        <p className="admin-login-lead">
           Demo console for catalog + store operations. Local browser storage only.
         </p>
-        <label className="mt-6 block text-sm text-white/75" htmlFor="admin-pw">
-          Password
-        </label>
-        <input
-          id="admin-pw"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mt-2 w-full rounded-2xl border border-white/15 bg-black/30 px-3 py-2.5 text-white outline-none focus:border-[#c4a574]"
-          autoComplete="current-password"
-        />
-        {error ? <p className="mt-2 text-sm text-[#f0b4b0]">{error}</p> : null}
-        <button
-          type="submit"
-          className="mt-5 w-full rounded-full bg-[#c4a574] py-2.5 text-sm font-medium text-[#1a0a0c] transition-colors hover:bg-[#e4d2a8]"
-        >
-          Enter dashboard
-        </button>
-        <p className="mt-4 text-center text-xs text-white/40">
-          Default: <code className="text-white/70">{ADMIN_PASSWORD}</code>
+
+        <div className="admin-login-fields">
+          <label htmlFor="admin-pw">Password</label>
+          <input
+            id="admin-pw"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
+          {error ? <p className="admin-login-error">{error}</p> : null}
+          <button type="submit" className="admin-login-submit">
+            Enter dashboard
+          </button>
+        </div>
+
+        <p className="admin-login-hint">
+          Default: <code>{ADMIN_PASSWORD}</code>
         </p>
       </form>
     </div>
@@ -55,16 +58,79 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
 export default function AdminLayout() {
   const { authed, login, logout } = useAdminAuth();
   const { resetCatalog } = useCatalog();
+  const location = useLocation();
+  const [navOpen, setNavOpen] = useState(false);
+
+  useEffect(() => {
+    setNavOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!navOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setNavOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navOpen]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1101px)");
+    const onChange = () => {
+      if (mq.matches) setNavOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.add("admin-app");
+    document.body.classList.add("admin-app");
+    return () => {
+      document.documentElement.classList.remove("admin-app");
+      document.body.classList.remove("admin-app");
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("admin-nav-lock", navOpen);
+    return () => document.body.classList.remove("admin-nav-lock");
+  }, [navOpen]);
 
   if (!authed) {
     return <AdminLogin onLogin={login} />;
   }
 
   return (
-    <div className="admin-shell min-h-screen">
-      <div className="admin-shell__glow" aria-hidden />
+    <div className={`admin-shell min-h-screen${navOpen ? " is-nav-open" : ""}`}>
+      <div className="admin-shell__atmosphere" aria-hidden>
+        <div className="admin-shell__atmosphere-img" />
+        <div className="admin-shell__atmosphere-wash" />
+      </div>
+      <div className="admin-shell__blooms" aria-hidden>
+        <span className="dashboard-light-bloom dashboard-light-bloom--tr" />
+        <span className="dashboard-light-bloom dashboard-light-bloom--cl" />
+        <span className="dashboard-light-bloom dashboard-light-bloom--bc" />
+      </div>
+      <div className="admin-shell__hotspots" aria-hidden>
+        <span className="glass-hotspot glass-hotspot--1" />
+        <span className="glass-hotspot glass-hotspot--2" />
+        <span className="glass-hotspot glass-hotspot--3" />
+      </div>
+
       <div className="admin-shell__frame">
+        {/* Backdrop must live in the same stacking context as the sidebar
+            so it cannot sit above the drawer and steal tab clicks. */}
+        <button
+          type="button"
+          className="admin-nav-backdrop"
+          aria-label="Close navigation"
+          tabIndex={navOpen ? 0 : -1}
+          onClick={() => setNavOpen(false)}
+        />
         <AdminSidebar
+          open={navOpen}
+          onClose={() => setNavOpen(false)}
           onLogout={logout}
           onReset={() => {
             if (confirm("Reset catalog to seed data?")) resetCatalog();
@@ -72,15 +138,49 @@ export default function AdminLayout() {
         />
         <div className="admin-shell__main">
           <header className="admin-topbar">
-            <div className="admin-topbar__search">
-              <span aria-hidden>⌕</span>
-              <input placeholder="Search orders, customers, products…" readOnly />
+            <button
+              type="button"
+              className="admin-menu-btn"
+              aria-label={navOpen ? "Close menu" : "Open menu"}
+              aria-expanded={navOpen}
+              aria-controls="admin-sidebar"
+              onClick={() => setNavOpen((v) => !v)}
+            >
+              <span className="admin-menu-btn__bars" aria-hidden>
+                <i />
+                <i />
+                <i />
+              </span>
+            </button>
+
+            <div className="admin-topbar__search liquid-glass-soft">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+                <circle cx="11" cy="11" r="6.5" />
+                <path d="M16.2 16.2 20 20" strokeLinecap="round" />
+              </svg>
+              <input placeholder="Search orders, products, customers..." readOnly />
             </div>
             <div className="admin-topbar__right">
-              <span className="admin-pill">Demo mode</span>
-              <span className="admin-avatar" aria-hidden>
-                AD
-              </span>
+              <div className="admin-profile-chip liquid-glass-soft">
+                <button type="button" className="admin-notify admin-notify--inline" aria-label="Notifications">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+                    <path d="M6.5 9.5a5.5 5.5 0 0 1 11 0c0 4 1.5 5.5 1.5 5.5H5s1.5-1.5 1.5-5.5Z" strokeLinejoin="round" />
+                    <path d="M10 18.5a2 2 0 0 0 4 0" strokeLinecap="round" />
+                  </svg>
+                  <span className="admin-notify__dot" />
+                </button>
+                <span className="admin-profile-chip__divider" aria-hidden />
+                <span className="admin-avatar" aria-hidden>
+                  AD
+                </span>
+                <div className="admin-profile-chip__meta">
+                  <strong>Admin</strong>
+                  <span>Candle Artistry Design</span>
+                </div>
+                <span className="admin-profile-chip__caret" aria-hidden>
+                  ⌄
+                </span>
+              </div>
             </div>
           </header>
           <main className="admin-shell__content">

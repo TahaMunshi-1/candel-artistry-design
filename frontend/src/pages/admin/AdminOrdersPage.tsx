@@ -60,7 +60,7 @@ export default function AdminOrdersPage() {
         </div>
       </div>
 
-      <section className="admin-panel">
+      <section className="admin-panel liquid-glass">
         <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
