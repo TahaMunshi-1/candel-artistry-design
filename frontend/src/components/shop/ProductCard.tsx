@@ -1,10 +1,13 @@
 import type { CandleProduct, GalleryItem, ProductStatus } from "../../constants/catalog";
+import { useCart } from "../../context/CartContext";
 
 type ProductCardProps = {
+  id: string;
   name: string;
   image: string;
   alt: string;
   status: ProductStatus;
+  category?: string;
   nomenclature?: string;
   price?: number;
   note?: string;
@@ -15,15 +18,29 @@ function formatPrice(price: number) {
 }
 
 export function ProductCard({
+  id,
   name,
   image,
   alt,
   status,
+  category,
   nomenclature,
   price,
   note,
 }: ProductCardProps) {
   const available = status === "available";
+  const { addToCart } = useCart();
+
+  const handleAdd = () => {
+    addToCart({
+      id,
+      name,
+      price: price ?? (category === "Oil Paintings" ? 450 : category === "Greeting Cards" ? 12 : 24),
+      image,
+      category,
+      nomenclature: nomenclature || note,
+    });
+  };
 
   return (
     <article className="flex flex-col items-center text-center">
@@ -35,6 +52,10 @@ export function ProductCard({
             className="aspect-[3/4] w-full object-cover object-center"
             loading="lazy"
             decoding="async"
+            onError={(e) => {
+              // Graceful fallback to default image if needed
+              (e.currentTarget as HTMLImageElement).src = "/images/candles.jpg";
+            }}
           />
         </div>
       </figure>
@@ -62,10 +83,8 @@ export function ProductCard({
           ) : null}
           <button
             type="button"
-            className="mt-4 inline-flex min-w-[10.5rem] items-center justify-center bg-gold px-5 py-2.5 font-serif text-[0.68rem] tracking-[0.22em] uppercase text-ivory transition-colors duration-300 hover:bg-burgundy"
-            onClick={() => {
-              /* Commerce wiring comes later */
-            }}
+            className="mt-4 inline-flex min-w-[10.5rem] items-center justify-center bg-gold px-5 py-2.5 font-serif text-[0.68rem] tracking-[0.22em] uppercase text-ivory transition-colors duration-300 hover:bg-burgundy cursor-pointer"
+            onClick={handleAdd}
           >
             Add to Cart
           </button>
@@ -82,10 +101,12 @@ export function ProductCard({
 export function CandleProductCard({ product }: { product: CandleProduct }) {
   return (
     <ProductCard
+      id={product.id || product.slug}
       name={product.name}
       image={product.image}
       alt={product.alt}
       status={product.status}
+      category="Candles"
       nomenclature={product.nomenclature}
       price={product.price}
     />
@@ -95,10 +116,12 @@ export function CandleProductCard({ product }: { product: CandleProduct }) {
 export function GalleryProductCard({ item }: { item: GalleryItem }) {
   return (
     <ProductCard
+      id={item.id}
       name={item.name}
       image={item.image}
       alt={item.alt}
       status={item.status}
+      category="Atelier Gallery"
       note={item.note}
     />
   );

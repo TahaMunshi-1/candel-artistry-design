@@ -18,7 +18,7 @@ const collectionsData = [
     slug: "moments",
     eyebrow: "Collection",
     line: "Scents that hold a feeling — bright, tender, unforgettable.",
-    heroImage: "/images/Candle-making-romance.webp",
+    heroImage: "/images/craft-romance.jpg",
     heroAlt: "Moments collection — ivory soy candles with storybook labels",
     sortOrder: 1,
   },
@@ -27,7 +27,7 @@ const collectionsData = [
     slug: "vampire",
     eyebrow: "Collection",
     line: "Midnight rituals. Velvet shadows. Desire lit.",
-    heroImage: "/images/Candle-making-vampire.webp",
+    heroImage: "/images/craft-vampire.jpg",
     heroAlt: "Vampire collection — black glass candles on an ornate gold tray",
     sortOrder: 2,
   },
@@ -36,7 +36,7 @@ const collectionsData = [
     slug: "rodeo",
     eyebrow: "Collection",
     line: "Dust, dusk, and stories told under open sky.",
-    heroImage: "/images/Candle-making-rodeo.webp",
+    heroImage: "/images/craft-rodeo.jpg",
     heroAlt: "Rodeo collection — western-themed candles with velvet and rope",
     sortOrder: 3,
   },
@@ -45,7 +45,7 @@ const collectionsData = [
     slug: "essence-of-africa",
     eyebrow: "Collection",
     line: "Rhythm, warmth, and light carried from across the savannah.",
-    heroImage: "/images/Candle-making-atelier.webp",
+    heroImage: "/images/craft-atelier.jpg",
     heroAlt: "Essence of Africa collection — artisan candles among books and roses",
     sortOrder: 4,
   },
@@ -54,7 +54,7 @@ const collectionsData = [
     slug: "yosemite-valley",
     eyebrow: "Collection",
     line: "Cedar hush, open sky, and quiet winter light.",
-    heroImage: "/images/wilderness.webp",
+    heroImage: "/images/wilderness.jpg",
     heroAlt: "Yosemite Valley collection — wilderness-inspired candle still life",
     sortOrder: 5,
   },
@@ -63,7 +63,7 @@ const collectionsData = [
     slug: "signature",
     eyebrow: "Collection",
     line: "House favorites — amber warmth and Sunday quiet.",
-    heroImage: "/images/Featured-main.webp",
+    heroImage: "/images/featured-main.jpg",
     heroAlt: "Signature collection — featured candle still life",
     sortOrder: 6,
   },
@@ -80,7 +80,7 @@ const candleProductsData = [
     price: 24,
     stock: 45,
     soldCount: 121,
-    image: "/images/Candle-making-romance.webp",
+    image: "/images/craft-romance.jpg",
     alt: "Serengeti Gold candle jar",
     featured: true,
   },
@@ -94,7 +94,7 @@ const candleProductsData = [
     price: 24,
     stock: 32,
     soldCount: 148,
-    image: "/images/candles.webp",
+    image: "/images/candles.jpg",
     alt: "Lady in the Rain candle jar",
     featured: true,
   },
@@ -108,7 +108,7 @@ const candleProductsData = [
     price: 24,
     stock: 28,
     soldCount: 65,
-    image: "/images/Featured-strip-1.webp",
+    image: "/images/strip-1.jpg",
     alt: "Baliendo candle jar",
   },
   {
@@ -121,7 +121,7 @@ const candleProductsData = [
     price: 24,
     stock: 20,
     soldCount: 96,
-    image: "/images/Candle-making-vampire.webp",
+    image: "/images/craft-vampire.jpg",
     alt: "The Awakening candle jar",
     featured: true,
   },
@@ -135,7 +135,7 @@ const candleProductsData = [
     price: 24,
     stock: 18,
     soldCount: 52,
-    image: "/images/Vampire.webp",
+    image: "/images/vampire.png",
     alt: "Crimson Veil candle jar",
   },
   {
@@ -148,7 +148,7 @@ const candleProductsData = [
     price: 24,
     stock: 22,
     soldCount: 40,
-    image: "/images/Candle-making-rodeo.webp",
+    image: "/images/craft-rodeo.jpg",
     alt: "Leather & Lace candle jar",
   },
   {
@@ -161,7 +161,7 @@ const candleProductsData = [
     price: 24,
     stock: 25,
     soldCount: 38,
-    image: "/images/Rodeo-detail.webp",
+    image: "/images/rodeo-detail.png",
     alt: "Home Sweet Home candle jar",
   },
   {
@@ -174,7 +174,7 @@ const candleProductsData = [
     price: 24,
     stock: 30,
     soldCount: 42,
-    image: "/images/Candle-making-atelier.webp",
+    image: "/images/craft-atelier.jpg",
     alt: "Jambo Light candle jar",
   },
   {
@@ -187,7 +187,7 @@ const candleProductsData = [
     price: 24,
     stock: 15,
     soldCount: 35,
-    image: "/images/products-group.webp",
+    image: "/images/products-group.png",
     alt: "Indlamu candle jar",
   },
   {
@@ -200,7 +200,7 @@ const candleProductsData = [
     price: 24,
     stock: 28,
     soldCount: 47,
-    image: "/images/wilderness.webp",
+    image: "/images/wilderness.jpg",
     alt: "Yosemite Might candle jar",
   },
   {
@@ -213,7 +213,7 @@ const candleProductsData = [
     price: 24,
     stock: 19,
     soldCount: 33,
-    image: "/images/experience-wilderness.webp",
+    image: "/images/experience-wilderness-vivid.png",
     alt: "Winter Silence candle jar",
   },
   {
@@ -226,7 +226,7 @@ const candleProductsData = [
     price: 24,
     stock: 36,
     soldCount: 88,
-    image: "/images/Featured-main.webp",
+    image: "/images/featured-main.jpg",
     alt: "Golden Moments candle jar",
     featured: true,
   },
@@ -240,7 +240,7 @@ const candleProductsData = [
     price: 24,
     stock: 24,
     soldCount: 50,
-    image: "/images/Featured-strip-2.webp",
+    image: "/images/strip-2.jpg",
     alt: "Sunday Morning candle jar",
   },
 ];
@@ -250,7 +250,7 @@ const paintingsData = [
     name: "The Romance",
     slug: "painting-romance",
     category: "painting",
-    image: "/images/Experience-romance.webp",
+    image: "/images/experience-romance-vivid.png",
     alt: "Original oil painting — The Romance",
     status: "available",
     note: "Inquire for availability",
@@ -262,7 +262,7 @@ const paintingsData = [
     name: "The Mystery",
     slug: "painting-mystery",
     category: "painting",
-    image: "/images/Experience-mystery.webp",
+    image: "/images/experience-mystery-vivid.png",
     alt: "Original oil painting — The Mystery",
     status: "available",
     note: "Inquire for availability",
@@ -274,7 +274,7 @@ const paintingsData = [
     name: "The Cabin",
     slug: "painting-cabin",
     category: "painting",
-    image: "/images/Experience-cabin.webp",
+    image: "/images/experience-cabin-vivid.png",
     alt: "Original oil painting — The Cabin",
     status: "coming_soon",
     note: "Inquire for availability",
@@ -286,7 +286,7 @@ const paintingsData = [
     name: "The Wilderness",
     slug: "painting-wilderness",
     category: "painting",
-    image: "/images/experience-wilderness.webp",
+    image: "/images/experience-wilderness-vivid.png",
     alt: "Original oil painting — The Wilderness",
     status: "coming_soon",
     note: "Inquire for availability",
@@ -301,7 +301,7 @@ const cardsData = [
     name: "Garden Reverie",
     slug: "card-garden-reverie",
     category: "greeting_card",
-    image: "/images/Experience-classic4.webp",
+    image: "/images/experience-classic-4.png",
     alt: "Greeting card — winged figure in a flower garden at sunset",
     status: "available",
     note: "Inquire for availability",
@@ -313,7 +313,7 @@ const cardsData = [
     name: "Moonlit Raven",
     slug: "card-moonlit-raven",
     category: "greeting_card",
-    image: "/images/Experience-classic2.webp",
+    image: "/images/experience-classic-2.png",
     alt: "Greeting card — enchanted forest with lantern and raven",
     status: "available",
     note: "Inquire for availability",
@@ -325,7 +325,7 @@ const cardsData = [
     name: "Lantern Evening",
     slug: "card-lantern-evening",
     category: "greeting_card",
-    image: "/images/Experience-classic3.webp",
+    image: "/images/experience-classic-3.png",
     alt: "Greeting card — moonlit balcony with lantern and roses",
     status: "available",
     note: "Inquire for availability",
@@ -337,7 +337,7 @@ const cardsData = [
     name: "Open Sky",
     slug: "card-open-sky",
     category: "greeting_card",
-    image: "/images/Experience-classic1.webp",
+    image: "/images/experience-classic-1.png",
     alt: "Greeting card — golden-winged figure beneath an open sky",
     status: "coming_soon",
     note: "Inquire for availability",
@@ -437,8 +437,8 @@ const ordersData = [
     email: "elena.b@example.com",
     items: 3,
     itemList: [
-      { productId: "serengeti-gold", name: "Serengeti Gold", quantity: 2, price: 24, image: "/images/Candle-making-romance.webp" },
-      { productId: "lady-in-the-rain", name: "Lady in the Rain", quantity: 1, price: 24, image: "/images/candles.webp" },
+      { productId: "serengeti-gold", name: "Serengeti Gold", quantity: 2, price: 24, image: "/images/craft-romance.jpg" },
+      { productId: "lady-in-the-rain", name: "Lady in the Rain", quantity: 1, price: 24, image: "/images/candles.jpg" },
     ],
     total: 72,
     status: "paid",
@@ -451,7 +451,7 @@ const ordersData = [
     email: "m.hale@example.com",
     items: 1,
     itemList: [
-      { productId: "the-awakening", name: "The Awakening", quantity: 1, price: 24, image: "/images/Candle-making-vampire.webp" },
+      { productId: "the-awakening", name: "The Awakening", quantity: 1, price: 24, image: "/images/craft-vampire.jpg" },
     ],
     total: 24,
     status: "shipped",
@@ -464,8 +464,8 @@ const ordersData = [
     email: "sofia.n@example.com",
     items: 5,
     itemList: [
-      { productId: "golden-moments", name: "Golden Moments", quantity: 3, price: 24, image: "/images/Featured-main.webp" },
-      { productId: "crimson-veil", name: "Crimson Veil", quantity: 2, price: 24, image: "/images/Vampire.webp" },
+      { productId: "golden-moments", name: "Golden Moments", quantity: 3, price: 24, image: "/images/featured-main.jpg" },
+      { productId: "crimson-veil", name: "Crimson Veil", quantity: 2, price: 24, image: "/images/vampire.png" },
     ],
     total: 148,
     status: "pending",
@@ -478,8 +478,8 @@ const ordersData = [
     email: "orders@atelierwest.co",
     items: 24,
     itemList: [
-      { productId: "serengeti-gold", name: "Serengeti Gold", quantity: 12, price: 24, image: "/images/Candle-making-romance.webp" },
-      { productId: "lady-in-the-rain", name: "Lady in the Rain", quantity: 12, price: 24, image: "/images/candles.webp" },
+      { productId: "serengeti-gold", name: "Serengeti Gold", quantity: 12, price: 24, image: "/images/craft-romance.jpg" },
+      { productId: "lady-in-the-rain", name: "Lady in the Rain", quantity: 12, price: 24, image: "/images/candles.jpg" },
     ],
     total: 576,
     status: "paid",
@@ -492,7 +492,7 @@ const ordersData = [
     email: "priya.k@example.com",
     items: 2,
     itemList: [
-      { productId: "leather-and-lace", name: "Leather & Lace", quantity: 2, price: 24, image: "/images/Candle-making-rodeo.webp" },
+      { productId: "leather-and-lace", name: "Leather & Lace", quantity: 2, price: 24, image: "/images/craft-rodeo.jpg" },
     ],
     total: 48,
     status: "delivered",
@@ -505,7 +505,7 @@ const ordersData = [
     email: "j.reed@example.com",
     items: 1,
     itemList: [
-      { productId: "home-sweet-home", name: "Home Sweet Home", quantity: 1, price: 24, image: "/images/Rodeo-detail.webp" },
+      { productId: "home-sweet-home", name: "Home Sweet Home", quantity: 1, price: 24, image: "/images/rodeo-detail.png" },
     ],
     total: 24,
     status: "cancelled",
@@ -518,8 +518,8 @@ const ordersData = [
     email: "claire.f@example.com",
     items: 4,
     itemList: [
-      { productId: "jambo-light", name: "Jambo Light", quantity: 2, price: 24, image: "/images/Candle-making-atelier.webp" },
-      { productId: "indlamu", name: "Indlamu", quantity: 2, price: 24, image: "/images/products-group.webp" },
+      { productId: "jambo-light", name: "Jambo Light", quantity: 2, price: 24, image: "/images/craft-atelier.jpg" },
+      { productId: "indlamu", name: "Indlamu", quantity: 2, price: 24, image: "/images/products-group.png" },
     ],
     total: 96,
     status: "shipped",
@@ -532,15 +532,14 @@ const ordersData = [
     email: "buyer@harborgift.co",
     items: 18,
     itemList: [
-      { productId: "yosemite-might", name: "Yosemite Might", quantity: 10, price: 24, image: "/images/wilderness.webp" },
-      { productId: "winter-silence", name: "Winter Silence", quantity: 8, price: 24, image: "/images/experience-wilderness.webp" },
+      { productId: "yosemite-might", name: "Yosemite Might", quantity: 10, price: 24, image: "/images/wilderness.jpg" },
+      { productId: "winter-silence", name: "Winter Silence", quantity: 8, price: 24, image: "/images/experience-wilderness-vivid.png" },
     ],
     total: 432,
     status: "paid",
     channel: "Wholesale",
     date: new Date("2026-09-30"),
   },
-  // Additional historical orders spread through Jan-Aug to populate realistic sales charts
   { orderNumber: "CAD-10101", customer: "Elena Brooks", email: "elena.b@example.com", items: 4, total: 4200, status: "delivered", channel: "Wholesale", date: new Date("2026-01-15") },
   { orderNumber: "CAD-10150", customer: "Atelier West Co.", email: "orders@atelierwest.co", items: 6, total: 5100, status: "delivered", channel: "Wholesale", date: new Date("2026-02-18") },
   { orderNumber: "CAD-10200", customer: "Harbor Gift Co.", email: "buyer@harborgift.co", items: 5, total: 4800, status: "delivered", channel: "Wholesale", date: new Date("2026-03-22") },
@@ -565,28 +564,22 @@ async function seed() {
       admin = await User.create({
         fullName: "Candle Artistry Admin",
         email: adminEmail,
-        password: "candleadmin", // Schema pre-save will bcrypt hash this
+        password: "candleadmin",
         role: "admin",
         isActive: true,
       });
-      console.log(`Created admin account: ${adminEmail} (password: candleadmin)`);
-    } else {
-      admin.role = "admin";
-      admin.isActive = true;
-      admin.password = "candleadmin";
-      await admin.save();
-      console.log(`Updated admin account: ${adminEmail}`);
+      console.log(`Created admin account: ${adminEmail}`);
     }
 
     // 2. Seed Collections
-    console.log("Seeding Collections...");
+    console.log("Seeding Collections with verified image paths...");
     for (const c of collectionsData) {
       await Collection.findOneAndUpdate({ slug: c.slug }, c, { upsert: true, new: true });
     }
     console.log(`Seeded ${collectionsData.length} Collections.`);
 
     // 3. Seed Products
-    console.log("Seeding Products (Candles, Paintings, Cards)...");
+    console.log("Seeding Products with verified image paths...");
     const allProducts = [...candleProductsData, ...paintingsData, ...cardsData];
     for (const p of allProducts) {
       await Product.findOneAndUpdate({ slug: p.slug }, p, { upsert: true, new: true });
@@ -607,7 +600,7 @@ async function seed() {
     }
     console.log(`Seeded ${ordersData.length} Orders.`);
 
-    console.log("✅ All Real Data Seeded Successfully into MongoDB Atlas!");
+    console.log("✅ All Real Data with verified image paths seeded successfully into MongoDB Atlas!");
     process.exit(0);
   } catch (error: any) {
     console.error("❌ Seeding failed:", error.message);

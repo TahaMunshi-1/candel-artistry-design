@@ -1,7 +1,12 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
 import { CatalogProvider } from "./catalog/CatalogContext";
+import { CartProvider } from "./context/CartContext";
+import { CustomerAuthProvider } from "./context/CustomerAuthContext";
 import { BASE_NAME } from "./constants/api";
+import CartDrawer from "./components/shop/CartDrawer";
+import CheckoutModal from "./components/shop/CheckoutModal";
+import AuthModal from "./components/shop/AuthModal";
 import Home from "./pages/home";
 import OurStoryPage from "./pages/our-story";
 import CandlesPage from "./pages/candles";
@@ -25,28 +30,37 @@ function AppRoutes() {
   return (
     <Provider store={store}>
       <CatalogProvider>
-        <BrowserRouter basename={BASE_NAME}>
-          <Routes>
-            <Route element={<PrivateRoute />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Home />} />
-              <Route path="/our-story" element={<OurStoryPage />} />
-              <Route path="/candles" element={<CandlesPage />} />
-              <Route path="/candles/:collectionSlug" element={<CandleCollectionPage />} />
-              <Route path="/paintings" element={<PaintingsPage />} />
-              <Route path="/greeting-cards" element={<GreetingCardsPage />} />
+        <CustomerAuthProvider>
+          <CartProvider>
+            <BrowserRouter basename={BASE_NAME}>
+              <Routes>
+                <Route element={<PrivateRoute />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/dashboard" element={<Home />} />
+                  <Route path="/our-story" element={<OurStoryPage />} />
+                  <Route path="/candles" element={<CandlesPage />} />
+                  <Route path="/candles/:collectionSlug" element={<CandleCollectionPage />} />
+                  <Route path="/paintings" element={<PaintingsPage />} />
+                  <Route path="/greeting-cards" element={<GreetingCardsPage />} />
 
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<AdminOverviewPage />} />
-                <Route path="orders" element={<AdminOrdersPage />} />
-                <Route path="customers" element={<AdminCustomersPage />} />
-                <Route path="candles" element={<AdminCandlesPage />} />
-                <Route path="paintings" element={<AdminPaintingsPage />} />
-                <Route path="greeting-cards" element={<AdminCardsPage />} />
-              </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
+                  <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<AdminOverviewPage />} />
+                    <Route path="orders" element={<AdminOrdersPage />} />
+                    <Route path="customers" element={<AdminCustomersPage />} />
+                    <Route path="candles" element={<AdminCandlesPage />} />
+                    <Route path="paintings" element={<AdminPaintingsPage />} />
+                    <Route path="greeting-cards" element={<AdminCardsPage />} />
+                  </Route>
+                </Route>
+              </Routes>
+
+              {/* Global Storefront Modals and Drawers */}
+              <CartDrawer />
+              <CheckoutModal />
+              <AuthModal />
+            </BrowserRouter>
+          </CartProvider>
+        </CustomerAuthProvider>
       </CatalogProvider>
     </Provider>
   );
