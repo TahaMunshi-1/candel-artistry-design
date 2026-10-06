@@ -1,11 +1,11 @@
 const { hostname, origin, href } = window.location;
 
 const servers = {
-  local: "http://localhost:3032",
-  customDev: "https://react.customdev.solutions:3032",
+  local: "http://localhost:3048",
+  customDev: "https://react.customdev.solutions:3048",
   live: "https://api.realmoneydragon.io",
   live_test: "https://api.test.realmoneydragon.io",
-  testing: "https://ldn26m62-3032.inc1.devtunnels.ms",
+  testing: "https://ldn26m62-3048.inc1.devtunnels.ms",
 };
 
 var URL;
