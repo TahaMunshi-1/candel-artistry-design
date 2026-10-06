@@ -13,6 +13,7 @@ const links: FooterLink[] = [
   { label: "Greeting Cards", to: "/greeting-cards" },
   { label: "Candle Making", href: "/#story" },
   { label: "Contact", href: "/#contact" },
+  { label: "Admin Portal", to: "/admin" },
 ];
 
 export default function Footer() {
@@ -86,9 +87,16 @@ export default function Footer() {
             <div className="h-px w-12 bg-[rgba(185,154,104,0.45)]" />
           </div>
 
-          <p className="mt-6 text-[0.62rem] tracking-[0.22em] uppercase text-taupe/80 font-serif">
-            © {new Date().getFullYear()} Candle Artistry Design Co. · Coarsegold, CA
-          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-[0.65rem] tracking-[0.2em] uppercase font-serif text-taupe/80">
+            <span>© {new Date().getFullYear()} Candle Artistry Design Co. · Coarsegold, CA</span>
+            <span aria-hidden>·</span>
+            <Link
+              to="/admin"
+              className="text-burgundy/90 hover:text-burgundy hover:underline underline-offset-4 font-medium transition-colors"
+            >
+              Admin Portal →
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

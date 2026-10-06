@@ -46,13 +46,6 @@ const navItems: NavItem[] = [
     match: (p) => p.startsWith("/admin/candles"),
   },
   {
-    id: "collections",
-    to: "/admin/candles",
-    label: "Collections",
-    icon: "collections",
-    match: () => false,
-  },
-  {
     id: "customers",
     to: "/admin/customers",
     label: "Customers",
