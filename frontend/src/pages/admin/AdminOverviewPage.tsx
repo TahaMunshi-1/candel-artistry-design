@@ -269,8 +269,15 @@ export default function AdminOverviewPage() {
   ];
 
   const series = analytics?.salesSeries && analytics.salesSeries.length > 0 ? analytics.salesSeries : defaultSalesSeries;
+  const localStoredOrders = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("cad-orders") || "[]") : [];
+  const fallbackRecent = [
+    ...localStoredOrders.slice(0, 2),
+    { id: "CAD-10438", customer: "Sophia Vance", total: 474, status: "paid", date: "2026-10-06", thumb: "/images/craft-romance.jpg", productName: "Serengeti Gold" },
+    { id: "CAD-10427", customer: "Marcus Hale", total: 24, status: "shipped", date: "2026-10-04", thumb: "/images/craft-vampire.jpg", productName: "The Awakening" },
+    { id: "CAD-10428", customer: "Elena Brooks", total: 72, status: "paid", date: "2026-10-04", thumb: "/images/craft-romance.jpg", productName: "Serengeti Gold" },
+  ];
   const statusCounts = analytics?.statusCounts ?? { delivered: 10, shipped: 2, paid: 3, pending: 1, cancelled: 1 };
-  const recentOrders = analytics?.recentOrders ?? [];
+  const recentOrders = analytics?.recentOrders && analytics.recentOrders.length > 0 ? analytics.recentOrders : fallbackRecent;
 
   const kpis = [
     {

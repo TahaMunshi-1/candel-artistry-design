@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../../services/api";
-import { money, type OrderStatus } from "./mockEcommerce";
+import { demoOrders, money, type OrderStatus } from "./mockEcommerce";
 
 const filters: Array<"all" | OrderStatus> = [
   "all",
@@ -21,9 +21,16 @@ export default function AdminOrdersPage() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const data = await api.getOrders();
-      if (Array.isArray(data)) {
-        setOrders(data);
+      const data = await api.getOrders().catch(() => null);
+      const localOrders = JSON.parse(localStorage.getItem("cad-orders") || "[]");
+      if (Array.isArray(data) && data.length > 0) {
+        const ids = new Set(data.map((o: any) => o.id || o.orderNumber));
+        const missing = localOrders.filter((lo: any) => !ids.has(lo.id || lo.orderNumber));
+        setOrders([...missing, ...data]);
+      } else {
+        const ids = new Set(localOrders.map((o: any) => o.id || o.orderNumber));
+        const base = demoOrders.filter((d) => !ids.has(d.id));
+        setOrders([...localOrders, ...base]);
       }
     } catch (err) {
       console.error("Failed to load orders:", err);

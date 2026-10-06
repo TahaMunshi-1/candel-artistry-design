@@ -15,13 +15,22 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   useEffect(() => {
     if (isOpen && customer?.email) {
       setLoading(true);
+      const cleanEmail = customer.email.trim().toLowerCase();
+      const localOrders = JSON.parse(localStorage.getItem("cad-orders") || "[]").filter(
+        (o: any) => o.email && o.email.trim().toLowerCase() === cleanEmail,
+      );
+
       api.getOrders({ keyword: customer.email })
         .then((data) => {
-          if (Array.isArray(data)) {
-            setOrders(data);
+          if (Array.isArray(data) && data.length > 0) {
+            const ids = new Set(data.map((o: any) => o.id || o.orderNumber));
+            const missing = localOrders.filter((lo: any) => !ids.has(lo.id || lo.orderNumber));
+            setOrders([...missing, ...data]);
+          } else {
+            setOrders(localOrders);
           }
         })
-        .catch(() => setOrders([]))
+        .catch(() => setOrders(localOrders))
         .finally(() => setLoading(false));
     }
   }, [isOpen, customer?.email]);

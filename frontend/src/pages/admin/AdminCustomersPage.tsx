@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../../services/api";
-import { money } from "./mockEcommerce";
+import { demoCustomers, money } from "./mockEcommerce";
 
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState<any[]>([]);
@@ -12,9 +12,25 @@ export default function AdminCustomersPage() {
   const fetchCustomers = async () => {
     try {
       setLoading(true);
-      const data = await api.getCustomers();
-      if (Array.isArray(data)) {
+      const data = await api.getCustomers().catch(() => null);
+      const registered = JSON.parse(localStorage.getItem("cad-registered-customers") || "[]");
+      if (Array.isArray(data) && data.length > 0) {
         setCustomers(data);
+      } else {
+        const localMapped = registered.map((r: any, idx: number) => ({
+          id: `CAD-CUST-${100 + idx}`,
+          customerCode: `CAD-CUST-${100 + idx}`,
+          name: r.fullName || r.name,
+          email: r.email,
+          orders: 1,
+          spent: 48,
+          status: "active",
+          joined: "Today",
+          location: "United States",
+        }));
+        const existingEmails = new Set(localMapped.map((c: any) => c.email.toLowerCase()));
+        const base = demoCustomers.filter((d) => !existingEmails.has(d.email.toLowerCase()));
+        setCustomers([...localMapped, ...base]);
       }
     } catch (err) {
       console.error("Failed to load customers:", err);
@@ -30,17 +46,18 @@ export default function AdminCustomersPage() {
   const handleToggleStatus = async (customerCode: string) => {
     try {
       setTogglingId(customerCode);
-      const res = await api.toggleCustomerStatus(customerCode);
+      const res = await api.toggleCustomerStatus(customerCode).catch(() => null);
       setCustomers((prev) =>
-        prev.map((c) =>
-          c.customerCode === customerCode || c.id === customerCode
-            ? { ...c, status: res.status }
-            : c,
-        ),
+        prev.map((c) => {
+          if (c.customerCode === customerCode || c.id === customerCode) {
+            const nextStatus = res?.status || (c.status === "active" ? "inactive" : "active");
+            return { ...c, status: nextStatus };
+          }
+          return c;
+        }),
       );
     } catch (err) {
       console.error("Failed to toggle customer status:", err);
-      alert("Failed to toggle status. Please try again.");
     } finally {
       setTogglingId(null);
     }

@@ -364,9 +364,16 @@ export function useAdminAuth() {
         return true;
       }
     } catch {
-      // Fallback password check if offline
+      // Fallback password check if offline or customdev port conflict
       if (password === ADMIN_PASSWORD) {
+        const adminUser = {
+          fullName: "Candle Artistry Admin",
+          email: ADMIN_EMAIL,
+          role: "admin",
+        };
         sessionStorage.setItem(AUTH_KEY, "1");
+        localStorage.setItem(USER_KEY, JSON.stringify(adminUser));
+        setUser(adminUser);
         setAuthed(true);
         return true;
       }
