@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCatalog } from "../../catalog/CatalogContext";
 import { DEFAULT_CANDLE_PRICE, type ProductStatus } from "../../constants/catalog";
+import { images, resolveImageUrl } from "../../constants/images";
 import { Field, IMAGE_OPTIONS, ImagePicker, inputClass, selectClass } from "./adminUi";
 
 export default function AdminCandlesPage() {
@@ -65,9 +66,13 @@ export default function AdminCandlesPage() {
                         className="grid gap-4 rounded-2xl border border-gold/25 bg-cream/60 p-4 md:grid-cols-[120px_1fr]"
                       >
                         <img
-                          src={product.image}
+                          src={resolveImageUrl(product.image, images.candles)}
                           alt=""
                           className="aspect-[3/4] w-full rounded-2xl object-cover bg-champagne"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = images.candles;
+                          }}
                         />
                         <div className="grid gap-3 sm:grid-cols-2">
                           <Field label="Name">

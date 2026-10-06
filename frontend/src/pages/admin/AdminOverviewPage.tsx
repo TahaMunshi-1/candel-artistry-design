@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useCatalog } from "../../catalog/CatalogContext";
-import { images } from "../../constants/images";
+import { images, resolveImageUrl } from "../../constants/images";
 import { api } from "../../services/api";
 import { money } from "./mockEcommerce";
 
@@ -396,8 +396,12 @@ export default function AdminOverviewPage() {
                 <li key={o.id}>
                   <img
                     className="admin-order-list__thumb"
-                    src={o.thumb || images.candles}
+                    src={resolveImageUrl(o.thumb, images.candles)}
                     alt=""
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = images.candles;
+                    }}
                   />
                   <div className="admin-order-list__meta">
                     <strong>#{o.id}</strong>
@@ -457,7 +461,14 @@ export default function AdminOverviewPage() {
                     </td>
                     <td>
                       <div className="admin-product-cell">
-                        <img src={p.image} alt="" />
+                        <img
+                          src={resolveImageUrl(p.image, images.candles)}
+                          alt=""
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = images.candles;
+                          }}
+                        />
                         <strong>{p.name}</strong>
                       </div>
                     </td>

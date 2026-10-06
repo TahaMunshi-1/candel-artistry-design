@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCatalog } from "../../catalog/CatalogContext";
 import type { GalleryItem, ProductStatus } from "../../constants/catalog";
+import { images, resolveImageUrl } from "../../constants/images";
 import { Field, IMAGE_OPTIONS, ImagePicker, inputClass, selectClass } from "./adminUi";
 
 type Kind = "paintings" | "cards";
@@ -141,9 +142,13 @@ function GalleryRow({
   return (
     <article className="grid gap-4 rounded-3xl border border-gold/35 bg-ivory p-4 md:grid-cols-[120px_1fr]">
       <img
-        src={item.image}
+        src={resolveImageUrl(item.image, images.paintings)}
         alt=""
         className="aspect-[3/4] w-full rounded-2xl object-cover bg-champagne"
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = images.paintings;
+        }}
       />
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Name">

@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type ReactNode } from "react";
-import { images } from "../../constants/images";
+import { images, resolveImageUrl } from "../../constants/images";
 
 /** Preset image URLs admins can assign */
 export const IMAGE_OPTIONS = [
@@ -116,9 +116,13 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
       <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
         <div className="shrink-0 overflow-hidden rounded-2xl border border-gold/40 bg-champagne shadow-[0_12px_28px_rgba(0,0,0,0.28)]">
           <img
-            src={value}
+            src={resolveImageUrl(value, images.candles)}
             alt="Selected product"
             className="aspect-[3/4] w-[100px] object-cover"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = images.candles;
+            }}
           />
         </div>
 

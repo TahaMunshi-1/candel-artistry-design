@@ -55,3 +55,26 @@ export const images = {
   familyFatherDaughter: img("family/father-daughter.jpg"),
   familyDaughterGarden: img("family/daughter-garden.jpg"),
 } as const;
+
+/**
+ * Resolves an image URL safely ensuring correct pathing on subdirectory hosts
+ * like customdev (`/candel-artistry-design/`) and providing a fallback on failure.
+ */
+export function resolveImageUrl(src?: string | null, fallback: string = images.candles): string {
+  if (!src) return fallback;
+  if (
+    src.startsWith("http://") ||
+    src.startsWith("https://") ||
+    src.startsWith("data:") ||
+    src.startsWith("blob:")
+  ) {
+    return src;
+  }
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  if (base && src.startsWith(base)) {
+    return src;
+  }
+  const cleanPath = src.startsWith("/") ? src : `/${src}`;
+  return `${base}${cleanPath}`;
+}
+
