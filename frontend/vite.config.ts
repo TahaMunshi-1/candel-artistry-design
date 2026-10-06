@@ -5,6 +5,6 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // Default `/` for Vercel/local. Set VITE_BASE=/candel-artistry-design/ for customdev FTP.
-  base: process.env.VITE_BASE || "/",
+  // Default `./` for customdev subdirectory hosts or Vercel/local.
+  base: process.env.VITE_BASE || "./",
 });
