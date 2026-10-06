@@ -1,34 +1,137 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router";
-import { ADMIN_PASSWORD, useAdminAuth, useCatalog } from "../../catalog/CatalogContext";
+import {
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  useAdminAuth,
+  useCatalog,
+} from "../../catalog/CatalogContext";
+import { api } from "../../services/api";
 import AdminSidebar from "./AdminSidebar";
 import "./admin-shell.css";
 import "./liquid-glass-kit.css";
 
-function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
+function AdminLogin({
+  onLogin,
+}: {
+  onLogin: (pw: string, email?: string) => Promise<boolean> | boolean;
+}) {
+  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState(ADMIN_EMAIL);
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    try {
+      if (isRegister) {
+        if (!fullName.trim() || !email.trim() || !password.trim()) {
+          setError("Please provide your name, email, and password.");
+          setLoading(false);
+          return;
+        }
+        await api.signup({
+          fullName: fullName.trim(),
+          email: email.trim(),
+          password: password.trim(),
+        });
+        setSuccess("Admin account created! Please log in.");
+        setIsRegister(false);
+      } else {
+        const ok = await onLogin(password, email);
+        if (!ok) {
+          setError("Invalid email or password.");
+        }
+      }
+    } catch (err: any) {
+      setError(err?.message || "Authentication failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="admin-shell admin-shell--login">
       <form
         className="admin-login-card liquid-glass liquid-glass-strong"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!onLogin(password)) {
-            setError("Incorrect password");
-            return;
-          }
-          setError("");
-        }}
+        onSubmit={handleSubmit}
       >
-        <p className="admin-login-kicker">Commerce</p>
-        <h1>CAD Admin</h1>
+        <div className="flex items-center justify-between mb-2">
+          <p className="admin-login-kicker">Commerce Console</p>
+          <div className="flex gap-2 text-xs">
+            <button
+              type="button"
+              className={`pb-0.5 border-b-2 font-medium transition-colors ${
+                !isRegister
+                  ? "border-burgundy text-ink font-semibold"
+                  : "border-transparent text-taupe hover:text-ink"
+              }`}
+              onClick={() => {
+                setIsRegister(false);
+                setError("");
+                setSuccess("");
+              }}
+            >
+              Sign In
+            </button>
+            <span className="text-taupe">·</span>
+            <button
+              type="button"
+              className={`pb-0.5 border-b-2 font-medium transition-colors ${
+                isRegister
+                  ? "border-burgundy text-ink font-semibold"
+                  : "border-transparent text-taupe hover:text-ink"
+              }`}
+              onClick={() => {
+                setIsRegister(true);
+                setError("");
+                setSuccess("");
+              }}
+            >
+              Onboard Admin
+            </button>
+          </div>
+        </div>
+
+        <h1>{isRegister ? "Admin Setup" : "CAD Admin"}</h1>
         <p className="admin-login-lead">
-          Demo console for catalog + store operations. Local browser storage only.
+          {isRegister
+            ? "Create a new administrator profile for store operations."
+            : "Sign in to manage catalog, orders, and customer operations."}
         </p>
 
         <div className="admin-login-fields">
+          {isRegister ? (
+            <div>
+              <label htmlFor="admin-name">Full Name</label>
+              <input
+                id="admin-name"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Eleanor Vance"
+                required
+              />
+            </div>
+          ) : null}
+
+          <label htmlFor="admin-email">Email</label>
+          <input
+            id="admin-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+          />
+
           <label htmlFor="admin-pw">Password</label>
           <input
             id="admin-pw"
@@ -36,24 +139,36 @@ function AdminLogin({ onLogin }: { onLogin: (pw: string) => boolean }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
+            required
           />
+
           {error ? <p className="admin-login-error">{error}</p> : null}
-          <button type="submit" className="admin-login-submit">
-            Enter dashboard
+          {success ? (
+            <p className="text-[0.82rem] text-forest font-medium">{success}</p>
+          ) : null}
+
+          <button type="submit" className="admin-login-submit" disabled={loading}>
+            {loading
+              ? "Connecting…"
+              : isRegister
+              ? "Create Admin Profile"
+              : "Enter dashboard"}
           </button>
         </div>
 
-        <p className="admin-login-hint">
-          Default: <code>{ADMIN_PASSWORD}</code>
-        </p>
+        {!isRegister ? (
+          <p className="admin-login-hint">
+            Default Admin: <code>{ADMIN_EMAIL}</code> / <code>{ADMIN_PASSWORD}</code>
+          </p>
+        ) : null}
       </form>
     </div>
   );
 }
 
 export default function AdminLayout() {
-  const { authed, login, logout } = useAdminAuth();
-  const { resetCatalog } = useCatalog();
+  const { authed, user, login, logout } = useAdminAuth();
+  const { resetCatalog, refreshCatalog } = useCatalog();
   const location = useLocation();
   const [navOpen, setNavOpen] = useState(false);
 
@@ -97,11 +212,19 @@ export default function AdminLayout() {
     return <AdminLogin onLogin={login} />;
   }
 
+  const initials =
+    user?.fullName
+      ? user.fullName
+          .split(" ")
+          .map((n: string) => n[0])
+          .slice(0, 2)
+          .join("")
+          .toUpperCase()
+      : "AD";
+
   return (
     <div className={`admin-shell min-h-screen${navOpen ? " is-nav-open" : ""}`}>
       <div className="admin-shell__frame">
-        {/* Backdrop must live in the same stacking context as the sidebar
-            so it cannot sit above the drawer and steal tab clicks. */}
         <button
           type="button"
           className="admin-nav-backdrop"
@@ -113,8 +236,11 @@ export default function AdminLayout() {
           open={navOpen}
           onClose={() => setNavOpen(false)}
           onLogout={logout}
-          onReset={() => {
-            if (confirm("Reset catalog to seed data?")) resetCatalog();
+          onReset={async () => {
+            if (confirm("Reset local catalog and refresh from backend?")) {
+              resetCatalog();
+              await refreshCatalog();
+            }
           }}
         />
         <div className="admin-shell__main">
@@ -139,7 +265,7 @@ export default function AdminLayout() {
                 <circle cx="11" cy="11" r="6.5" />
                 <path d="M16.2 16.2 20 20" strokeLinecap="round" />
               </svg>
-              <input placeholder="Search orders, products, customers..." readOnly />
+              <input placeholder="Search orders, products, customers..." />
             </div>
             <div className="admin-topbar__right">
               <div className="admin-profile-chip liquid-glass-soft">
@@ -152,15 +278,20 @@ export default function AdminLayout() {
                 </button>
                 <span className="admin-profile-chip__divider" aria-hidden />
                 <span className="admin-avatar" aria-hidden>
-                  AD
+                  {initials}
                 </span>
                 <div className="admin-profile-chip__meta">
-                  <strong>Admin</strong>
-                  <span>Candle Artistry Design</span>
+                  <strong>{user?.fullName || "Admin"}</strong>
+                  <span>{user?.email || "Candle Artistry Design"}</span>
                 </div>
-                <span className="admin-profile-chip__caret" aria-hidden>
-                  ⌄
-                </span>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="ml-2 text-[0.7rem] uppercase tracking-wider text-taupe hover:text-burgundy"
+                  title="Sign out"
+                >
+                  Exit
+                </button>
               </div>
             </div>
           </header>

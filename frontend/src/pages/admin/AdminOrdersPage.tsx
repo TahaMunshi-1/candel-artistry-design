@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
-import { demoOrders, money, type OrderStatus } from "./mockEcommerce";
+import { useEffect, useMemo, useState } from "react";
+import { api } from "../../services/api";
+import { money, type OrderStatus } from "./mockEcommerce";
 
 const filters: Array<"all" | OrderStatus> = [
   "all",
@@ -11,16 +12,52 @@ const filters: Array<"all" | OrderStatus> = [
 ];
 
 export default function AdminOrdersPage() {
+  const [orders, setOrders] = useState<any[]>([]);
   const [filter, setFilter] = useState<(typeof filters)[number]>("all");
   const [q, setQ] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const data = await api.getOrders();
+      if (Array.isArray(data)) {
+        setOrders(data);
+      }
+    } catch (err) {
+      console.error("Failed to load orders:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const handleStatusChange = async (orderId: string, nextStatus: OrderStatus) => {
+    try {
+      setUpdatingId(orderId);
+      await api.updateOrderStatus(orderId, nextStatus);
+      setOrders((prev) =>
+        prev.map((o) => (o.id === orderId || o.orderNumber === orderId ? { ...o, status: nextStatus } : o)),
+      );
+    } catch (err) {
+      console.error("Failed to update status:", err);
+      alert("Failed to update status. Please try again.");
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   const rows = useMemo(() => {
-    return demoOrders.filter((o) => {
+    return orders.filter((o) => {
       if (filter !== "all" && o.status !== filter) return false;
-      const hay = `${o.id} ${o.customer} ${o.email}`.toLowerCase();
+      const hay = `${o.id || o.orderNumber} ${o.customer} ${o.email}`.toLowerCase();
       return hay.includes(q.trim().toLowerCase());
     });
-  }, [filter, q]);
+  }, [orders, filter, q]);
 
   const totals = {
     count: rows.length,
@@ -31,10 +68,10 @@ export default function AdminOrdersPage() {
     <div className="admin-dash">
       <header className="admin-dash__head">
         <div>
-          <p className="admin-kicker">Store</p>
+          <p className="admin-kicker">Store Operations</p>
           <h2>Orders</h2>
           <p className="admin-sub">
-            Demo order queue — {totals.count} shown · {money(totals.revenue)} non-cancelled
+            Live order queue — {totals.count} shown · {money(totals.revenue)} non-cancelled revenue
           </p>
         </div>
       </header>
@@ -42,7 +79,7 @@ export default function AdminOrdersPage() {
       <div className="admin-toolbar">
         <input
           className="admin-search"
-          placeholder="Search order, customer, email…"
+          placeholder="Search order #, customer, email…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
@@ -65,20 +102,21 @@ export default function AdminOrdersPage() {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Order</th>
+                <th>Order #</th>
                 <th>Customer</th>
                 <th>Items</th>
                 <th>Status</th>
                 <th>Channel</th>
                 <th>Date</th>
                 <th>Total</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((o) => (
-                <tr key={o.id}>
+                <tr key={o.id || o.orderNumber}>
                   <td>
-                    <strong>{o.id}</strong>
+                    <strong>#{o.id || o.orderNumber}</strong>
                   </td>
                   <td>
                     {o.customer}
@@ -91,12 +129,35 @@ export default function AdminOrdersPage() {
                   <td>{o.channel}</td>
                   <td>{o.date}</td>
                   <td>{money(o.total)}</td>
+                  <td>
+                    <select
+                      className="text-xs bg-cream/80 border border-gold/40 rounded px-1.5 py-1 text-ink focus:outline-none"
+                      value={o.status}
+                      disabled={updatingId === (o.id || o.orderNumber)}
+                      onChange={(e) =>
+                        handleStatusChange(o.id || o.orderNumber, e.target.value as OrderStatus)
+                      }
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="paid">Paid</option>
+                      <option value="shipped">Shipped</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </td>
                 </tr>
               ))}
+              {!loading && rows.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="text-center py-6 text-taupe">
+                    No orders found matching this filter.
+                  </td>
+                </tr>
+              ) : null}
             </tbody>
           </table>
         </div>
-        <p className="admin-footnote">Frontend dummy data — not connected to a payment backend.</p>
+        <p className="admin-footnote">Real-time store orders connected with MongoDB Atlas.</p>
       </section>
     </div>
   );

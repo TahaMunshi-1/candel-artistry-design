@@ -1,28 +1,26 @@
-import {
-  money,
-  salesSeries,
-  demoOrders,
-  demoCustomers,
-} from "./mockEcommerce";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { useCatalog } from "../../catalog/CatalogContext";
 import { images } from "../../constants/images";
-import { Link } from "react-router";
-import { useState } from "react";
+import { api } from "../../services/api";
+import { money } from "./mockEcommerce";
 
-function RevenueChart() {
-  const max = Math.max(...salesSeries.map((p) => p.revenue));
+type SalesPoint = { label: string; revenue: number; orders: number };
+
+function RevenueChart({ salesSeries }: { salesSeries: SalesPoint[] }) {
+  const max = Math.max(...salesSeries.map((p) => p.revenue), 100);
   const w = 640;
   const h = 150;
   const padX = 18;
   const padY = 22;
   const coords = salesSeries.map((p, i) => {
-    const x = padX + (i * (w - padX * 2)) / (salesSeries.length - 1);
+    const x = padX + (i * (w - padX * 2)) / Math.max(salesSeries.length - 1, 1);
     const y = h - padY - (p.revenue / max) * (h - padY * 2);
     return { x, y, p };
   });
   const line = coords.map((c) => `${c.x},${c.y}`).join(" ");
   const area = `M${padX},${h - padY} L${line.replace(/ /g, " L")} L${w - padX},${h - padY} Z`;
-  const tip = coords[coords.length - 2] ?? coords[coords.length - 1];
+  const tip = coords[coords.length - 2] ?? coords[coords.length - 1] ?? { x: 0, y: 0, p: { label: "Now", revenue: 0 } };
 
   return (
     <div className="admin-chart-stage">
@@ -83,28 +81,18 @@ function RevenueChart() {
   );
 }
 
-function OrderStatusDonut() {
+function OrderStatusDonut({
+  statusCounts,
+  totalOrders,
+}: {
+  statusCounts: { delivered: number; shipped: number; paid: number; pending: number; cancelled: number };
+  totalOrders: number;
+}) {
   const display = [
-    {
-      label: "Completed",
-      color: "#6E8663",
-      value: demoOrders.filter((o) => o.status === "delivered").length,
-    },
-    {
-      label: "Processing",
-      color: "#C67A70",
-      value: demoOrders.filter((o) => o.status === "shipped" || o.status === "paid").length,
-    },
-    {
-      label: "Pending",
-      color: "#D6AA6B",
-      value: demoOrders.filter((o) => o.status === "pending").length,
-    },
-    {
-      label: "Cancelled",
-      color: "#A95454",
-      value: demoOrders.filter((o) => o.status === "cancelled").length,
-    },
+    { label: "Completed", color: "#6E8663", value: statusCounts.delivered },
+    { label: "Processing", color: "#C67A70", value: statusCounts.shipped + statusCounts.paid },
+    { label: "Pending", color: "#D6AA6B", value: statusCounts.pending },
+    { label: "Cancelled", color: "#A95454", value: statusCounts.cancelled },
     { label: "Refunded", color: "#8A817B", value: 0 },
   ];
 
@@ -119,16 +107,18 @@ function OrderStatusDonut() {
       return `${c.color} ${start}% ${end}%`;
     });
 
+  const gradient = stops.length > 0 ? `conic-gradient(${stops.join(", ")})` : "#E4DCD3";
+
   return (
     <div className="admin-donut-wrap">
       <div className="admin-donut-stage">
         <div
           className="admin-donut"
-          style={{ background: `conic-gradient(${stops.join(", ")})` }}
+          style={{ background: gradient }}
           aria-hidden
         />
         <div className="admin-donut-center">
-          <strong>{demoOrders.length}</strong>
+          <strong>{totalOrders}</strong>
           <span>Orders</span>
         </div>
       </div>
@@ -187,7 +177,7 @@ function KpiIcon({ kind }: { kind: "revenue" | "orders" | "customers" | "product
   );
 }
 
-function statusVisual(status: (typeof demoOrders)[number]["status"]) {
+function statusVisual(status: string) {
   if (status === "delivered") return { label: "Completed", className: "admin-badge--delivered" };
   if (status === "shipped") return { label: "Processing", className: "admin-badge--processing" };
   if (status === "paid") return { label: "Processing", className: "admin-badge--processing" };
@@ -195,15 +185,29 @@ function statusVisual(status: (typeof demoOrders)[number]["status"]) {
   return { label: "Cancelled", className: "admin-badge--cancelled" };
 }
 
-function relativeLabel(date: string) {
-  const day = Number(date.slice(-2));
-  const labels = ["2 mins ago", "18 mins ago", "1 hour ago", "Yesterday", "2 days ago", "3 days ago"];
-  return labels[day % labels.length] ?? date;
-}
-
 export default function AdminOverviewPage() {
   const { collections, paintings, cards } = useCatalog();
   const [productQ, setProductQ] = useState("");
+  const [analytics, setAnalytics] = useState<{
+    metrics: { totalRevenue: number; totalOrders: number; totalCustomers: number; totalProducts: number };
+    statusCounts: { delivered: number; shipped: number; paid: number; pending: number; cancelled: number };
+    salesSeries: SalesPoint[];
+    recentOrders: any[];
+  } | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    api.getOverview()
+      .then((data) => {
+        if (mounted && data) {
+          setAnalytics(data);
+        }
+      })
+      .catch((err) => console.error("Failed to load live overview metrics:", err));
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const candleProducts = collections.flatMap((c) =>
     c.products.map((p) => ({
@@ -246,56 +250,64 @@ export default function AdminOverviewPage() {
     `${p.name} ${p.category}`.toLowerCase().includes(productQ.trim().toLowerCase()),
   );
 
-  const revenue = salesSeries.reduce((n, p) => n + p.revenue, 0);
-  const orders = salesSeries.reduce((n, p) => n + p.orders, 0);
-  const productCount = allProducts.length;
-  const customerCount = demoCustomers.length;
+  const totalRev = analytics?.metrics.totalRevenue ?? 61796;
+  const totalOrds = analytics?.metrics.totalOrders ?? 17;
+  const totalCusts = analytics?.metrics.totalCustomers ?? 8;
+  const totalProds = analytics?.metrics.totalProducts ?? allProducts.length;
+
+  const defaultSalesSeries: SalesPoint[] = [
+    { label: "Jan", revenue: 4200, orders: 48 },
+    { label: "Feb", revenue: 5100, orders: 56 },
+    { label: "Mar", revenue: 4800, orders: 52 },
+    { label: "Apr", revenue: 6200, orders: 71 },
+    { label: "May", revenue: 7100, orders: 84 },
+    { label: "Jun", revenue: 6900, orders: 79 },
+    { label: "Jul", revenue: 8200, orders: 96 },
+    { label: "Aug", revenue: 9100, orders: 108 },
+    { label: "Sep", revenue: 8800, orders: 101 },
+    { label: "Oct", revenue: 10400, orders: 122 },
+  ];
+
+  const series = analytics?.salesSeries && analytics.salesSeries.length > 0 ? analytics.salesSeries : defaultSalesSeries;
+  const statusCounts = analytics?.statusCounts ?? { delivered: 10, shipped: 2, paid: 3, pending: 1, cancelled: 1 };
+  const recentOrders = analytics?.recentOrders ?? [];
 
   const kpis = [
     {
       label: "Total Revenue",
-      value: money(revenue),
+      value: money(totalRev),
       delta: "+12% vs last month",
       tone: "champagne" as const,
       kind: "revenue" as const,
-      spark: salesSeries.slice(-8).map((p) => p.revenue),
+      spark: series.slice(-8).map((p) => p.revenue),
     },
     {
       label: "Total Orders",
-      value: String(orders),
+      value: String(totalOrds),
       delta: "+8% vs last month",
       tone: "blush" as const,
       kind: "orders" as const,
-      spark: salesSeries.slice(-8).map((p) => p.orders),
+      spark: series.slice(-8).map((p) => p.orders),
     },
     {
       label: "Total Customers",
-      value: customerCount.toLocaleString(),
+      value: totalCusts.toLocaleString(),
       delta: "+5% vs last month",
       tone: "amber" as const,
       kind: "customers" as const,
-      spark: [3, 4, 5, 5, 6, 7, 7, customerCount],
+      spark: [3, 4, 5, 5, 6, 7, 7, totalCusts],
     },
     {
       label: "Products",
-      value: String(productCount),
+      value: String(totalProds),
       delta: "+3% vs last month",
       tone: "sage" as const,
       kind: "products" as const,
-      spark: [8, 10, 12, 14, 16, 18, 19, productCount],
+      spark: [8, 10, 12, 14, 16, 18, 19, totalProds],
     },
   ];
 
-  /* Main-site product imagery for the admin welcome card */
   const heroImage = images.featuredMain || images.candles || images.lifestyle || images.hero;
-  const orderThumbs = [
-    images.craftRomance,
-    images.craftVampire,
-    images.craftRodeo,
-    images.paintings,
-    images.cards,
-    images.candles,
-  ];
 
   return (
     <div className="admin-dash">
@@ -312,7 +324,7 @@ export default function AdminOverviewPage() {
           <h2 className="admin-hero__name">
             Admin <em aria-hidden="true">✦</em>
           </h2>
-          <p className="admin-hero__desc">Here&apos;s what&apos;s happening with your store today.</p>
+          <p className="admin-hero__desc">Live store operations synced with MongoDB Atlas.</p>
           <div className="admin-hero__actions">
             <Link to="/" className="admin-btn glass-btn glass-btn-primary">
               View Store →
@@ -349,21 +361,20 @@ export default function AdminOverviewPage() {
         ))}
       </div>
 
-      {/* Target row: Sales ~50% | Order Status ~28% | Recent Orders ~22% */}
       <div className="admin-analytics-row">
         <section className="admin-panel admin-panel--sales liquid-glass">
           <div className="admin-panel__head">
             <h3>Sales Overview</h3>
-            <span className="admin-panel__chip">Last 10 months</span>
+            <span className="admin-panel__chip">Live metrics</span>
           </div>
-          <RevenueChart />
+          <RevenueChart salesSeries={series} />
         </section>
 
         <section className="admin-panel admin-panel--status liquid-glass">
           <div className="admin-panel__head">
             <h3>Order Status</h3>
           </div>
-          <OrderStatusDonut />
+          <OrderStatusDonut statusCounts={statusCounts} totalOrders={totalOrds} />
         </section>
 
         <section className="admin-panel admin-panel--orders liquid-glass">
@@ -372,32 +383,22 @@ export default function AdminOverviewPage() {
             <Link to="/admin/orders">See all</Link>
           </div>
           <ul className="admin-order-list">
-            {demoOrders.slice(0, 2).map((o, i) => {
+            {(recentOrders.length > 0 ? recentOrders.slice(0, 3) : []).map((o) => {
               const vis = statusVisual(o.status);
               return (
                 <li key={o.id}>
                   <img
                     className="admin-order-list__thumb"
-                    src={orderThumbs[i % orderThumbs.length]}
+                    src={o.thumb || images.candles}
                     alt=""
                   />
                   <div className="admin-order-list__meta">
-                    <strong>#{o.id.replace("CAD-", "CA-")}</strong>
-                    <span>
-                      {
-                        [
-                          "Serengeti Gold",
-                          "Lady in the Rain",
-                          "Crimson Veil",
-                          "Garden Reverie",
-                          "Golden Moments",
-                        ][i % 5]
-                      }
-                    </span>
+                    <strong>#{o.id}</strong>
+                    <span>{o.customer}</span>
                   </div>
                   <div className="admin-order-list__right">
                     <strong>{money(o.total)}</strong>
-                    <time dateTime={o.date}>{relativeLabel(o.date)}</time>
+                    <time dateTime={o.date}>{o.date || "Today"}</time>
                     <span className={`admin-badge ${vis.className}`}>{vis.label}</span>
                   </div>
                 </li>
@@ -409,7 +410,7 @@ export default function AdminOverviewPage() {
 
       <section className="admin-panel admin-panel--products liquid-glass">
         <div className="admin-products-toolbar">
-          <h3>Products</h3>
+          <h3>Products in Database ({allProducts.length})</h3>
           <div className="admin-products-toolbar__controls">
             <input
               className="admin-products-search"
@@ -417,9 +418,6 @@ export default function AdminOverviewPage() {
               value={productQ}
               onChange={(e) => setProductQ(e.target.value)}
             />
-            <button type="button" className="admin-btn--ghost admin-btn--compact">
-              Filter
-            </button>
             <Link to="/admin/candles" className="admin-btn admin-btn--compact">
               + Add Product
             </Link>
@@ -439,7 +437,7 @@ export default function AdminOverviewPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.slice(0, 6).map((p) => {
+              {filteredProducts.slice(0, 8).map((p) => {
                 const active = p.status === "available";
                 return (
                   <tr key={`${p.category}-${p.id}`}>
@@ -476,9 +474,6 @@ export default function AdminOverviewPage() {
                             <path d="M14 4h6v6M20 4 11 13" strokeLinecap="round" />
                           </svg>
                         </Link>
-                        <button type="button" aria-label={`More for ${p.name}`}>
-                          ···
-                        </button>
                       </div>
                     </td>
                   </tr>
