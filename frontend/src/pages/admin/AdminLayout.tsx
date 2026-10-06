@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import {
   ADMIN_EMAIL,
   ADMIN_PASSWORD,
@@ -161,6 +161,15 @@ function AdminLogin({
             Default Admin: <code>{ADMIN_EMAIL}</code> / <code>{ADMIN_PASSWORD}</code>
           </p>
         ) : null}
+
+        <div className="mt-4 pt-3.5 border-t border-[rgba(216,178,120,0.3)] text-center">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center gap-1.5 font-serif text-[0.82rem] tracking-[0.06em] text-taupe hover:text-burgundy transition-colors"
+          >
+            ← Back to Public Website
+          </Link>
+        </div>
       </form>
     </div>
   );
@@ -284,10 +293,19 @@ export default function AdminLayout() {
                   <strong>{user?.fullName || "Admin"}</strong>
                   <span>{user?.email || "Candle Artistry Design"}</span>
                 </div>
+                <span className="admin-profile-chip__divider" aria-hidden />
+                <Link
+                  to="/"
+                  className="text-[0.72rem] uppercase tracking-wider text-taupe hover:text-burgundy font-medium whitespace-nowrap transition-colors"
+                  title="Back to Public Website"
+                >
+                  Public Website →
+                </Link>
+                <span className="admin-profile-chip__divider" aria-hidden />
                 <button
                   type="button"
                   onClick={logout}
-                  className="ml-2 text-[0.7rem] uppercase tracking-wider text-taupe hover:text-burgundy"
+                  className="text-[0.72rem] uppercase tracking-wider text-taupe hover:text-burgundy whitespace-nowrap"
                   title="Sign out"
                 >
                   Exit
