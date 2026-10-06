@@ -7,6 +7,7 @@ import {
   useCatalog,
 } from "../../catalog/CatalogContext";
 import { api } from "../../services/api";
+import { images } from "../../constants/images";
 import AdminSidebar from "./AdminSidebar";
 import "./admin-shell.css";
 import "./liquid-glass-kit.css";
@@ -58,7 +59,10 @@ function AdminLogin({
   };
 
   return (
-    <div className="admin-shell admin-shell--login">
+    <div
+      className="admin-shell admin-shell--login"
+      style={{ "--admin-botanical-img": `url("${images.botanical}")` } as React.CSSProperties}
+    >
       <form
         className="admin-login-card liquid-glass liquid-glass-strong"
         onSubmit={handleSubmit}
@@ -232,7 +236,10 @@ export default function AdminLayout() {
       : "AD";
 
   return (
-    <div className={`admin-shell min-h-screen${navOpen ? " is-nav-open" : ""}`}>
+    <div
+      className={`admin-shell min-h-screen${navOpen ? " is-nav-open" : ""}`}
+      style={{ "--admin-botanical-img": `url("${images.botanical}")` } as React.CSSProperties}
+    >
       <div className="admin-shell__frame">
         <button
           type="button"

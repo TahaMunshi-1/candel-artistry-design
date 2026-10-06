@@ -66,6 +66,11 @@ export default function ArtistrySection() {
                     alt={card.alt}
                     className="img-zoom absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.candles;
+                    }}
                   />
                 </div>
               </div>

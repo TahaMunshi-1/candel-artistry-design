@@ -103,6 +103,11 @@ export default function FeaturedCollection() {
               alt="Night Mood — romantic candle label artwork by Candle Artistry Design"
               className="img-zoom absolute inset-0 h-full w-full object-contain object-center"
               loading="lazy"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.onerror = null;
+                target.src = images.candles;
+              }}
             />
           </div>
 
@@ -152,6 +157,11 @@ export default function FeaturedCollection() {
                   alt={item.alt}
                   className="absolute inset-0 h-full w-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.03]"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = images.candles;
+                  }}
                 />
                 <span className="sr-only">{item.label}</span>
               </Link>
@@ -171,6 +181,11 @@ export default function FeaturedCollection() {
                   alt={item.alt}
                   className="absolute inset-0 h-full w-full object-contain object-center"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = images.candles;
+                  }}
                 />
                 <span className="sr-only">{item.label}</span>
               </Link>

@@ -171,6 +171,11 @@ export default function ProductShowcase() {
                     className="craft-zoom block h-auto w-full aspect-[4/3] object-cover object-center"
                     loading="lazy"
                     decoding="async"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.candles;
+                    }}
                   />
                 </div>
               </figure>

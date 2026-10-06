@@ -89,6 +89,11 @@ export default function OurStoryPage() {
                 alt="Jeff and Katherine sharing a book together"
                 className="aspect-[4/5] h-full w-full object-cover object-[center_22%]"
                 loading="lazy"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.onerror = null;
+                  target.src = images.hero;
+                }}
               />
             </figure>
 
@@ -99,6 +104,11 @@ export default function OurStoryPage() {
                   alt="Alda and Katherine smiling together"
                   className="aspect-[4/3] w-full object-cover object-[center_28%]"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = images.hero;
+                  }}
                 />
               </figure>
               <figure className="story-frame m-0 overflow-hidden ring-1 ring-[rgba(92,16,24,0.18)]">
@@ -108,6 +118,11 @@ export default function OurStoryPage() {
                   alt="Katherine outdoors in the garden"
                   className="aspect-[4/5] w-full object-cover object-[18%_18%] md:object-[20%_15%]"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = images.hero;
+                  }}
                 />
               </figure>
             </div>

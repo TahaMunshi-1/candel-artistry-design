@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
+import { images, resolveImageUrl } from "../../constants/images";
 import { useCart } from "../../context/CartContext";
 
 export default function CartDrawer() {
@@ -91,9 +92,14 @@ export default function CartDrawer() {
                 className="flex gap-4 border-b border-gold/15 pb-6 last:border-b-0"
               >
                 <img
-                  src={item.image}
+                  src={resolveImageUrl(item.image, images.candles)}
                   alt={item.name}
                   className="h-24 w-20 rounded-lg object-cover bg-champagne border border-gold/25 shrink-0"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = images.candles;
+                  }}
                 />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>

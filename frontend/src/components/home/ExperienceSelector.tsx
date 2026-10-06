@@ -127,6 +127,11 @@ export default function ExperienceSelector({
                     decoding="async"
                     width={1536}
                     height={2048}
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.candles;
+                    }}
                   />
                   <span className="experience-art__veil" aria-hidden />
                 </div>

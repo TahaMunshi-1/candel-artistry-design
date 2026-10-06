@@ -11,6 +11,11 @@ export default function Hero() {
           src={`${images.hero}?v=clean`}
           alt="Luxury candles, classical bust, and a European castle lake at sunset"
           className="h-full w-full object-cover object-[center_45%]"
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null;
+            target.src = images.heroBanner;
+          }}
         />
         {/* Soft veil — keeps imagery visible while lifting text contrast */}
         <div

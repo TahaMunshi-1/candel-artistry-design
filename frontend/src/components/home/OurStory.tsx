@@ -78,6 +78,11 @@ export default function OurStory() {
                       alt={beat.alt}
                       className="aspect-[4/5] h-auto w-full object-cover object-[18%_18%] md:object-[20%_15%]"
                       loading="lazy"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        target.src = images.hero;
+                      }}
                     />
                   </figure>
                   <div className="mx-auto max-w-xl">
@@ -109,6 +114,11 @@ export default function OurStory() {
                     alt={beat.alt}
                     className="aspect-[4/3] h-auto w-full object-cover object-[center_30%]"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.hero;
+                    }}
                   />
                 </figure>
                 <div className={imageFirst ? "" : "md:order-1"}>

@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { images } from "../../constants/images";
+import { images, resolveImageUrl } from "../../constants/images";
 import { FloralCorner, BotanicalPetal, PetalAccent } from "../decor/BotanicalAssets";
 import { DiamondMark } from "../decor/Ornaments";
 
@@ -130,10 +130,15 @@ export default function GreetingCardsGallery() {
                   }}
                 >
                   <img
-                    src={`${card.image}?v=classic2`}
+                    src={resolveImageUrl(card.image, images.cards)}
                     alt={card.alt}
                     className="absolute inset-0 h-full w-full object-contain object-center drop-shadow-[0_14px_28px_rgba(64,51,43,0.18)] transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:drop-shadow-[0_20px_36px_rgba(92,16,24,0.22)]"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.cards;
+                    }}
                   />
 
                   <div className="pointer-events-none absolute inset-x-0 bottom-[6%] flex justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">

@@ -1,4 +1,5 @@
 import type { CandleProduct, GalleryItem, ProductStatus } from "../../constants/catalog";
+import { images, resolveImageUrl } from "../../constants/images";
 import { useCart } from "../../context/CartContext";
 
 type ProductCardProps = {
@@ -30,13 +31,17 @@ export function ProductCard({
 }: ProductCardProps) {
   const available = status === "available";
   const { addToCart } = useCart();
+  const resolvedImage = resolveImageUrl(
+    image,
+    category === "Oil Paintings" ? images.paintings : category === "Greeting Cards" ? images.cards : images.candles,
+  );
 
   const handleAdd = () => {
     addToCart({
       id,
       name,
       price: price ?? (category === "Oil Paintings" ? 450 : category === "Greeting Cards" ? 12 : 24),
-      image,
+      image: resolvedImage,
       category,
       nomenclature: nomenclature || note,
     });
@@ -47,14 +52,15 @@ export function ProductCard({
       <figure className="m-0 w-full max-w-[280px]">
         <div className="overflow-hidden bg-champagne ring-1 ring-gold/35">
           <img
-            src={image}
+            src={resolvedImage}
             alt={alt}
             className="aspect-[3/4] w-full object-cover object-center"
             loading="lazy"
             decoding="async"
             onError={(e) => {
-              // Graceful fallback to default image if needed
-              (e.currentTarget as HTMLImageElement).src = "/images/candles.jpg";
+              const target = e.currentTarget;
+              target.onerror = null;
+              target.src = category === "Oil Paintings" ? images.paintings : category === "Greeting Cards" ? images.cards : images.candles;
             }}
           />
         </div>

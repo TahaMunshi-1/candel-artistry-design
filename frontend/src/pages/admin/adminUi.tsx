@@ -190,10 +190,14 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
                   }`}
                 >
                   <img
-                    src={opt.value}
+                    src={resolveImageUrl(opt.value, images.candles)}
                     alt={opt.label}
                     className="aspect-square w-full object-cover bg-champagne"
                     loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = images.candles;
+                    }}
                   />
                   <span className="block truncate px-1.5 py-1 text-[0.62rem] text-taupe group-hover:text-ink">
                     {opt.label}
@@ -209,9 +213,13 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
                 className="overflow-hidden rounded-xl border border-burgundy ring-1 ring-burgundy text-left"
               >
                 <img
-                  src={value}
+                  src={resolveImageUrl(value, images.candles)}
                   alt="Current"
                   className="aspect-square w-full object-cover bg-champagne"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.candles;
+                  }}
                 />
                 <span className="block truncate px-1.5 py-1 text-[0.62rem] text-ink">
                   Current

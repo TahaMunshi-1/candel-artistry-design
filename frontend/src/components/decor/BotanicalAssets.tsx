@@ -16,6 +16,9 @@ export function BotanicalPetal({
       alt=""
       aria-hidden
       className={`pointer-events-none select-none ${className}`}
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+      }}
       style={{
         transform: `${flip ? "scaleX(-1) " : ""}rotate(${rotate}deg)`,
       }}
@@ -31,6 +34,9 @@ export function PetalAccent({ className = "" }: { className?: string }) {
       alt=""
       aria-hidden
       className={`pointer-events-none select-none object-contain opacity-45 ${className}`}
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+      }}
     />
   );
 }
@@ -61,6 +67,9 @@ export function FloralCorner({
       alt=""
       aria-hidden
       className={`pointer-events-none select-none object-contain ${className}`}
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+      }}
       style={transform ? { transform } : undefined}
     />
   );

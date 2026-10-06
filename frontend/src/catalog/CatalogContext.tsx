@@ -16,6 +16,7 @@ import {
   type CandleProduct,
   type GalleryItem,
 } from "../constants/catalog";
+import { images, resolveImageUrl } from "../constants/images";
 import { api } from "../services/api";
 
 const STORAGE_KEY = "cad-catalog-v1";
@@ -32,12 +33,33 @@ export type CatalogState = {
   cards: GalleryItem[];
 };
 
-function seedState(): CatalogState {
+function normalizeCatalog(state: CatalogState): CatalogState {
   return {
+    collections: (state.collections || []).map((c) => ({
+      ...c,
+      heroImage: resolveImageUrl(c.heroImage, images.craftRomance),
+      products: (c.products || []).map((p) => ({
+        ...p,
+        image: resolveImageUrl(p.image, images.candles),
+      })),
+    })),
+    paintings: (state.paintings || []).map((p) => ({
+      ...p,
+      image: resolveImageUrl(p.image, images.paintings),
+    })),
+    cards: (state.cards || []).map((c) => ({
+      ...c,
+      image: resolveImageUrl(c.image, images.cards),
+    })),
+  };
+}
+
+function seedState(): CatalogState {
+  return normalizeCatalog({
     collections: structuredClone(seedCollections),
     paintings: structuredClone(seedPaintings),
     cards: structuredClone(seedCards),
-  };
+  });
 }
 
 function loadState(): CatalogState {
@@ -48,7 +70,7 @@ function loadState(): CatalogState {
     if (!parsed?.collections || !parsed?.paintings || !parsed?.cards) {
       return seedState();
     }
-    return parsed;
+    return normalizeCatalog(parsed);
   } catch {
     return seedState();
   }
@@ -102,8 +124,8 @@ function emit() {
 }
 
 function setCatalogSnapshot(next: CatalogState) {
-  catalogSnapshot = next;
-  saveState(next);
+  catalogSnapshot = normalizeCatalog(next);
+  saveState(catalogSnapshot);
   emit();
 }
 
@@ -134,52 +156,54 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       ]);
 
       if (colsData && colsData.length > 0) {
-        update((prev) => ({
-          ...prev,
-          collections: colsData.map((c: any) => ({
-            id: c.slug || c.id,
-            slug: c.slug || c.id,
-            title: c.title,
-            eyebrow: c.eyebrow || "Collection",
-            line: c.line || "",
-            heroImage: c.heroImage || "",
-            heroAlt: c.heroAlt || "",
-            products: (c.products || []).map((p: any) => ({
-              id: p.slug || p._id,
-              slug: p.slug || p._id,
-              name: p.name,
-              nomenclature: p.nomenclature || "",
-              status: p.status || "available",
-              price: p.price ?? 24,
-              image: p.image,
-              alt: p.alt || `${p.name} candle jar`,
+        update((prev) =>
+          normalizeCatalog({
+            ...prev,
+            collections: colsData.map((c: any) => ({
+              id: c.slug || c.id,
+              slug: c.slug || c.id,
+              title: c.title,
+              eyebrow: c.eyebrow || "Collection",
+              line: c.line || "",
+              heroImage: c.heroImage || "",
+              heroAlt: c.heroAlt || "",
+              products: (c.products || []).map((p: any) => ({
+                id: p.slug || p._id,
+                slug: p.slug || p._id,
+                name: p.name,
+                nomenclature: p.nomenclature || "",
+                status: p.status || "available",
+                price: p.price ?? 24,
+                image: p.image,
+                alt: p.alt || `${p.name} candle jar`,
+              })),
             })),
-          })),
-          paintings:
-            paintingsData && paintingsData.length > 0
-              ? paintingsData.map((p: any) => ({
-                  id: p.slug || p._id,
-                  name: p.name,
-                  image: p.image,
-                  alt: p.alt || p.name,
-                  status: p.status || "available",
-                  price: p.price ?? 450,
-                  note: p.note || undefined,
-                }))
-              : prev.paintings,
-          cards:
-            cardsData && cardsData.length > 0
-              ? cardsData.map((c: any) => ({
-                  id: c.slug || c._id,
-                  name: c.name,
-                  image: c.image,
-                  alt: c.alt || c.name,
-                  status: c.status || "available",
-                  price: c.price ?? 12,
-                  note: c.note || undefined,
-                }))
-              : prev.cards,
-        }));
+            paintings:
+              paintingsData && paintingsData.length > 0
+                ? paintingsData.map((p: any) => ({
+                    id: p.slug || p._id,
+                    name: p.name,
+                    image: p.image,
+                    alt: p.alt || p.name,
+                    status: p.status || "available",
+                    price: p.price ?? 450,
+                    note: p.note || undefined,
+                  }))
+                : prev.paintings,
+            cards:
+              cardsData && cardsData.length > 0
+                ? cardsData.map((c: any) => ({
+                    id: c.slug || c._id,
+                    name: c.name,
+                    image: c.image,
+                    alt: c.alt || c.name,
+                    status: c.status || "available",
+                    price: c.price ?? 12,
+                    note: c.note || undefined,
+                  }))
+                : prev.cards,
+          }),
+        );
       }
     } catch (err) {
       console.warn("Could not load catalog from API, using cached state", err);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { images, resolveImageUrl } from "../../constants/images";
 import { useCatalog } from "../../catalog/CatalogContext";
 import { useCart } from "../../context/CartContext";
 
@@ -125,9 +126,14 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     className="flex items-center gap-3.5 flex-1 min-w-0"
                   >
                     <img
-                      src={item.image}
+                      src={resolveImageUrl(item.image, images.candles)}
                       alt={item.name}
                       className="h-14 w-12 rounded-lg object-cover bg-champagne border border-gold/20 shrink-0"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        target.src = images.candles;
+                      }}
                     />
                     <div className="min-w-0">
                       <h4 className="font-serif text-sm font-medium text-ink truncate">

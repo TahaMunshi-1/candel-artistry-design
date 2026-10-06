@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { useCatalog } from "../../catalog/CatalogContext";
+import { images, resolveImageUrl } from "../../constants/images";
 import { DiamondMark } from "../../components/decor/Ornaments";
 import { FloralCorner } from "../../components/decor/BotanicalAssets";
 import ShopPageShell from "../../components/shop/ShopPageShell";
@@ -43,10 +44,15 @@ export default function CandlesPage() {
               >
                 <div className="overflow-hidden bg-champagne ring-1 ring-gold/35">
                   <img
-                    src={collection.heroImage}
+                    src={resolveImageUrl(collection.heroImage, images.craftRomance)}
                     alt={collection.heroAlt}
                     className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.craftRomance;
+                    }}
                   />
                 </div>
                 <p className="mt-4 text-eyebrow text-burgundy/80">{collection.eyebrow}</p>

@@ -62,19 +62,46 @@ export const images = {
  */
 export function resolveImageUrl(src?: string | null, fallback: string = images.candles): string {
   if (!src) return fallback;
+  const s = src.trim();
   if (
-    src.startsWith("http://") ||
-    src.startsWith("https://") ||
-    src.startsWith("data:") ||
-    src.startsWith("blob:")
+    s.startsWith("http://") ||
+    s.startsWith("https://") ||
+    s.startsWith("data:") ||
+    s.startsWith("blob:")
   ) {
-    return src;
+    return s;
   }
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
-  if (base && src.startsWith(base)) {
-    return src;
+
+  // If already prefixed with base URL
+  if (base && s.startsWith(base)) {
+    return s;
   }
-  const cleanPath = src.startsWith("/") ? src : `/${src}`;
+
+  // If starts with /images/ or images/
+  if (s.startsWith("/images/")) {
+    return `${base}${s}`;
+  }
+  if (s.startsWith("images/")) {
+    return `${base}/${s}`;
+  }
+
+  // If subfolder paths like /decor/..., /family/..., or decor/...
+  if (s.startsWith("/decor/") || s.startsWith("/family/")) {
+    return `${base}/images${s}`;
+  }
+  if (s.startsWith("decor/") || s.startsWith("family/")) {
+    return `${base}/images/${s}`;
+  }
+
+  // If bare image filename or relative like "candles.jpg" or "/candles.jpg" (with optional query string)
+  if (/\.(jpg|jpeg|png|webp|svg|gif)(\?.*)?$/i.test(s)) {
+    const filename = s.replace(/^\//, "");
+    return `${base}/images/${filename}`;
+  }
+
+  const cleanPath = s.startsWith("/") ? s : `/${s}`;
   return `${base}${cleanPath}`;
 }
+
 
