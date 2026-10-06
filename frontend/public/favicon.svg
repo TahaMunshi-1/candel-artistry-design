@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="flameGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFE8A3" />
+      <stop offset="45%" stop-color="#E5A638" />
+      <stop offset="100%" stop-color="#B85D19" />
+    </radialGradient>
+    <linearGradient id="candleBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F4ECE1" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E8DCB8" />
+    </linearGradient>
+    <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DFBA73" />
+      <stop offset="50%" stop-color="#B99A68" />
+      <stop offset="100%" stop-color="#8E6A3E" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="#201816" stroke="url(#goldRim)" stroke-width="2.5" />
+  
+  <!-- Candle body -->
+  <rect x="23" y="32" width="18" height="22" rx="3" fill="url(#candleBody)" stroke="url(#goldRim)" stroke-width="1" />
+  
+  <!-- Candle top wax drip/curve -->
+  <ellipse cx="32" cy="32" rx="9" ry="2.5" fill="#FFF9F2" />
+  
+  <!-- Candle wick -->
+  <path d="M32 32 C31.5 28 32.5 26 32 24" stroke="#5E4133" stroke-width="1.8" stroke-linecap="round" fill="none" />
+  
+  <!-- Candle flame -->
+  <path d="M32 10 C34 16 38 19 38 23 C38 27.5 35 30 32 30 C29 30 26 27.5 26 23 C26 19 30 16 32 10 Z" fill="url(#flameGlow)" />
+  
+  <!-- Inner teardrop highlight -->
+  <path d="M32 17 C33 20 34.5 22 34.5 24 C34.5 26 33.2 27.5 32 27.5 C30.8 27.5 29.5 26 29.5 24 C29.5 22 31 20 32 17 Z" fill="#FFF8E0" opacity="0.9" />
+</svg>
