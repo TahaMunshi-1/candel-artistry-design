@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Request, Response } from "express";
 import { Order, OrderStatus } from "../models/order";
 import { Customer } from "../models/customer";
@@ -26,7 +27,6 @@ export const getOrders = tryCatch(async (req: Request, res: Response): Promise<a
 
   const orders = await Order.find(query).sort({ date: -1, createdAt: -1 });
 
-  // Map to format expected by UI
   const formatted = orders.map((o) => ({
     id: o.orderNumber,
     _id: o._id,
@@ -47,8 +47,11 @@ export const getOrders = tryCatch(async (req: Request, res: Response): Promise<a
 
 export const getOrderById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
   const order =
-    (await Order.findOne({ orderNumber: id })) || (await Order.findById(id));
+    (await Order.findOne({ orderNumber: id })) ||
+    (isMongoId ? await Order.findById(id) : null);
+
   if (!order) {
     throw new ApiError(404, "Order not found");
   }
@@ -65,7 +68,11 @@ export const createOrder = tryCatch(async (req: Request, res: Response): Promise
   const count = await Order.countDocuments();
   const orderNumber = `CAD-${10420 + count + 1}`;
 
-  const numItems = items || (Array.isArray(itemList) ? itemList.reduce((n: number, it: any) => n + (it.quantity || 1), 0) : 1);
+  const numItems =
+    items ||
+    (Array.isArray(itemList)
+      ? itemList.reduce((n: number, it: any) => n + (it.quantity || 1), 0)
+      : 1);
   const calculatedTotal = total != null ? Number(total) : 0;
 
   const order = await Order.create({
@@ -93,9 +100,10 @@ export const createOrder = tryCatch(async (req: Request, res: Response): Promise
   if (Array.isArray(itemList)) {
     for (const it of itemList) {
       if (it.productId) {
+        const isMongoId = mongoose.Types.ObjectId.isValid(it.productId);
         await Product.findOneAndUpdate(
-          { $or: [{ slug: it.productId }, { _id: it.productId }] },
-          { $inc: { soldCount: it.quantity || 1, stock: -(it.quantity || 1) } }
+          { $or: [{ slug: it.productId }, ...(isMongoId ? [{ _id: it.productId }] : [])] },
+          { $inc: { soldCount: it.quantity || 1, stock: -(it.quantity || 1) } },
         ).catch(() => null);
       }
     }
@@ -113,9 +121,10 @@ export const updateOrderStatus = tryCatch(async (req: Request, res: Response): P
     throw new ApiError(400, `Invalid order status. Allowed: ${validStatuses.join(", ")}`);
   }
 
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
   const order =
     (await Order.findOneAndUpdate({ orderNumber: id }, { status }, { new: true })) ||
-    (await Order.findByIdAndUpdate(id, { status }, { new: true }));
+    (isMongoId ? await Order.findByIdAndUpdate(id, { status }, { new: true }) : null);
 
   if (!order) {
     throw new ApiError(404, "Order not found");
@@ -126,10 +135,11 @@ export const updateOrderStatus = tryCatch(async (req: Request, res: Response): P
 
 export const deleteOrder = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
 
   const deleted =
     (await Order.findOneAndDelete({ orderNumber: id })) ||
-    (await Order.findByIdAndDelete(id));
+    (isMongoId ? await Order.findByIdAndDelete(id) : null);
 
   if (!deleted) {
     throw new ApiError(404, "Order not found");

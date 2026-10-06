@@ -163,6 +163,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
                   image: p.image,
                   alt: p.alt || p.name,
                   status: p.status || "available",
+                  price: p.price ?? 450,
                   note: p.note || undefined,
                 }))
               : prev.paintings,
@@ -174,6 +175,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
                   image: c.image,
                   alt: c.alt || c.name,
                   status: c.status || "available",
+                  price: c.price ?? 12,
                   note: c.note || undefined,
                 }))
               : prev.cards,

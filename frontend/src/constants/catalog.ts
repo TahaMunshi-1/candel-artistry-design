@@ -237,6 +237,7 @@ export type GalleryItem = {
   image: string;
   alt: string;
   status: ProductStatus;
+  price?: number;
   note?: string;
 };
 
@@ -247,7 +248,8 @@ export const oilPaintings: GalleryItem[] = [
     image: images.experienceRomance,
     alt: "Original oil painting — The Romance",
     status: "available",
-    note: "Inquire for availability",
+    price: 450,
+    note: "Original Atelier Canvas",
   },
   {
     id: "painting-mystery",
@@ -255,7 +257,8 @@ export const oilPaintings: GalleryItem[] = [
     image: images.experienceMystery,
     alt: "Original oil painting — The Mystery",
     status: "available",
-    note: "Inquire for availability",
+    price: 520,
+    note: "Original Atelier Canvas",
   },
   {
     id: "painting-cabin",
@@ -263,6 +266,7 @@ export const oilPaintings: GalleryItem[] = [
     image: images.experienceCabin,
     alt: "Original oil painting — The Cabin",
     status: "coming_soon",
+    price: 380,
   },
   {
     id: "painting-wilderness",
@@ -270,6 +274,7 @@ export const oilPaintings: GalleryItem[] = [
     image: images.experienceWilderness,
     alt: "Original oil painting — The Wilderness",
     status: "coming_soon",
+    price: 490,
   },
 ];
 
@@ -280,7 +285,8 @@ export const greetingCards: GalleryItem[] = [
     image: images.experienceClassic4,
     alt: "Greeting card — winged figure in a flower garden at sunset",
     status: "available",
-    note: "Inquire for availability",
+    price: 12,
+    note: "Foil embossed greeting card",
   },
   {
     id: "card-moonlit-raven",
@@ -288,7 +294,8 @@ export const greetingCards: GalleryItem[] = [
     image: images.experienceClassic2,
     alt: "Greeting card — enchanted forest with lantern and raven",
     status: "available",
-    note: "Inquire for availability",
+    price: 12,
+    note: "Foil embossed greeting card",
   },
   {
     id: "card-lantern-evening",
@@ -296,7 +303,8 @@ export const greetingCards: GalleryItem[] = [
     image: images.experienceClassic3,
     alt: "Greeting card — moonlit balcony with lantern and roses",
     status: "available",
-    note: "Inquire for availability",
+    price: 12,
+    note: "Foil embossed greeting card",
   },
   {
     id: "card-open-sky",
@@ -304,5 +312,6 @@ export const greetingCards: GalleryItem[] = [
     image: images.experienceClassic1,
     alt: "Greeting card — golden-winged figure beneath an open sky",
     status: "coming_soon",
+    price: 12,
   },
 ];

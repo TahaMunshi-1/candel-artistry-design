@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Request, Response } from "express";
 import { Customer } from "../models/customer";
 import { tryCatch } from "../utils/tryCatch";
@@ -26,8 +27,11 @@ export const getCustomers = tryCatch(async (req: Request, res: Response): Promis
 
 export const getCustomerById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
   const customer =
-    (await Customer.findOne({ customerCode: id })) || (await Customer.findById(id));
+    (await Customer.findOne({ customerCode: id })) ||
+    (isMongoId ? await Customer.findById(id) : null);
+
   if (!customer) {
     throw new ApiError(404, "Customer not found");
   }
@@ -66,10 +70,11 @@ export const createCustomer = tryCatch(async (req: Request, res: Response): Prom
 export const updateCustomer = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
   const patch = req.body;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
 
   const customer =
     (await Customer.findOneAndUpdate({ customerCode: id }, patch, { new: true })) ||
-    (await Customer.findByIdAndUpdate(id, patch, { new: true }));
+    (isMongoId ? await Customer.findByIdAndUpdate(id, patch, { new: true }) : null);
 
   if (!customer) {
     throw new ApiError(404, "Customer not found");
@@ -80,9 +85,11 @@ export const updateCustomer = tryCatch(async (req: Request, res: Response): Prom
 
 export const toggleCustomerStatus = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
 
   const customer =
-    (await Customer.findOne({ customerCode: id })) || (await Customer.findById(id));
+    (await Customer.findOne({ customerCode: id })) ||
+    (isMongoId ? await Customer.findById(id) : null);
 
   if (!customer) {
     throw new ApiError(404, "Customer not found");
@@ -100,10 +107,11 @@ export const toggleCustomerStatus = tryCatch(async (req: Request, res: Response)
 
 export const deleteCustomer = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
 
   const deleted =
     (await Customer.findOneAndDelete({ customerCode: id })) ||
-    (await Customer.findByIdAndDelete(id));
+    (isMongoId ? await Customer.findByIdAndDelete(id) : null);
 
   if (!deleted) {
     throw new ApiError(404, "Customer not found");

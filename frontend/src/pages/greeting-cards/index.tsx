@@ -33,7 +33,7 @@ export default function GreetingCardsPage() {
 
           <div className="mx-auto mt-14 grid max-w-4xl gap-12 sm:grid-cols-2">
             {cards.map((item) => (
-              <GalleryProductCard key={item.id} item={item} />
+              <GalleryProductCard key={item.id} item={item} category="Greeting Cards" />
             ))}
           </div>
         </div>

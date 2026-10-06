@@ -113,7 +113,13 @@ export function CandleProductCard({ product }: { product: CandleProduct }) {
   );
 }
 
-export function GalleryProductCard({ item }: { item: GalleryItem }) {
+export function GalleryProductCard({
+  item,
+  category,
+}: {
+  item: GalleryItem;
+  category?: string;
+}) {
   return (
     <ProductCard
       id={item.id}
@@ -121,7 +127,8 @@ export function GalleryProductCard({ item }: { item: GalleryItem }) {
       image={item.image}
       alt={item.alt}
       status={item.status}
-      category="Atelier Gallery"
+      category={category || "Atelier Gallery"}
+      price={item.price}
       note={item.note}
     />
   );

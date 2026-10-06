@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Request, Response } from "express";
 import { Product } from "../models/product";
 import { Collection } from "../models/collection";
@@ -34,7 +35,11 @@ export const getProducts = tryCatch(async (req: Request, res: Response): Promise
 
 export const getProductById = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
-  const product = (await Product.findOne({ slug: id })) || (await Product.findById(id));
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
+  const product =
+    (await Product.findOne({ slug: id })) ||
+    (isMongoId ? await Product.findById(id) : null);
+
   if (!product) {
     throw new ApiError(404, "Product not found");
   }
@@ -77,10 +82,11 @@ export const createProduct = tryCatch(async (req: Request, res: Response): Promi
 export const updateProduct = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
   const patch = req.body;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
 
   const product =
     (await Product.findOneAndUpdate({ slug: id }, patch, { new: true })) ||
-    (await Product.findByIdAndUpdate(id, patch, { new: true }));
+    (isMongoId ? await Product.findByIdAndUpdate(id, patch, { new: true }) : null);
 
   if (!product) {
     throw new ApiError(404, "Product not found");
@@ -91,8 +97,10 @@ export const updateProduct = tryCatch(async (req: Request, res: Response): Promi
 
 export const deleteProduct = tryCatch(async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
   const deleted =
-    (await Product.findOneAndDelete({ slug: id })) || (await Product.findByIdAndDelete(id));
+    (await Product.findOneAndDelete({ slug: id })) ||
+    (isMongoId ? await Product.findByIdAndDelete(id) : null);
 
   if (!deleted) {
     throw new ApiError(404, "Product not found");
