@@ -6,27 +6,27 @@ const beats = [
     id: "mother",
     chapter: "I · A Mother’s Light",
     heading: "Held close. Always.",
-    body: "Before there were candles and illustrated labels, there was this — a mother’s smile beside her daughter’s. Every scent, every story, every golden detail began as devotion made visible.",
+    body: "Before there were candles and illustrated labels, there was this — Alda’s smile beside Katherine’s. Every scent, every story, every golden detail began as devotion made visible.",
     image: images.familyMotherDaughter,
-    alt: "Mother and daughter smiling together, heads leaning close",
+    alt: "Alda and Katherine smiling together, heads leaning close",
     layout: "image-left" as const,
   },
   {
     id: "father",
     chapter: "II · A Father’s Tale",
     heading: "Pages shared. Worlds imagined.",
-    body: "Side by side with an open book, a father and daughter lingered in wonder. That is the heart of Candle Artistry Design: storytelling you can hold — romance, mystery, and magic poured into wax and art.",
+    body: "Side by side with an open book, Katherine and I lingered in wonder. That is the heart of Candle Artistry Design: storytelling you can hold — romance, mystery, and magic poured into wax and art.",
     image: images.familyFatherDaughter,
-    alt: "Father and daughter sharing a book on the sofa, smiling",
+    alt: "Jeff and Katherine sharing a book on the sofa, smiling",
     layout: "image-right" as const,
   },
   {
     id: "daughter",
     chapter: "III · The Reason",
-    heading: "Their brightest flame.",
-    body: "For her, they shaped gardens and daydreams — and a brand where fantasy feels like home. Candle Artistry Design is their kingdom made real: handcrafted light, storybook artistry, and a love that never dimmed.",
+    heading: "Our brightest flame.",
+    body: "For her, we shaped gardens and daydreams — and a brand where fantasy feels like home. Candle Artistry Design is our kingdom made real: handcrafted light, storybook artistry, and a love that never dimmed.",
     image: images.familyDaughterGarden,
-    alt: "Their daughter smiling outdoors in the garden built with love",
+    alt: "Katherine smiling outdoors in the garden built with love",
     layout: "wide" as const,
   },
 ];
@@ -62,8 +62,8 @@ export default function OurStory() {
             The Story Behind the Flame
           </h2>
           <p className="mt-5 font-[Cormorant_Garamond,Georgia,serif] text-[clamp(1.05rem,2vw,1.25rem)] font-light italic leading-relaxed text-[rgba(244,235,225,0.82)]">
-            The kingdom was never only a fairy tale. It was a love letter — written by
-            parents who built a world of beauty for their daughter.
+            The kingdom was never only a fairy tale. It is a love letter — written by
+            my wife Alda and I, building a world of beauty for our daughter Katherine.
           </p>
         </header>
 
