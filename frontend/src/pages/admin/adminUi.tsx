@@ -164,7 +164,7 @@ export function ImagePicker({ value, onChange, className = "" }: ImagePickerProp
 
           {error ? <p className="text-[0.75rem] text-royal">{error}</p> : null}
           <p className="text-[0.7rem] text-taupe">
-            Uploads are stored in this browser (compressed). Prefer JPG under ~2MB.
+            Images are saved permanently to the database catalog.
           </p>
         </div>
       </div>

@@ -77,7 +77,12 @@ function loadState(): CatalogState {
 }
 
 function saveState(state: CatalogState) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    // Large images in state can exceed localStorage's 5MB quota.
+    // That's expected and safe because images are persisted directly in MongoDB.
+  }
 }
 
 function slugify(value: string) {
