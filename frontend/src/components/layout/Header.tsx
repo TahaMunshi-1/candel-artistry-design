@@ -163,7 +163,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
           solid
             ? "bg-[rgba(247,241,231,0.96)] backdrop-blur-sm border-b border-[rgba(185,154,104,0.28)]"
-            : "bg-[#160f0d]/95 backdrop-blur-md border-b border-[#b99a68]/20"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
         <div className="container-editorial">
