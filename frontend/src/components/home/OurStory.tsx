@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { images } from "../../constants/images";
 
@@ -32,18 +33,24 @@ const beats = [
 ];
 
 export default function OurStory() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <section
       id="our-story"
-      className="our-story relative overflow-hidden text-[var(--ivory,#f3ebe0)]"
+      className="our-story relative overflow-hidden text-[var(--ivory,#f3ebe0)] transition-all duration-500"
       aria-labelledby="our-story-heading"
       style={{
         background:
           "radial-gradient(ellipse at 50% 0%, rgba(90,40,35,0.28), transparent 42%), linear-gradient(180deg, #030105 0%, #10080a 28%, #0a0608 70%, #030105 100%)",
       }}
     >
-      <div className="container-editorial relative z-[1] py-16 md:py-24">
-        <header className="mx-auto mb-14 max-w-2xl text-center md:mb-20">
+      <div
+        className={`container-editorial relative z-[1] transition-all duration-500 ${
+          isOpen ? "py-16 md:py-24" : "py-12 md:py-16"
+        }`}
+      >
+        <header className="mx-auto max-w-2xl text-center">
           <div
             className="mx-auto mb-5 h-px w-20"
             style={{
@@ -61,11 +68,46 @@ export default function OurStory() {
           >
             The Story Behind the Flame
           </h2>
-          <p className="mt-5 font-[Cormorant_Garamond,Georgia,serif] text-[clamp(1.05rem,2vw,1.25rem)] font-light italic leading-relaxed text-[rgba(244,235,225,0.82)]">
-            The kingdom was never only a fairy tale. It is a love letter — written by
-            my wife Alda and I, building a world of beauty for our daughter Katherine.
-          </p>
+
+          {/* Interactive dropdown arrow toggle button */}
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setIsOpen((v) => !v)}
+              aria-expanded={isOpen}
+              aria-controls="our-story-dropdown-content"
+              className="group inline-flex items-center gap-3 px-6 py-2.5 rounded-full border border-[#e4d2a8]/40 bg-[#160a0d]/90 hover:bg-[#251014] hover:border-[#e4d2a8] text-[#e4d2a8] transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] cursor-pointer"
+            >
+              <span className="font-[Cinzel,serif] text-[0.68rem] tracking-[0.24em] uppercase font-medium">
+                {isOpen ? "Hide Story" : "Reveal Our Story"}
+              </span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          </div>
         </header>
+
+        {/* Story details and images revealed only when dropdown arrow is toggled open */}
+        {isOpen && (
+          <div
+            id="our-story-dropdown-content"
+            className="animate-in fade-in slide-in-from-top-4 duration-500 mt-10 md:mt-12"
+          >
+            <p className="mx-auto max-w-2xl text-center font-[Cormorant_Garamond,Georgia,serif] text-[clamp(1.05rem,2vw,1.25rem)] font-light italic leading-relaxed text-[rgba(244,235,225,0.82)] mb-14 md:mb-20">
+              The kingdom was never only a fairy tale. It is a love letter — written by
+              my wife Alda and I, building a world of beauty for our daughter Katherine.
+            </p>
 
         <div className="mx-auto flex max-w-5xl flex-col gap-16 md:gap-24">
           {beats.map((beat) => {
@@ -158,6 +200,8 @@ export default function OurStory() {
             Read the family story <span aria-hidden>→</span>
           </Link>
         </footer>
+          </div>
+        )}
       </div>
     </section>
   );
