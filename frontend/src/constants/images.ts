@@ -54,6 +54,10 @@ export const images = {
   familyMotherDaughter: img("family/mother-daughter.jpg"),
   familyFatherDaughter: img("family/father-daughter.jpg"),
   familyDaughterGarden: img("family/daughter-garden.jpg"),
+  familyKatherineOz: img("family/katherine-oz.jpg"),
+  familyKatherineGlinda: img("family/katherine-glinda.jpg"),
+  familyStoryFlyer: img("family/our-story-flyer.jpg"),
+  bannerGif: img("cad-dancing-flame.gif"),
 } as const;
 
 /**

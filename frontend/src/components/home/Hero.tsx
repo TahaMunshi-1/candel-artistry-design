@@ -3,49 +3,38 @@ import { images } from "../../constants/images";
 export default function Hero() {
   return (
     <section
-      className="relative band-height flex items-center justify-center overflow-hidden bg-[#2a1f1c]"
-      aria-label="Hero"
+      className="relative w-full h-screen min-h-[600px] overflow-hidden bg-[#160f0d] flex items-center justify-center"
+      aria-label="Hero Banner"
     >
-      <div className="absolute inset-0 hero-reveal">
+      {/* Full-bleed ambient backdrop so no black bars appear */}
+      <img
+        src={images.bannerGif}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover object-center blur-lg brightness-[0.7] scale-110"
+      />
+
+      {/* Main banner image with ~30% scaled typography */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
         <img
-          src={`${images.hero}?v=clean`}
-          alt="Luxury candles, classical bust, and a European castle lake at sunset"
-          className="h-full w-full object-cover object-[center_45%]"
-          onError={(e) => {
-            const target = e.currentTarget;
-            target.onerror = null;
-            target.src = images.heroBanner;
-          }}
-        />
-        {/* Soft veil — keeps imagery visible while lifting text contrast */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 48%, rgba(32,24,22,0.45) 0%, rgba(32,24,22,0.22) 38%, rgba(32,24,22,0.12) 62%, transparent 100%)",
-          }}
+          src={images.bannerGif}
+          alt="Candle Artistry Design — Moments in Time. Some moments are remembered. Some are relived. Some can be held in your hands."
+          className="w-full h-full object-cover md:object-contain object-center scale-[0.85] transition-transform duration-500 drop-shadow-[0_12px_40px_rgba(0,0,0,0.8)]"
         />
       </div>
 
-      <div className="relative z-10 container-editorial w-full px-4 pt-24 md:pt-20 pb-12 text-center">
-        <h1 className="fade-up fade-up-delay-1 font-script text-[clamp(3rem,8vw,5.5rem)] leading-[1.05] text-[#FBF6EC] drop-shadow-[0_2px_18px_rgba(32,24,22,0.55)]">
-          Moments in Time.
-        </h1>
+      {/* Subtle vignettes for header and CTA readability */}
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[rgba(22,15,13,0.7)] via-[rgba(22,15,13,0.2)] to-transparent pointer-events-none z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[rgba(22,15,13,0.65)] via-[rgba(22,15,13,0.2)] to-transparent pointer-events-none z-10" />
 
-        <div className="mt-5 md:mt-6 mx-auto max-w-md font-serif text-[1rem] md:text-[1.1rem] leading-[1.75] text-[#F0E6D4] fade-up fade-up-delay-2 drop-shadow-[0_1px_10px_rgba(32,24,22,0.5)]">
-          <p>Some moments are remembered.</p>
-          <p>Some are relived.</p>
-          <p>Some can be held in your hands.</p>
-        </div>
-
-        <div className="mt-8 md:mt-9 fade-up fade-up-delay-3">
-          <a
-            href="#experience"
-            className="burgundy-btn !bg-[#8B5B58] !border-[#8B5B58] !text-[#FBF8F2] hover:!bg-[#7a4e4b] shadow-[0_4px_20px_rgba(32,24,22,0.35)]"
-          >
-            Explore the Moments <span className="arrow">→</span>
-          </a>
-        </div>
+      {/* CTA Button increased by ~30% */}
+      <div className="absolute bottom-6 md:bottom-9 left-1/2 -translate-x-1/2 z-20 text-center w-full px-4">
+        <a
+          href="#experience"
+          className="burgundy-btn inline-flex items-center gap-3 !bg-[#8B5B58] !border-[#8B5B58] !text-[#FBF8F2] hover:!bg-[#734643] shadow-[0_8px_32px_rgba(0,0,0,0.7)] px-12 md:px-14 py-4 md:py-4.5 rounded-full uppercase tracking-[0.22em] text-[0.95rem] md:text-[1.05rem] font-semibold transition-all hover:scale-105 active:scale-95"
+        >
+          Explore the Moments <span className="arrow text-lg">→</span>
+        </a>
       </div>
     </section>
   );

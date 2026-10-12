@@ -71,50 +71,68 @@ export default function OurStoryPage() {
             </p>
           </div>
 
-          {/* Photo collage — PDF layout: large left + two stacked right */}
-          <div className="mx-auto mt-16 grid max-w-4xl gap-5 md:grid-cols-[1.15fr_0.85fr] md:gap-6">
-            <figure className="story-frame m-0 overflow-hidden ring-1 ring-[rgba(92,16,24,0.18)]">
-              <img
-                src={images.familyFatherDaughter}
-                alt="Jeff and Katherine sharing a book together"
-                className="aspect-[4/5] h-full w-full object-cover object-[center_22%]"
-                loading="lazy"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  target.onerror = null;
-                  target.src = images.hero;
-                }}
-              />
-            </figure>
+          {/* Photo collage — Exact PDF layout: Large left + Stacked right (top + 2 side-by-side bottom) */}
+          <div className="mx-auto mt-16 max-w-4xl p-3 md:p-4 rounded-xl border border-[#b99a68]/40 bg-[#f9f3e8]/60 shadow-[0_10px_35px_rgba(92,16,24,0.08)]">
+            <div className="grid gap-4 md:grid-cols-[1.1fr_1fr] md:gap-4 items-stretch">
+              {/* Left: Father and Katherine reading book */}
+              <figure className="story-frame m-0 overflow-hidden rounded-lg border border-[#b99a68]/50 h-full">
+                <img
+                  src={images.familyFatherDaughter}
+                  alt="Jeff and Katherine sharing a book together"
+                  className="h-full w-full object-cover object-[center_25%] min-h-[360px] md:min-h-[500px]"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = images.hero;
+                  }}
+                />
+              </figure>
 
-            <div className="grid gap-5 md:gap-6">
-              <figure className="story-frame m-0 overflow-hidden ring-1 ring-[rgba(92,16,24,0.18)]">
-                <img
-                  src={images.familyMotherDaughter}
-                  alt="Alda and Katherine smiling together"
-                  className="aspect-[4/3] w-full object-cover object-[center_28%]"
-                  loading="lazy"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.onerror = null;
-                    target.src = images.hero;
-                  }}
-                />
-              </figure>
-              <figure className="story-frame m-0 overflow-hidden ring-1 ring-[rgba(92,16,24,0.18)]">
-                {/* Portrait crop — avoid wide banner stretch on Katherine's features */}
-                <img
-                  src={images.familyDaughterGarden}
-                  alt="Katherine outdoors in the garden"
-                  className="aspect-[4/5] w-full object-cover object-[18%_18%] md:object-[20%_15%]"
-                  loading="lazy"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.onerror = null;
-                    target.src = images.hero;
-                  }}
-                />
-              </figure>
+              {/* Right: Alda & Katherine on top, two Katherine portraits on bottom */}
+              <div className="flex flex-col gap-4">
+                <figure className="story-frame m-0 overflow-hidden rounded-lg border border-[#b99a68]/50">
+                  <img
+                    src={images.familyMotherDaughter}
+                    alt="Alda and Katherine smiling together"
+                    className="aspect-[4/3] w-full object-cover object-[center_30%]"
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      target.src = images.hero;
+                    }}
+                  />
+                </figure>
+                <div className="grid grid-cols-2 gap-3 flex-1">
+                  <figure className="story-frame m-0 overflow-hidden rounded-lg border border-[#b99a68]/50">
+                    <img
+                      src={images.familyKatherineOz}
+                      alt="Katherine in front of Wizard of Oz poster"
+                      className="aspect-[3/4] h-full w-full object-cover object-center"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        target.src = images.hero;
+                      }}
+                    />
+                  </figure>
+                  <figure className="story-frame m-0 overflow-hidden rounded-lg border border-[#b99a68]/50">
+                    <img
+                      src={images.familyKatherineGlinda}
+                      alt="Katherine with Glinda cutout"
+                      className="aspect-[3/4] h-full w-full object-cover object-center"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        target.src = images.hero;
+                      }}
+                    />
+                  </figure>
+                </div>
+              </div>
             </div>
           </div>
 

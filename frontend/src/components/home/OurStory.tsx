@@ -53,7 +53,7 @@ export default function OurStory() {
             aria-hidden
           />
           <p className="font-[Cinzel,serif] text-[0.62rem] uppercase tracking-[0.36em] text-[#e4d2a8]">
-            End of Prologue
+            Our Family • Our Heart
           </p>
           <h2
             id="our-story-heading"

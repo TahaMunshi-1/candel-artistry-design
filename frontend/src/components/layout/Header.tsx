@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { images } from "../../constants/images";
 import { useCart } from "../../context/CartContext";
@@ -7,12 +7,6 @@ import SearchModal from "../shop/SearchModal";
 import ProfileModal from "../shop/ProfileModal";
 
 type NavItem = { label: string; to?: string; href?: string };
-
-const leftLinks: NavItem[] = [
-  { label: "Home", to: "/" },
-  { label: "Our Story", to: "/our-story" },
-  { label: "Moments", href: "/#experience" },
-];
 
 const rightLinks: NavItem[] = [
   { label: "Candles", to: "/candles" },
@@ -98,6 +92,9 @@ export default function Header({ forceSolid = false }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [storyDropdownOpen, setStoryDropdownOpen] = useState(false);
+  const [mobileStoryOpen, setMobileStoryOpen] = useState(false);
+  const storyDropdownRef = useRef<HTMLDivElement>(null);
 
   const { cartCount, openCart } = useCart();
   const { isLoggedIn, openAuthModal } = useCustomerAuth();
@@ -121,6 +118,28 @@ export default function Header({ forceSolid = false }: HeaderProps) {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        storyDropdownRef.current &&
+        !storyDropdownRef.current.contains(event.target as Node)
+      ) {
+        setStoryDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setStoryDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const handleAccountClick = () => {
     if (isLoggedIn) {
@@ -153,9 +172,104 @@ export default function Header({ forceSolid = false }: HeaderProps) {
               className="hidden lg:flex items-center gap-6 xl:gap-8 justify-self-start"
               aria-label="Primary left"
             >
-              {leftLinks.map((link) => (
-                <NavAnchor key={link.label} item={link} className={navClass} />
-              ))}
+              <NavAnchor item={{ label: "Home", to: "/" }} className={navClass} />
+
+              {/* Our Story Dropdown trigger and popup */}
+              <div className="relative" ref={storyDropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setStoryDropdownOpen((v) => !v)}
+                  aria-expanded={storyDropdownOpen}
+                  className={`${navClass} ${!solid ? "!text-[#F5EBD8] hover:!text-[#E8D4A8]" : "!text-ink hover:!text-burgundy"} inline-flex items-center gap-1.5 cursor-pointer bg-transparent border-0 p-0 font-inherit focus:outline-none`}
+                >
+                  <span>Our Story</span>
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`transition-transform duration-300 ${storyDropdownOpen ? "rotate-180" : ""}`}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+
+                {/* Dropdown Card */}
+                {storyDropdownOpen && (
+                  <div
+                    className="absolute top-full left-0 mt-3.5 w-[420px] rounded-2xl bg-[#fcf8f2] border border-[#b99a68]/45 p-5 z-50 text-left shadow-[0_22px_60px_rgba(20,10,5,0.32)] animate-in fade-in slide-in-from-top-2 duration-200"
+                  >
+                    {/* Decorative arrow pointing up */}
+                    <div className="absolute -top-2 left-6 w-3.5 h-3.5 bg-[#fcf8f2] border-t border-l border-[#b99a68]/45 rotate-45" />
+
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between border-b border-[#b99a68]/20 pb-2.5 mb-3.5">
+                        <div>
+                          <p className="font-display text-[0.58rem] uppercase tracking-[0.28em] text-[#b99a68]">
+                            Candle Artistry Design
+                          </p>
+                          <h3 className="font-display text-[1.12rem] font-medium text-[#4a151b] leading-tight mt-0.5">
+                            The Story Behind the Flame
+                          </h3>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setStoryDropdownOpen(false)}
+                          className="text-stone-400 hover:text-[#4a151b] text-base p-1 cursor-pointer transition-colors leading-none"
+                          aria-label="Close story preview"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <div className="flex gap-3.5 items-start mb-3.5">
+                        <img
+                          src={images.familyFatherDaughter}
+                          alt="Jeff and Katherine"
+                          className="w-20 h-24 object-cover object-[center_20%] rounded-lg border border-[#b99a68]/40 shadow-sm shrink-0"
+                        />
+                        <div className="text-[0.84rem] text-stone-700 leading-relaxed font-serif">
+                          <p className="line-clamp-4">
+                            I&apos;m Jeff Fontano, and Candle Artistry Design began with the two greatest influences in my life—my wife, Alda, and our daughter, Katherine. Watching Katherine captivated by the gentle glow of a candle flame turned our passion into an atelier craft.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="rounded-lg bg-[#f5ede0] p-2.5 mb-3.5 border border-[#b99a68]/20 text-[0.76rem] text-stone-700 space-y-1">
+                        <div className="flex items-center gap-1.5 text-[#5c1018] font-medium">
+                          <span>✧</span> <span>Artfully Crafted • Intentionally Lit</span>
+                        </div>
+                        <p className="text-stone-600 text-[0.72rem] italic">
+                          Impressionist oil paintings brought to candle labels to help provide for Katherine&apos;s future.
+                        </p>
+                      </div>
+
+                      <div className="flex items-center justify-between gap-3 pt-1">
+                        <Link
+                          to="/our-story"
+                          onClick={() => setStoryDropdownOpen(false)}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#5c1018] text-[#fcf8f2] hover:bg-[#7a1c25] text-[0.74rem] font-medium tracking-[0.08em] uppercase transition-colors shadow-sm"
+                        >
+                          Read Full Story →
+                        </Link>
+                        <a
+                          href="/#our-story"
+                          onClick={() => setStoryDropdownOpen(false)}
+                          className="text-[0.74rem] text-stone-600 hover:text-[#5c1018] underline underline-offset-2 transition-colors font-serif italic"
+                        >
+                          View Family Photos
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <NavAnchor item={{ label: "Moments", href: "/#experience" }} className={navClass} />
             </nav>
 
             <button
@@ -302,7 +416,71 @@ export default function Header({ forceSolid = false }: HeaderProps) {
             className="container-editorial pb-8 pt-2 flex flex-col gap-5 border-t border-[rgba(185,154,104,0.25)] bg-ivory"
             aria-label="Mobile"
           >
-            {[...leftLinks, ...rightLinks].map((link) => (
+            <NavAnchor
+              item={{ label: "Home", to: "/" }}
+              className="text-nav text-ink py-1"
+              onClick={() => setOpen(false)}
+            />
+
+            {/* Mobile Our Story Accordion */}
+            <div className="border-y border-[rgba(185,154,104,0.18)] py-1">
+              <button
+                type="button"
+                onClick={() => setMobileStoryOpen((v) => !v)}
+                className="w-full text-nav text-ink py-1 flex items-center justify-between cursor-pointer"
+              >
+                <span>Our Story</span>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform duration-300 ${mobileStoryOpen ? "rotate-180" : ""}`}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              {mobileStoryOpen && (
+                <div className="mt-2 mb-2 p-3 rounded-xl bg-[#f5ede0] border border-[#b99a68]/30">
+                  <div className="flex gap-3 items-start mb-2.5">
+                    <img
+                      src={images.familyFatherDaughter}
+                      alt="Jeff and Katherine"
+                      className="w-16 h-20 object-cover object-[center_20%] rounded-md border border-[#b99a68]/40 shrink-0"
+                    />
+                    <div className="text-[0.8rem] text-stone-700 leading-snug font-serif">
+                      <p className="line-clamp-3">
+                        I&apos;m Jeff Fontano. Candle Artistry Design began with my wife Alda and our daughter Katherine, inspired by her captivation with the glow of a candle flame.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 pt-1">
+                    <Link
+                      to="/our-story"
+                      onClick={() => {
+                        setOpen(false);
+                        setMobileStoryOpen(false);
+                      }}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#5c1018] text-[#fcf8f2] text-[0.7rem] font-medium uppercase tracking-[0.08em]"
+                    >
+                      Read Full Story →
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <NavAnchor
+              item={{ label: "Moments", href: "/#experience" }}
+              className="text-nav text-ink py-1"
+              onClick={() => setOpen(false)}
+            />
+
+            {rightLinks.map((link) => (
               <NavAnchor
                 key={link.label}
                 item={link}
