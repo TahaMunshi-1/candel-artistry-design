@@ -300,7 +300,11 @@ export default function Header({ forceSolid = false }: HeaderProps) {
 
             <Link
               to="/"
-              className="justify-self-center text-center group"
+              className={`justify-self-center text-center group transition-all duration-300 ${
+                solid
+                  ? "opacity-100 pointer-events-auto"
+                  : "opacity-0 pointer-events-none select-none"
+              }`}
               onClick={() => setOpen(false)}
             >
               <img
