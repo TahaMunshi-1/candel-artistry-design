@@ -11,6 +11,7 @@ const beats = [
     image: images.familyMotherDaughter,
     alt: "Alda and Katherine smiling together, heads leaning close",
     layout: "image-left" as const,
+    objectPosition: "object-[center_30%]",
   },
   {
     id: "father",
@@ -20,6 +21,7 @@ const beats = [
     image: images.familyFatherDaughter,
     alt: "Jeff and Katherine sharing a book on the sofa, smiling",
     layout: "image-right" as const,
+    objectPosition: "object-[center_30%]",
   },
   {
     id: "daughter",
@@ -28,7 +30,8 @@ const beats = [
     body: "For her, we shaped gardens and daydreams — and a brand where fantasy feels like home. Candle Artistry Design is our kingdom made real: handcrafted light, storybook artistry, and a love that never dimmed.",
     image: images.familyDaughterGarden,
     alt: "Katherine smiling outdoors in the garden built with love",
-    layout: "wide" as const,
+    layout: "image-left" as const,
+    objectPosition: "object-[18%_25%]",
   },
 ];
 
@@ -109,75 +112,44 @@ export default function OurStory() {
               my wife Alda and I, building a world of beauty for our daughter Katherine.
             </p>
 
-        <div className="mx-auto flex max-w-5xl flex-col gap-16 md:gap-24">
-          {beats.map((beat) => {
-            if (beat.layout === "wide") {
-              return (
-                <article key={beat.id} className="grid gap-6 text-center">
-                  <figure className="our-story__frame mx-auto max-w-md overflow-hidden md:max-w-lg">
-                    <img
-                      src={beat.image}
-                      alt={beat.alt}
-                      className="aspect-[4/5] h-auto w-full object-cover object-[18%_18%] md:object-[20%_15%]"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        target.onerror = null;
-                        target.src = images.hero;
-                      }}
-                    />
-                  </figure>
-                  <div className="mx-auto max-w-xl">
-                    <p className="font-[Cinzel,serif] text-[0.58rem] uppercase tracking-[0.34em] text-[#e4d2a8]">
-                      {beat.chapter}
-                    </p>
-                    <h3 className="mt-2 font-[Cinzel,serif] text-[clamp(1.2rem,2.4vw,1.65rem)] font-medium tracking-[0.08em] text-[#f3ebe0]">
-                      {beat.heading}
-                    </h3>
-                    <p className="mt-3 font-[Cormorant_Garamond,Georgia,serif] text-[clamp(1rem,1.7vw,1.12rem)] font-light italic leading-relaxed text-[rgba(244,235,225,0.84)]">
-                      {beat.body}
-                    </p>
-                  </div>
-                </article>
-              );
-            }
-
-            const imageFirst = beat.layout === "image-left";
-            return (
-              <article
-                key={beat.id}
-                className="grid items-center gap-8 md:grid-cols-2 md:gap-12"
-              >
-                <figure
-                  className={`our-story__frame overflow-hidden ${imageFirst ? "" : "md:order-2"}`}
-                >
-                  <img
-                    src={beat.image}
-                    alt={beat.alt}
-                    className="aspect-[4/3] h-auto w-full object-cover object-[center_30%]"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.onerror = null;
-                      target.src = images.hero;
-                    }}
-                  />
-                </figure>
-                <div className={imageFirst ? "" : "md:order-1"}>
-                  <p className="font-[Cinzel,serif] text-[0.58rem] uppercase tracking-[0.34em] text-[#e4d2a8]">
-                    {beat.chapter}
-                  </p>
-                  <h3 className="mt-2 font-[Cinzel,serif] text-[clamp(1.2rem,2.4vw,1.65rem)] font-medium tracking-[0.08em] text-[#f3ebe0]">
-                    {beat.heading}
-                  </h3>
-                  <p className="mt-3 font-[Cormorant_Garamond,Georgia,serif] text-[clamp(1rem,1.7vw,1.12rem)] font-light italic leading-relaxed text-[rgba(244,235,225,0.84)]">
-                    {beat.body}
-                  </p>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+            <div className="mx-auto flex max-w-5xl flex-col gap-16 md:gap-24">
+              {beats.map((beat) => {
+                const imageFirst = beat.layout === "image-left";
+                return (
+                  <article
+                    key={beat.id}
+                    className="grid items-center gap-8 md:grid-cols-2 md:gap-12"
+                  >
+                    <figure
+                      className={`our-story__frame overflow-hidden ${imageFirst ? "" : "md:order-2"}`}
+                    >
+                      <img
+                        src={beat.image}
+                        alt={beat.alt}
+                        className={`aspect-[4/3] h-auto w-full object-cover ${beat.objectPosition}`}
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.onerror = null;
+                          target.src = images.hero;
+                        }}
+                      />
+                    </figure>
+                    <div className={imageFirst ? "" : "md:order-1"}>
+                      <p className="font-[Cinzel,serif] text-[0.58rem] uppercase tracking-[0.34em] text-[#e4d2a8]">
+                        {beat.chapter}
+                      </p>
+                      <h3 className="mt-2 font-[Cinzel,serif] text-[clamp(1.2rem,2.4vw,1.65rem)] font-medium tracking-[0.08em] text-[#f3ebe0]">
+                        {beat.heading}
+                      </h3>
+                      <p className="mt-3 font-[Cormorant_Garamond,Georgia,serif] text-[clamp(1rem,1.7vw,1.12rem)] font-light italic leading-relaxed text-[rgba(244,235,225,0.84)]">
+                        {beat.body}
+                      </p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
 
         <footer className="mx-auto mt-16 max-w-lg text-center md:mt-24">
           <div

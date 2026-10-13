@@ -6,11 +6,11 @@ export default function Hero() {
       className="relative w-full h-screen min-h-[600px] overflow-hidden bg-[#160f0d] flex items-center justify-center"
       aria-label="Hero Banner"
     >
-      {/* Full-bleed hero banner image spanning 100% full screen with header overlaid */}
+      {/* Full-bleed hero banner image positioned slightly left so text is centered and candle is on the left */}
       <img
         src={images.bannerGif}
         alt="Candle Artistry Design — Moments in Time. Some moments are remembered. Some are relived. Some can be held in your hands."
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        className="absolute inset-0 w-full h-full object-cover object-[60%_center] scale-105 md:scale-[1.18] -translate-x-[4%] md:-translate-x-[7%]"
       />
 
       {/* Soft top gradient taper for header overlay text readability */}
