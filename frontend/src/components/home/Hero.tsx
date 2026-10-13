@@ -24,11 +24,11 @@ export default function Hero() {
       {/* Subtle bottom vignette for CTA readability */}
       <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[rgba(22,15,13,0.7)] via-[rgba(22,15,13,0.2)] to-transparent pointer-events-none z-10" />
 
-      {/* Well-sized CTA Button positioned directly under the hero banner text */}
-      <div className="absolute bottom-6 md:bottom-9 left-1/2 -translate-x-1/2 z-20 text-center w-full px-4">
+      {/* Well-sized CTA Button positioned dead-center directly under the hero banner text */}
+      <div className="absolute bottom-6 md:bottom-9 inset-x-0 z-20 flex justify-center px-4 pointer-events-auto">
         <a
           href="#experience"
-          className="burgundy-btn inline-flex items-center gap-3 !bg-[#8B5B58] !border-[#8B5B58] !text-[#FBF8F2] hover:!bg-[#734643] shadow-[0_8px_32px_rgba(0,0,0,0.7)] px-10 md:px-14 py-3.5 md:py-4.5 rounded-full uppercase tracking-[0.22em] text-[0.92rem] md:text-[1.05rem] font-semibold transition-all hover:scale-105 active:scale-95"
+          className="burgundy-btn inline-flex items-center gap-3 !bg-[#8B5B58] !border-[#8B5B58] !text-[#FBF8F2] hover:!bg-[#734643] shadow-[0_8px_32px_rgba(0,0,0,0.7)] px-10 md:px-14 py-3.5 md:py-4.5 !rounded-full uppercase tracking-[0.22em] text-[0.92rem] md:text-[1.05rem] font-semibold transition-all hover:scale-105 active:scale-95"
         >
           Explore the Moments <span className="arrow text-lg">→</span>
         </a>
