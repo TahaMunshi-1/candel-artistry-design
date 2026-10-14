@@ -99,6 +99,9 @@ type CatalogContextValue = {
   cards: GalleryItem[];
   loading: boolean;
   getCollection: (slug: string) => CandleCollection | undefined;
+  updateCollection: (id: string, patch: Partial<CandleCollection>) => void;
+  addCollection: (col: { title: string; eyebrow?: string; line?: string; heroImage?: string; heroAlt?: string }) => void;
+  removeCollection: (id: string) => void;
   updateCandleProduct: (
     collectionId: string,
     productId: string,
@@ -228,6 +231,46 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       cards: state.cards,
       loading,
       getCollection: (slug) => state.collections.find((c) => c.slug === slug),
+      updateCollection: (id, patch) => {
+        update((prev) => ({
+          ...prev,
+          collections: prev.collections.map((c) =>
+            c.id === id || c.slug === id ? { ...c, ...patch } : c,
+          ),
+        }));
+        api.updateCollection(id, patch).catch((err) =>
+          console.error("API update collection failed:", err),
+        );
+      },
+      addCollection: (col) => {
+        const slug = slugify(col.title);
+        const newCol: CandleCollection = {
+          id: slug,
+          slug,
+          title: col.title,
+          eyebrow: col.eyebrow || "Collection",
+          line: col.line || "",
+          heroImage: col.heroImage || "",
+          heroAlt: col.heroAlt || col.title,
+          products: [],
+        };
+        update((prev) => ({
+          ...prev,
+          collections: [...prev.collections, newCol],
+        }));
+        api.createCollection({ ...col, slug }).catch((err) =>
+          console.error("API create collection failed:", err),
+        );
+      },
+      removeCollection: (id) => {
+        update((prev) => ({
+          ...prev,
+          collections: prev.collections.filter((c) => c.id !== id && c.slug !== id),
+        }));
+        api.deleteCollection(id).catch((err) =>
+          console.error("API delete collection failed:", err),
+        );
+      },
       updateCandleProduct: (collectionId, productId, patch) => {
         update((prev) => ({
           ...prev,

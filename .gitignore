@@ -13,3 +13,9 @@ frontend/tools/**/*.exe
 # Client briefs / local previews (not for deploy)
 .pdf-preview/
 *.pdf
+*.zip
+*.mp4
+*.gif
+Hero Banner (1).png
+backend_untracked/
+frontend/extracted_images/

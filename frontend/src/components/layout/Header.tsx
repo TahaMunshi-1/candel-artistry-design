@@ -10,8 +10,7 @@ type NavItem = { label: string; to?: string; href?: string };
 
 const rightLinks: NavItem[] = [
   { label: "Candles", to: "/candles" },
-  { label: "Paintings", to: "/paintings" },
-  { label: "Cards", to: "/greeting-cards" },
+  { label: "Greeting Cards", to: "/greeting-cards" },
 ];
 
 function IconSearch() {
@@ -256,20 +255,20 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                         >
                           Read Full Story →
                         </Link>
-                        <a
-                          href="/#our-story"
+                        <Link
+                          to="/our-story"
                           onClick={() => setStoryDropdownOpen(false)}
                           className="text-[0.74rem] text-stone-600 hover:text-[#5c1018] underline underline-offset-2 transition-colors font-serif italic"
                         >
-                          View Family Photos
-                        </a>
+                          View Family Story
+                        </Link>
                       </div>
                     </div>
                   </div>
                 )}
               </div>
 
-              <NavAnchor item={{ label: "Moments", href: "/#experience" }} className={navClass} />
+              <NavAnchor item={{ label: "Collections", to: "/candles" }} className={navClass} />
             </nav>
 
             <button
@@ -479,7 +478,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
             </div>
 
             <NavAnchor
-              item={{ label: "Moments", href: "/#experience" }}
+              item={{ label: "Collections", to: "/candles" }}
               className="text-nav text-ink py-1"
               onClick={() => setOpen(false)}
             />

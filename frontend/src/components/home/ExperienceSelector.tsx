@@ -1,36 +1,48 @@
+import { Link } from "react-router";
 import { images } from "../../constants/images";
 import { DiamondMark } from "../decor/Ornaments";
 import { FloralCorner } from "../decor/BotanicalAssets";
 
-/** New framed artworks (section 2) */
-const framedMoments = [
+const candleMoments = [
   {
-    id: "romance",
+    id: "moments",
+    slug: "moments",
     title: "The Romance",
-    keywords: "Silk • Roses • Candlelight • Desire",
-    image: images.experienceRomance,
-    alt: "Victorian couple embracing at a moonlit train station — The Romance",
+    eyebrow: "Moments Collection",
+    keywords: "Clove • Sweet Pear • Tangerine • Jasmine",
+    image: images.collectionMoments,
+    alt: "Handcrafted soy candle jars with gold lids — Moments Collection",
+    badge: "Signature Blend",
   },
   {
-    id: "mystery",
-    title: "The Mystery",
-    keywords: "Shadow • Candlelight • Crypt • Intrigue",
-    image: images.experienceMystery,
-    alt: "Ornate crypt with candlelight and a coffin ajar — The Mystery",
+    id: "vampire",
+    slug: "vampire",
+    title: "The Vampire",
+    eyebrow: "Vampire Collection",
+    keywords: "Smoked Oud • Blood Orange • Damask Rose",
+    image: images.collectionVampire,
+    alt: "Midnight black glass candles with gold lids — Vampire Collection",
+    badge: "Midnight Atelier",
   },
   {
-    id: "cabin",
-    title: "The Cabin",
-    keywords: "Barn • Meadow • Sunset • Home",
-    image: images.experienceCabin,
-    alt: "Black horse at a rustic barn fence under golden sunset — The Cabin",
+    id: "rodeo",
+    slug: "rodeo",
+    title: "The Rodeo",
+    eyebrow: "Rodeo Collection",
+    keywords: "Weathered Leather • Nutmeg • Sunlit Amber",
+    image: images.collectionRodeo,
+    alt: "Western handcrafted soy candles — Rodeo Collection",
+    badge: "Heritage Flame",
   },
   {
-    id: "wilderness",
+    id: "africa-yosemite",
+    slug: "essence-of-africa",
     title: "The Wilderness",
-    keywords: "Pine • Mountains • River • Open Sky",
-    image: images.experienceWilderness,
-    alt: "Man and dog overlooking a mountain valley at sunset — The Wilderness",
+    eyebrow: "Essence & Yosemite",
+    keywords: "Acacia Flower • Sandalwood • Pine • Frankincense",
+    image: images.collectionAfrica,
+    alt: "Artisan coconut apricot wax candle jars — Africa & Yosemite Collections",
+    badge: "Pure Botanicals",
   },
 ];
 
@@ -43,111 +55,120 @@ export default function ExperienceSelector({
   id = "experience",
   headingId = "experience-heading",
 }: ExperienceSelectorProps) {
-  const idPrefix = id === "experience" ? "" : `${id}-`;
-  const moments = framedMoments;
-  const cacheKey = "vivid1";
-
   return (
     <section
       id={id}
-      className="relative band-height flex items-center bg-ivory overflow-hidden [container-type:size]"
+      className="relative min-h-[620px] lg:min-h-[700px] flex items-center bg-ivory overflow-hidden py-12 md:py-16"
       aria-labelledby={headingId}
     >
       <FloralCorner
         corner="tl"
-        className="absolute left-0 top-0 w-[min(160px,28vw)] opacity-[0.38] hidden sm:block"
+        className="absolute left-0 top-0 w-[min(160px,24vw)] opacity-[0.34] hidden sm:block pointer-events-none"
       />
       <FloralCorner
         corner="tr"
-        className="absolute right-0 top-0 w-[min(160px,28vw)] opacity-[0.38] hidden sm:block"
+        className="absolute right-0 top-0 w-[min(160px,24vw)] opacity-[0.34] hidden sm:block pointer-events-none"
       />
       <FloralCorner
         corner="bl"
-        className="absolute left-0 bottom-0 w-[min(130px,22vw)] opacity-[0.28] hidden lg:block"
+        className="absolute left-0 bottom-0 w-[min(130px,20vw)] opacity-[0.25] hidden lg:block pointer-events-none"
       />
       <FloralCorner
         corner="br"
-        className="absolute right-0 bottom-0 w-[min(130px,22vw)] opacity-[0.28] hidden lg:block"
+        className="absolute right-0 bottom-0 w-[min(130px,20vw)] opacity-[0.25] hidden lg:block pointer-events-none"
       />
 
-      <img
-        src={images.botanical}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 h-[45%] w-auto max-w-[80px] opacity-[0.28] hidden xl:block select-none decor-gold"
-      />
-      <img
-        src={images.botanical}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 h-[45%] w-auto max-w-[80px] opacity-[0.28] hidden xl:block select-none scale-x-[-1] decor-gold"
-      />
-
-      <div className="container-editorial relative z-10 w-full py-2 md:py-3 h-full flex flex-col justify-center">
-        <header className="mx-auto mb-2.5 md:mb-3 max-w-3xl text-center shrink-0">
-          <img
-            src={images.botanical}
-            alt=""
-            aria-hidden
-            className="mx-auto mb-2 h-5 w-auto opacity-40 rotate-90 object-contain select-none"
-          />
-          <p className="text-eyebrow text-burgundy">Moments</p>
+      <div className="container-editorial relative z-10 w-full">
+        {/* Brand Header */}
+        <header className="mx-auto mb-8 md:mb-12 max-w-3xl text-center">
+          <div className="inline-flex items-center gap-2 mb-2">
+            <span className="h-px w-6 bg-gold/60" />
+            <p className="text-eyebrow text-burgundy !tracking-[0.32em]">
+              Candle Artistry Design Co.
+            </p>
+            <span className="h-px w-6 bg-gold/60" />
+          </div>
           <h2
             id={headingId}
-            className="mt-2 text-section text-ink tracking-[0.04em] font-light"
+            className="text-section text-ink tracking-[0.04em] font-light leading-tight"
           >
             What moment do you want to experience?
           </h2>
-          <div className="mt-2.5 flex items-center justify-center gap-3 text-gold">
-            <div className="h-px w-10 bg-gold/45" />
-            <DiamondMark className="h-1.5 w-1.5 shrink-0" />
-            <div className="h-px w-10 bg-gold/45" />
+          <div className="mt-3 flex items-center justify-center gap-3 text-gold">
+            <div className="h-px w-12 bg-gold/45" />
+            <DiamondMark className="h-2 w-2 shrink-0" />
+            <div className="h-px w-12 bg-gold/45" />
           </div>
+          <p className="mt-3 text-body text-taupe max-w-2xl mx-auto text-[0.88rem] md:text-[0.96rem] leading-relaxed">
+            Hand-poured in Coarsegold, CA with pure Coconut Apricot & Soy wax, lead-free cotton wicks, and phthalate-free fine fragrances. Each vessel holds a story waiting to be lit.
+          </p>
         </header>
 
-        <ul className="m-0 grid list-none grid-cols-2 gap-y-3 gap-x-3 sm:gap-x-5 lg:grid-cols-4 lg:gap-x-6 p-0 items-end content-center flex-1 min-h-0">
-          {moments.map((moment) => (
-            <li key={`${idPrefix}${moment.id}`} className="min-w-0 flex justify-center">
-              <a
-                href={`#${idPrefix}${moment.id}`}
-                className="group flex w-full max-w-[270px] flex-col items-center text-center"
-              >
-                <div
-                  className="experience-art relative w-full mx-auto"
-                  style={{
-                    height: "min(440px, calc(100cqh - 7.5rem))",
-                    maxWidth: "min(300px, 100%)",
-                  }}
-                >
-                  <img
-                    src={`${moment.image}?v=${cacheKey}`}
-                    alt={moment.alt}
-                    className="experience-art__img absolute inset-0 h-full w-full object-contain object-center"
-                    loading="eager"
-                    decoding="async"
-                    width={1536}
-                    height={2048}
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.onerror = null;
-                      target.src = images.candles;
-                    }}
-                  />
-                  <span className="experience-art__veil" aria-hidden />
-                </div>
+        {/* 4 Brand Candle Moments Showcase */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-7 items-stretch">
+          {candleMoments.map((moment) => (
+            <Link
+              key={moment.id}
+              to={`/candles/${moment.slug}`}
+              className="group relative flex flex-col rounded-2xl border border-gold/35 bg-[#fcf9f4] p-3.5 md:p-4 shadow-[0_8px_24px_rgba(40,25,20,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:border-gold hover:shadow-[0_16px_36px_rgba(92,16,24,0.14)]"
+            >
+              {/* Badge */}
+              <div className="flex items-center justify-between mb-2.5 px-1">
+                <span className="font-serif text-[0.62rem] uppercase tracking-[0.24em] text-burgundy font-medium">
+                  {moment.eyebrow}
+                </span>
+                <span className="rounded-full bg-champagne/80 px-2 py-0.5 text-[0.58rem] font-medium tracking-wider text-taupe uppercase border border-gold/25">
+                  {moment.badge}
+                </span>
+              </div>
 
-                <div className="mt-2 w-full px-1">
-                  <h3 className="m-0 font-serif text-[0.88rem] md:text-[0.95rem] tracking-[0.18em] uppercase text-ink">
-                    {moment.title}
-                  </h3>
-                  <p className="mt-1.5 mb-0 font-serif italic text-[0.72rem] md:text-[0.78rem] leading-relaxed text-taupe tracking-wide">
-                    {moment.keywords}
-                  </p>
+              {/* Candle Product Mockup Container */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-champagne/40 border border-gold/25 flex items-center justify-center">
+                <img
+                  src={moment.image}
+                  alt={moment.alt}
+                  className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.candles;
+                  }}
+                />
+                {/* Subtle Luxury Sheen */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[rgba(32,15,10,0.35)] via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute bottom-2.5 inset-x-0 flex justify-center opacity-0 transition-all duration-300 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0">
+                  <span className="rounded-full bg-[#5c1018] px-3 py-1 font-serif text-[0.62rem] tracking-[0.2em] uppercase text-[#fcf8f2] shadow-sm">
+                    Enter Collection →
+                  </span>
                 </div>
-              </a>
-            </li>
+              </div>
+
+              {/* Candle Details */}
+              <div className="mt-3.5 flex flex-col flex-1 text-center px-1">
+                <h3 className="font-serif text-[1.05rem] md:text-[1.12rem] tracking-[0.14em] uppercase text-ink font-medium">
+                  {moment.title}
+                </h3>
+                <p className="mt-1.5 mb-2 font-serif italic text-[0.76rem] md:text-[0.82rem] leading-relaxed text-taupe">
+                  {moment.keywords}
+                </p>
+                <div className="mt-auto pt-2 border-t border-gold/20 flex items-center justify-center gap-1.5 text-[0.7rem] uppercase tracking-wider text-burgundy group-hover:text-gold transition-colors font-medium">
+                  <span>Explore Fragrances</span>
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </div>
+              </div>
+            </Link>
           ))}
-        </ul>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-10 md:mt-12 text-center">
+          <Link
+            to="/candles"
+            className="outline-btn !border-burgundy !text-burgundy hover:!bg-burgundy hover:!text-[#FBF8F2] shadow-xs"
+          >
+            View All 6 Collections <span className="arrow">→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

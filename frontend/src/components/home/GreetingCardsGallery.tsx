@@ -1,165 +1,173 @@
 import { Link } from "react-router";
 import { images, resolveImageUrl } from "../../constants/images";
-import { FloralCorner, BotanicalPetal, PetalAccent } from "../decor/BotanicalAssets";
+import { FloralCorner, BotanicalPetal } from "../decor/BotanicalAssets";
 import { DiamondMark } from "../decor/Ornaments";
+import { useCart } from "../../context/CartContext";
 
-const greetingCards = [
+const cardsData = [
   {
-    id: "card-romance",
+    id: "card-garden-reverie",
     name: "Garden Reverie",
-    image: images.experienceClassic4,
-    alt: "Greeting card — winged figure in a flower garden at sunset",
+    image: images.card1,
+    alt: "Greeting card — Garden Reverie with floral gold embossed foil",
+    nomenclature: "Gold Foil Embossed • Luxury Envelope Included",
+    price: 12,
   },
   {
-    id: "card-mystery",
+    id: "card-moonlit-raven",
     name: "Moonlit Raven",
-    image: images.experienceClassic2,
-    alt: "Greeting card — enchanted forest with lantern and raven",
+    image: images.card2,
+    alt: "Greeting card — Moonlit Raven in enchanted night forest",
+    nomenclature: "Gold Foil Embossed • Luxury Envelope Included",
+    price: 12,
   },
   {
-    id: "card-cabin",
+    id: "card-lantern-evening",
     name: "Lantern Evening",
-    image: images.experienceClassic3,
-    alt: "Greeting card — moonlit balcony with lantern and roses",
+    image: images.card3,
+    alt: "Greeting card — Lantern Evening moonlit balcony with roses",
+    nomenclature: "Gold Foil Embossed • Luxury Envelope Included",
+    price: 12,
   },
   {
-    id: "card-wilderness",
+    id: "card-open-sky",
     name: "Open Sky",
-    image: images.experienceClassic1,
-    alt: "Greeting card — golden-winged figure beneath an open sky",
+    image: images.card4,
+    alt: "Greeting card — Open Sky golden winged figure",
+    nomenclature: "Gold Foil Embossed • Luxury Envelope Included",
+    price: 12,
   },
 ];
 
 export default function GreetingCardsGallery() {
+  const { addToCart } = useCart();
+
+  const handleAdd = (card: (typeof cardsData)[0]) => {
+    addToCart({
+      id: card.id,
+      name: card.name,
+      price: card.price,
+      image: resolveImageUrl(card.image, images.cards),
+      category: "Greeting Cards",
+      nomenclature: card.nomenclature,
+    });
+  };
+
   return (
     <section
       id="experience-gallery"
-      className="relative band-height flex items-center overflow-hidden bg-ivory [container-type:size]"
+      className="relative min-h-[680px] lg:min-h-[740px] flex items-center overflow-hidden bg-ivory py-14 md:py-18"
       aria-labelledby="greeting-cards-heading"
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.08]"
         style={{
-          background:
-            "radial-gradient(ellipse at 50% 18%, #5c1018 0%, transparent 55%)",
+          background: "radial-gradient(ellipse at 50% 18%, #5c1018 0%, transparent 55%)",
         }}
         aria-hidden
       />
 
       <FloralCorner
         corner="tl"
-        className="absolute left-0 top-0 w-[min(160px,28vw)] opacity-[0.34] hidden md:block"
+        className="absolute left-0 top-0 w-[min(160px,26vw)] opacity-[0.32] hidden md:block pointer-events-none"
       />
       <FloralCorner
         corner="tr"
-        className="absolute right-0 top-0 w-[min(160px,28vw)] opacity-[0.34] hidden md:block"
+        className="absolute right-0 top-0 w-[min(160px,26vw)] opacity-[0.32] hidden md:block pointer-events-none"
       />
       <FloralCorner
         corner="bl"
-        className="absolute left-0 bottom-0 w-[min(130px,22vw)] opacity-[0.26] hidden lg:block"
+        className="absolute left-0 bottom-0 w-[min(130px,20vw)] opacity-[0.24] hidden lg:block pointer-events-none"
       />
       <FloralCorner
         corner="br"
-        className="absolute right-0 bottom-0 w-[min(130px,22vw)] opacity-[0.26] hidden lg:block"
+        className="absolute right-0 bottom-0 w-[min(130px,20vw)] opacity-[0.24] hidden lg:block pointer-events-none"
       />
       <BotanicalPetal
-        className="absolute left-0 top-[42%] -translate-y-1/2 h-32 opacity-[0.26] hidden xl:block"
+        className="absolute left-0 top-[42%] -translate-y-1/2 h-32 opacity-[0.24] hidden xl:block pointer-events-none"
         rotate={-10}
       />
       <BotanicalPetal
-        className="absolute right-0 top-[42%] -translate-y-1/2 h-32 opacity-[0.26] hidden xl:block"
+        className="absolute right-0 top-[42%] -translate-y-1/2 h-32 opacity-[0.24] hidden xl:block pointer-events-none"
         flip
         rotate={10}
       />
 
-      <div className="container-editorial relative z-[1] w-full py-2 md:py-3 h-full flex flex-col justify-center">
-        <nav
-          className="relative mb-2 md:mb-2.5"
-          aria-label="Product categories"
-        >
-          <PetalAccent className="absolute left-0 top-1/2 -translate-y-1/2 h-9 w-auto rotate-90 opacity-80 hidden sm:block" />
-          <PetalAccent className="absolute right-0 top-1/2 -translate-y-1/2 h-9 w-auto -rotate-90 scale-x-[-1] opacity-80 hidden sm:block" />
-          <div className="flex items-center justify-center gap-3 md:gap-4">
-            <div className="hidden sm:block h-px flex-1 max-w-[100px] bg-gold/40" />
-            <DiamondMark className="h-2 w-2 text-gold shrink-0" />
-            <p className="font-serif text-[0.62rem] md:text-[0.68rem] tracking-[0.28em] uppercase text-taupe text-center leading-relaxed">
-              <Link to="/candles" className="hover:text-burgundy transition-colors">
-                Candles
-              </Link>
-              <span className="mx-2 md:mx-3 text-gold">•</span>
-              <Link to="/paintings" className="hover:text-burgundy transition-colors">
-                Original Paintings
-              </Link>
-              <span className="mx-2 md:mx-3 text-gold">•</span>
-              <Link to="/greeting-cards" className="hover:text-burgundy transition-colors">
-                Greeting Cards
-              </Link>
-            </p>
-            <DiamondMark className="h-2 w-2 text-gold shrink-0" />
-            <div className="hidden sm:block h-px flex-1 max-w-[100px] bg-gold/40" />
-          </div>
-        </nav>
-
-        <div className="mx-auto mb-2 md:mb-2.5 max-w-xl text-center">
-          <p className="text-eyebrow text-burgundy">The Artistry</p>
+      <div className="container-editorial relative z-[1] w-full">
+        {/* Header */}
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <p className="text-eyebrow text-burgundy !tracking-[0.3em]">The Artistry</p>
           <h2
             id="greeting-cards-heading"
-            className="mt-2 text-section text-ink tracking-[0.04em]"
+            className="mt-2 text-section text-ink tracking-[0.04em] font-light leading-tight"
           >
-            Every moment begins with an image.
+            Greeting Cards
           </h2>
-          <div className="mt-1.5 flex items-center justify-center gap-3 text-gold">
-            <div className="h-px w-8 bg-gold/45" />
+          <div className="mt-2.5 flex items-center justify-center gap-3 text-gold">
+            <div className="h-px w-10 bg-gold/45" />
             <DiamondMark className="h-1.5 w-1.5 shrink-0" />
-            <div className="h-px w-8 bg-gold/45" />
+            <div className="h-px w-10 bg-gold/45" />
           </div>
+          <p className="mt-3 text-body text-taupe max-w-lg mx-auto text-[0.88rem] md:text-[0.95rem]">
+            Illustrated storybook moments brought to heirloom-quality cards. Foil embossed on heavy textured stock, complete with matching artisan envelopes.
+          </p>
         </div>
 
-        <ul className="m-0 mx-auto grid w-full list-none grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-2 sm:gap-x-5 lg:gap-x-6 p-0 items-end flex-1 min-h-0 content-center">
-          {greetingCards.map((card) => (
-            <li key={card.id} className="min-w-0 flex justify-center h-full items-end">
-              <Link
-                to="/greeting-cards"
-                className="group relative block w-full max-w-[270px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-              >
-                <div
-                  className="relative w-full mx-auto transition-transform duration-700 ease-out group-hover:-translate-y-1"
-                  style={{
-                    height: "min(400px, calc(100cqh - 8.5rem))",
-                    maxWidth: "min(270px, 100%)",
+        {/* 4 Cards Showcase like Candle Products */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-7 items-stretch">
+          {cardsData.map((card) => (
+            <article
+              key={card.id}
+              className="group flex flex-col rounded-2xl border border-gold/35 bg-[#fcf9f4] p-4 text-center shadow-[0_8px_24px_rgba(40,25,20,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:border-gold hover:shadow-[0_16px_36px_rgba(92,16,24,0.14)]"
+            >
+              {/* Card Image Container */}
+              <Link to="/greeting-cards" className="block overflow-hidden rounded-xl bg-champagne/40 border border-gold/25 p-2">
+                <img
+                  src={resolveImageUrl(card.image, images.cards)}
+                  alt={card.alt}
+                  className="aspect-[3/4] w-full object-contain object-center drop-shadow-[0_8px_20px_rgba(64,51,43,0.18)] transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.cards;
                   }}
-                >
-                  <img
-                    src={resolveImageUrl(card.image, images.cards)}
-                    alt={card.alt}
-                    className="absolute inset-0 h-full w-full object-contain object-center drop-shadow-[0_14px_28px_rgba(64,51,43,0.18)] transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:drop-shadow-[0_20px_36px_rgba(92,16,24,0.22)]"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.onerror = null;
-                      target.src = images.cards;
-                    }}
-                  />
-
-                  <div className="pointer-events-none absolute inset-x-0 bottom-[6%] flex justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <span className="font-serif text-[0.55rem] tracking-[0.28em] uppercase text-[#FBF8F2] bg-[rgba(92,16,24,0.88)] px-2.5 py-1 shadow-sm">
-                      View card
-                    </span>
-                  </div>
-                </div>
-
-                <span className="sr-only">{card.name} greeting card</span>
+                />
               </Link>
-            </li>
-          ))}
-        </ul>
 
-        <div className="mt-2 md:mt-2.5 text-center shrink-0">
+              {/* Info */}
+              <div className="mt-4 flex flex-col flex-1">
+                <h3 className="font-serif text-[1.12rem] font-medium tracking-[0.06em] text-ink">
+                  {card.name}
+                </h3>
+                <p className="mt-1.5 font-serif text-[0.78rem] text-taupe leading-snug">
+                  {card.nomenclature}
+                </p>
+                <p className="mt-3 font-serif text-[1.15rem] tracking-[0.06em] text-ink font-semibold">
+                  ${card.price.toFixed(2)}
+                </p>
+
+                {/* Add to Cart button */}
+                <div className="mt-auto pt-4">
+                  <button
+                    type="button"
+                    onClick={() => handleAdd(card)}
+                    className="w-full inline-flex items-center justify-center bg-gold px-4 py-2 font-serif text-[0.68rem] tracking-[0.2em] uppercase text-ivory transition-colors duration-300 hover:bg-burgundy cursor-pointer rounded-full shadow-xs"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-12 text-center">
           <Link
             to="/greeting-cards"
-            className="outline-btn !border-burgundy !text-burgundy hover:!bg-burgundy hover:!text-[#FBF8F2]"
+            className="outline-btn !border-burgundy !text-burgundy hover:!bg-burgundy hover:!text-[#FBF8F2] shadow-xs"
           >
-            Explore the Artistry <span className="arrow">→</span>
+            Explore All Greeting Cards <span className="arrow">→</span>
           </Link>
         </div>
       </div>

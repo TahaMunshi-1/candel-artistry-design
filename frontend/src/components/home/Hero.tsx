@@ -30,7 +30,7 @@ export default function Hero() {
           href="#experience"
           className="burgundy-btn inline-flex items-center gap-3 !bg-[#8B5B58] !border-[#8B5B58] !text-[#FBF8F2] hover:!bg-[#734643] shadow-[0_8px_32px_rgba(0,0,0,0.7)] px-10 md:px-14 py-3.5 md:py-4.5 !rounded-full uppercase tracking-[0.22em] text-[0.92rem] md:text-[1.05rem] font-semibold transition-all hover:scale-105 active:scale-95"
         >
-          Explore the Moments <span className="arrow text-lg">→</span>
+          Explore the Collections <span className="arrow text-lg">→</span>
         </a>
       </div>
     </section>

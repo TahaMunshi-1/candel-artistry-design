@@ -22,7 +22,6 @@ type NavItem = {
   match: (path: string) => boolean;
 };
 
-/** Labels match the reference art; destinations keep existing admin routes. */
 const navItems: NavItem[] = [
   {
     id: "dashboard",
@@ -32,6 +31,27 @@ const navItems: NavItem[] = [
     match: (p) => p === "/admin" || p === "/admin/",
   },
   {
+    id: "collections",
+    to: "/admin/collections",
+    label: "Collections",
+    icon: "collections",
+    match: (p) => p.startsWith("/admin/collections"),
+  },
+  {
+    id: "products",
+    to: "/admin/candles",
+    label: "Fragrances",
+    icon: "products",
+    match: (p) => p.startsWith("/admin/candles"),
+  },
+  {
+    id: "greeting-cards",
+    to: "/admin/greeting-cards",
+    label: "Greeting Cards",
+    icon: "blog",
+    match: (p) => p.startsWith("/admin/greeting-cards"),
+  },
+  {
     id: "orders",
     to: "/admin/orders",
     label: "Orders",
@@ -39,32 +59,11 @@ const navItems: NavItem[] = [
     match: (p) => p.startsWith("/admin/orders"),
   },
   {
-    id: "products",
-    to: "/admin/candles",
-    label: "Products",
-    icon: "products",
-    match: (p) => p.startsWith("/admin/candles"),
-  },
-  {
     id: "customers",
     to: "/admin/customers",
     label: "Customers",
     icon: "users",
     match: (p) => p.startsWith("/admin/customers"),
-  },
-  {
-    id: "content",
-    to: "/admin/paintings",
-    label: "Content",
-    icon: "content",
-    match: (p) => p.startsWith("/admin/paintings"),
-  },
-  {
-    id: "blog",
-    to: "/admin/greeting-cards",
-    label: "Blog / Journal",
-    icon: "blog",
-    match: (p) => p.startsWith("/admin/greeting-cards"),
   },
   {
     id: "discounts",

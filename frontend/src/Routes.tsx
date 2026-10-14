@@ -11,12 +11,12 @@ import Home from "./pages/home";
 import OurStoryPage from "./pages/our-story";
 import CandlesPage from "./pages/candles";
 import CandleCollectionPage from "./pages/candles/CollectionPage";
-import PaintingsPage from "./pages/paintings";
 import GreetingCardsPage from "./pages/greeting-cards";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverviewPage from "./pages/admin/AdminOverviewPage";
 import AdminCandlesPage from "./pages/admin/AdminCandlesPage";
-import { AdminCardsPage, AdminPaintingsPage } from "./pages/admin/AdminGalleryPages";
+import AdminCollectionsPage from "./pages/admin/AdminCollectionsPage";
+import { AdminCardsPage } from "./pages/admin/AdminGalleryPages";
 import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
 import AdminCustomersPage from "./pages/admin/AdminCustomersPage";
 import { store } from "./redux/store";
@@ -40,15 +40,17 @@ function AppRoutes() {
                   <Route path="/our-story" element={<OurStoryPage />} />
                   <Route path="/candles" element={<CandlesPage />} />
                   <Route path="/candles/:collectionSlug" element={<CandleCollectionPage />} />
-                  <Route path="/paintings" element={<PaintingsPage />} />
+                  <Route path="/collections" element={<CandlesPage />} />
+                  <Route path="/collections/:collectionSlug" element={<CandleCollectionPage />} />
+                  <Route path="/paintings" element={<Navigate to="/candles" replace />} />
                   <Route path="/greeting-cards" element={<GreetingCardsPage />} />
 
                   <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<AdminOverviewPage />} />
+                    <Route path="collections" element={<AdminCollectionsPage />} />
                     <Route path="orders" element={<AdminOrdersPage />} />
                     <Route path="customers" element={<AdminCustomersPage />} />
                     <Route path="candles" element={<AdminCandlesPage />} />
-                    <Route path="paintings" element={<AdminPaintingsPage />} />
                     <Route path="greeting-cards" element={<AdminCardsPage />} />
                   </Route>
                 </Route>

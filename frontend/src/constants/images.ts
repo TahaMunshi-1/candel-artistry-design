@@ -59,6 +59,20 @@ export const images = {
   familyStoryFlyer: img("family/our-story-flyer.jpg"),
   bannerGif: img("cad-dancing-flame.gif"),
   heroBannerFinal: img("hero-banner-final.png"),
+  collectionAfrica: img("collection-africa.png"),
+  collectionYosemite: img("collection-yosemite.png"),
+  collectionSignature: img("collection-signature.png"),
+  collectionRodeo: img("collection-rodeo.png"),
+  collectionMoments: img("collection-moments.png"),
+  collectionVampire: img("collection-vampire.png"),
+  collectionVampirePoster: img("collection-vampire-poster.png"),
+  candleMakingArt: img("candle-making-art.png"),
+  candleTestingArt: img("candle-testing-art.png"),
+  ourStoryPoster: img("our-story-poster.png"),
+  card1: img("card-1.png"),
+  card2: img("card-2.png"),
+  card3: img("card-3.png"),
+  card4: img("card-4.png"),
 } as const;
 
 /**

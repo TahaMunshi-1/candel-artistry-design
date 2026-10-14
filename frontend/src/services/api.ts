@@ -113,6 +113,14 @@ export const api = {
     return handleResponse<any>(res);
   },
 
+  async deleteCollection(id: string) {
+    const res = await fetch(`${API_URL}/products/collections/${id}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+    return handleResponse<any>(res);
+  },
+
   // Orders
   async getOrders(params?: { status?: string; channel?: string; keyword?: string }) {
     const q = new URLSearchParams();
