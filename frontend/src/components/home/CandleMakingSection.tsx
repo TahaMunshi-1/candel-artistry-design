@@ -152,10 +152,27 @@ export default function CandleMakingSection() {
         />
 
         <div className="container-editorial relative z-[2] w-full">
-          {/* 2-Column Layout: Left is smaller (~40%), Right is bigger (~60%) */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.38fr] xl:grid-cols-[1fr_1.45fr] gap-8 lg:gap-12 xl:gap-16 items-center">
-            {/* Left Content (Smaller) */}
-            <div className="flex flex-col justify-center text-center lg:text-left order-2 lg:order-1">
+          {/* 2-Column Layout: Left is bigger (~60%) for Media, Right is smaller (~40%) for Details */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.38fr_1fr] xl:grid-cols-[1.45fr_1fr] gap-8 lg:gap-12 xl:gap-16 items-center">
+            {/* Left Media (Bigger) — Master Testing Artwork Poster */}
+            <div className="relative order-1 lg:order-1 flex justify-center lg:justify-start">
+              <figure className="group relative w-full max-w-[620px] rounded-2xl overflow-hidden border border-gold/50 shadow-[0_24px_60px_rgba(0,0,0,0.65)] ring-1 ring-gold/40 bg-[#1e0e12]">
+                <img
+                  src={images.candleTestingArt}
+                  alt="Candle Testing — A Better Candle Begins Here by Candle Artistry Design"
+                  className="w-full h-auto object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.testing;
+                  }}
+                />
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-gold/30 rounded-2xl" />
+              </figure>
+            </div>
+
+            {/* Right Content (Details) */}
+            <div className="flex flex-col justify-center text-center lg:text-left order-2 lg:order-2">
               <div className="inline-flex items-center justify-center lg:justify-start gap-2 text-gold/80 mb-2.5">
                 <span className="h-px w-6 bg-gold/50" />
                 <p className="text-eyebrow !text-[#E8D4A8] !tracking-[0.28em]">
@@ -238,23 +255,6 @@ export default function CandleMakingSection() {
                 <DiamondMark className="h-1.5 w-1.5 shrink-0" />
                 <div className="h-px w-10 bg-gold/45" />
               </div>
-            </div>
-
-            {/* Right Media (Bigger) — Master Testing Artwork Poster */}
-            <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end">
-              <figure className="group relative w-full max-w-[620px] rounded-2xl overflow-hidden border border-gold/50 shadow-[0_24px_60px_rgba(0,0,0,0.65)] ring-1 ring-gold/40 bg-[#1e0e12]">
-                <img
-                  src={images.candleTestingArt}
-                  alt="Candle Testing — A Better Candle Begins Here by Candle Artistry Design"
-                  className="w-full h-auto object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = images.testing;
-                  }}
-                />
-                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-gold/30 rounded-2xl" />
-              </figure>
             </div>
           </div>
         </div>
