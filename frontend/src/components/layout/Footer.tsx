@@ -6,10 +6,9 @@ import { FloralCorner } from "../decor/BotanicalAssets";
 type FooterLink = { label: string; to?: string; href?: string };
 
 const links: FooterLink[] = [
+  { label: "Shop All", to: "/shop" },
   { label: "Our Story", to: "/our-story" },
-  { label: "Moments", href: "/#experience" },
-  { label: "Candles", to: "/candles" },
-  { label: "Oil Paintings", to: "/paintings" },
+  { label: "Collections", to: "/candles" },
   { label: "Greeting Cards", to: "/greeting-cards" },
   { label: "Candle Making", href: "/#story" },
   { label: "Contact", href: "/#contact" },

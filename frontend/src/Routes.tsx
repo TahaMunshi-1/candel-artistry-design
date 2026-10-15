@@ -12,6 +12,7 @@ import OurStoryPage from "./pages/our-story";
 import CandlesPage from "./pages/candles";
 import CandleCollectionPage from "./pages/candles/CollectionPage";
 import ProductDetailPage from "./pages/candles/ProductDetailPage";
+import ShopPage from "./pages/shop";
 import GreetingCardsPage from "./pages/greeting-cards";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverviewPage from "./pages/admin/AdminOverviewPage";
@@ -39,6 +40,7 @@ function AppRoutes() {
                   <Route path="/" element={<Home />} />
                   <Route path="/dashboard" element={<Home />} />
                   <Route path="/our-story" element={<OurStoryPage />} />
+                  <Route path="/shop" element={<ShopPage />} />
                   <Route path="/candles" element={<CandlesPage />} />
                   <Route path="/candles/:collectionSlug" element={<CandleCollectionPage />} />
                   <Route path="/candles/:collectionSlug/:productSlug" element={<ProductDetailPage />} />

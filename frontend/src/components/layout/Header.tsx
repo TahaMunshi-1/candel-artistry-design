@@ -9,6 +9,7 @@ import ProfileModal from "../shop/ProfileModal";
 type NavItem = { label: string; to?: string; href?: string };
 
 const rightLinks: NavItem[] = [
+  { label: "Shop", to: "/shop" },
   { label: "Candles", to: "/candles" },
   { label: "Greeting Cards", to: "/greeting-cards" },
 ];
