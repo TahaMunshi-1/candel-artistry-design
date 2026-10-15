@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { CandleProduct, GalleryItem, ProductStatus } from "../../constants/catalog";
 import { images, resolveImageUrl } from "../../constants/images";
 import { useCart } from "../../context/CartContext";
@@ -12,6 +13,7 @@ type ProductCardProps = {
   nomenclature?: string;
   price?: number;
   note?: string;
+  productUrl?: string;
 };
 
 function formatPrice(price: number) {
@@ -28,6 +30,7 @@ export function ProductCard({
   nomenclature,
   price,
   note,
+  productUrl,
 }: ProductCardProps) {
   const available = status === "available";
   const { addToCart } = useCart();
@@ -35,6 +38,12 @@ export function ProductCard({
     image,
     category === "Oil Paintings" ? images.paintings : category === "Greeting Cards" ? images.cards : images.candles,
   );
+
+  const effectiveUrl =
+    productUrl ||
+    (category === "Greeting Cards"
+      ? `/greeting-cards/${id}`
+      : `/product/${id}`);
 
   const handleAdd = () => {
     addToCart({
@@ -48,26 +57,40 @@ export function ProductCard({
   };
 
   return (
-    <article className="flex flex-col items-center text-center">
-      <figure className="m-0 w-full max-w-[280px]">
-        <div className="overflow-hidden bg-champagne ring-1 ring-gold/35">
-          <img
-            src={resolvedImage}
-            alt={alt}
-            className="aspect-[3/4] w-full object-cover object-center"
-            loading="lazy"
-            decoding="async"
-            onError={(e) => {
-              const target = e.currentTarget;
-              target.onerror = null;
-              target.src = category === "Oil Paintings" ? images.paintings : category === "Greeting Cards" ? images.cards : images.candles;
-            }}
-          />
+    <article className="group flex flex-col items-center text-center">
+      <Link
+        to={effectiveUrl}
+        className="group/img relative m-0 block w-full max-w-[280px] overflow-hidden bg-champagne ring-1 ring-gold/35 focus:outline-none focus-visible:ring-2 focus-visible:ring-burgundy"
+        title={`View details for ${name}`}
+      >
+        <img
+          src={resolvedImage}
+          alt={alt}
+          className="aspect-[3/4] w-full object-cover object-center transition-transform duration-500 ease-out group-hover/img:scale-105"
+          loading="lazy"
+          decoding="async"
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null;
+            target.src = category === "Oil Paintings" ? images.paintings : category === "Greeting Cards" ? images.cards : images.candles;
+          }}
+        />
+
+        {/* Subtle hover overlay badge */}
+        <div className="absolute inset-0 flex items-center justify-center bg-ink/25 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover/img:opacity-100">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory/95 px-3.5 py-1.5 font-serif text-[0.68rem] tracking-[0.18em] uppercase text-burgundy shadow-md border border-gold/40">
+            View Details ↗
+          </span>
         </div>
-      </figure>
+      </Link>
 
       <h3 className="mt-5 font-serif text-[1.15rem] font-medium tracking-[0.04em] text-ink md:text-[1.25rem]">
-        {name}
+        <Link
+          to={effectiveUrl}
+          className="transition-colors duration-200 hover:text-burgundy"
+        >
+          {name}
+        </Link>
       </h3>
 
       {nomenclature ? (
@@ -89,7 +112,7 @@ export function ProductCard({
           ) : null}
           <button
             type="button"
-            className="mt-4 inline-flex min-w-[10.5rem] items-center justify-center bg-gold px-5 py-2.5 font-serif text-[0.68rem] tracking-[0.22em] uppercase text-ivory transition-colors duration-300 hover:bg-burgundy cursor-pointer"
+            className="mt-4 inline-flex min-w-[10.5rem] items-center justify-center bg-gold px-5 py-2.5 font-serif text-[0.68rem] tracking-[0.22em] uppercase text-ivory transition-colors duration-300 hover:bg-burgundy cursor-pointer shadow-sm"
             onClick={handleAdd}
           >
             Add to Cart
@@ -104,7 +127,17 @@ export function ProductCard({
   );
 }
 
-export function CandleProductCard({ product }: { product: CandleProduct }) {
+export function CandleProductCard({
+  product,
+  collectionSlug,
+}: {
+  product: CandleProduct;
+  collectionSlug?: string;
+}) {
+  const productUrl = collectionSlug
+    ? `/candles/${collectionSlug}/${product.slug || product.id}`
+    : `/product/${product.slug || product.id}`;
+
   return (
     <ProductCard
       id={product.id || product.slug}
@@ -115,6 +148,7 @@ export function CandleProductCard({ product }: { product: CandleProduct }) {
       category="Candles"
       nomenclature={product.nomenclature}
       price={product.price}
+      productUrl={productUrl}
     />
   );
 }
@@ -126,6 +160,11 @@ export function GalleryProductCard({
   item: GalleryItem;
   category?: string;
 }) {
+  const productUrl =
+    category === "Greeting Cards"
+      ? `/greeting-cards/${item.id}`
+      : `/product/${item.id}`;
+
   return (
     <ProductCard
       id={item.id}
@@ -136,6 +175,8 @@ export function GalleryProductCard({
       category={category || "Atelier Gallery"}
       price={item.price}
       note={item.note}
+      productUrl={productUrl}
     />
   );
 }
+

@@ -11,6 +11,7 @@ import Home from "./pages/home";
 import OurStoryPage from "./pages/our-story";
 import CandlesPage from "./pages/candles";
 import CandleCollectionPage from "./pages/candles/CollectionPage";
+import ProductDetailPage from "./pages/candles/ProductDetailPage";
 import GreetingCardsPage from "./pages/greeting-cards";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverviewPage from "./pages/admin/AdminOverviewPage";
@@ -40,10 +41,14 @@ function AppRoutes() {
                   <Route path="/our-story" element={<OurStoryPage />} />
                   <Route path="/candles" element={<CandlesPage />} />
                   <Route path="/candles/:collectionSlug" element={<CandleCollectionPage />} />
+                  <Route path="/candles/:collectionSlug/:productSlug" element={<ProductDetailPage />} />
                   <Route path="/collections" element={<CandlesPage />} />
                   <Route path="/collections/:collectionSlug" element={<CandleCollectionPage />} />
+                  <Route path="/collections/:collectionSlug/:productSlug" element={<ProductDetailPage />} />
+                  <Route path="/product/:productSlug" element={<ProductDetailPage />} />
                   <Route path="/paintings" element={<Navigate to="/candles" replace />} />
                   <Route path="/greeting-cards" element={<GreetingCardsPage />} />
+                  <Route path="/greeting-cards/:productSlug" element={<ProductDetailPage />} />
 
                   <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<AdminOverviewPage />} />

@@ -86,7 +86,11 @@ export default function CandleCollectionPage() {
 
           <div className="mx-auto mt-10 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-12">
             {collection.products.map((product) => (
-              <CandleProductCard key={product.id} product={product} />
+              <CandleProductCard
+                key={product.id}
+                product={product}
+                collectionSlug={collection.slug}
+              />
             ))}
           </div>
 
