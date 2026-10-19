@@ -1,5 +1,6 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
+import ScrollToTop from "./components/layout/ScrollToTop";
 import { CatalogProvider } from "./catalog/CatalogContext";
 import { CartProvider } from "./context/CartContext";
 import { CustomerAuthProvider } from "./context/CustomerAuthContext";
@@ -38,6 +39,7 @@ function AppRoutes() {
         <CustomerAuthProvider>
           <CartProvider>
             <BrowserRouter basename={BASE_NAME}>
+              <ScrollToTop />
               <Routes>
                 <Route element={<PrivateRoute />}>
                   <Route path="/" element={<Home />} />
