@@ -346,6 +346,9 @@ export default function CheckoutModal() {
                   <span>Order Total</span>
                   <span>${cartTotal.toFixed(2)}</span>
                 </div>
+                <p className="text-[0.68rem] font-serif text-taupe/90 italic pt-1 text-center">
+                  Supreme Artisanal Quality Guarantee · All Sales Final (No Refunds)
+                </p>
               </section>
 
               {error ? (

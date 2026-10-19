@@ -493,6 +493,10 @@ export default function ProductDetailPage() {
                   <span className="text-gold text-base">✦</span>
                   <span>Phthalate-free, non-toxic & clean soot-free burn.</span>
                 </div>
+                <div className="flex items-center gap-2.5 text-[0.82rem] font-serif text-ink font-medium">
+                  <span className="text-burgundy text-base">✦</span>
+                  <span>Supreme Quality Standard: Hand-poured in limited batches · All sales final (no refunds).</span>
+                </div>
               </div>
 
               {/* Accordions for Ritual, Notes, and Shipping */}
@@ -647,6 +651,13 @@ export default function ProductDetailPage() {
                       <p>
                         • <strong>Processing time:</strong> 1 to 2 business days from our
                         Coarsegold studio.
+                      </p>
+                      <p>
+                        • <strong>Return & Refund Policy:</strong> Because of our supreme
+                        handcrafted quality and small-batch production, all sales are final
+                        and there are no refunds. If an item arrives damaged in transit,
+                        please notify our atelier within 48 hours for an immediate
+                        replacement.
                       </p>
                     </div>
                   )}

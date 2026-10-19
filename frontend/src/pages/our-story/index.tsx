@@ -43,7 +43,7 @@ export default function OurStoryPage() {
             </div>
 
             <h1 className="font-serif text-[clamp(2.35rem,5.5vw,3.6rem)] font-light uppercase tracking-[0.08em] text-white leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]">
-              About Us
+              Our Story
             </h1>
 
             <div className="mt-4 flex items-center justify-center gap-3 text-gold">

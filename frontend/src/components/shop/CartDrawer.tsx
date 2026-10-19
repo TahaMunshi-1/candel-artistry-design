@@ -349,6 +349,10 @@ export default function CartDrawer() {
               </div>
             </div>
 
+            <p className="text-center text-[0.64rem] font-serif text-taupe/90 italic pt-1">
+              Supreme Artisanal Quality · All Sales Final (No Refunds)
+            </p>
+
             <div className="text-center pt-1">
               <button
                 type="button"

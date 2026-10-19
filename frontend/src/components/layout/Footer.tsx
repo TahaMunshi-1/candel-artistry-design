@@ -10,8 +10,9 @@ const links: FooterLink[] = [
   { label: "Our Story", to: "/our-story" },
   { label: "Collections", to: "/candles" },
   { label: "Greeting Cards", to: "/greeting-cards" },
-  { label: "Candle Making", href: "/#story" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact Us", to: "/contact" },
+  { label: "Privacy Policy", to: "/privacy-policy" },
+  { label: "Terms & Conditions", to: "/terms-and-conditions" },
   { label: "Admin Portal", to: "/admin" },
 ];
 
@@ -80,7 +81,12 @@ export default function Footer() {
             </button>
           </form>
 
-          <div className="mt-10 flex items-center justify-center gap-3 text-gold">
+          {/* Supreme Quality & No-Refund Reassurance */}
+          <p className="mt-6 text-[0.68rem] tracking-[0.16em] uppercase font-serif text-taupe/90">
+            Supreme Artisanal Quality Standard · Hand-Poured in Small Batches · All Sales Final (No Refunds)
+          </p>
+
+          <div className="mt-8 flex items-center justify-center gap-3 text-gold">
             <div className="h-px w-12 bg-[rgba(185,154,104,0.45)]" />
             <DiamondMark className="h-2 w-2" />
             <div className="h-px w-12 bg-[rgba(185,154,104,0.45)]" />
@@ -88,6 +94,20 @@ export default function Footer() {
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-[0.65rem] tracking-[0.2em] uppercase font-serif text-taupe/80">
             <span>© {new Date().getFullYear()} Candle Artistry Design Co. · Coarsegold, CA</span>
+            <span aria-hidden>·</span>
+            <Link
+              to="/privacy-policy"
+              className="hover:text-burgundy hover:underline underline-offset-4 transition-colors"
+            >
+              Privacy
+            </Link>
+            <span aria-hidden>·</span>
+            <Link
+              to="/terms-and-conditions"
+              className="hover:text-burgundy hover:underline underline-offset-4 transition-colors"
+            >
+              Terms
+            </Link>
             <span aria-hidden>·</span>
             <Link
               to="/admin"
@@ -101,3 +121,4 @@ export default function Footer() {
     </footer>
   );
 }
+

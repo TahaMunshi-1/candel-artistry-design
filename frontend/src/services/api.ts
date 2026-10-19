@@ -207,4 +207,42 @@ export const api = {
       topProducts: any[];
     }>(res);
   },
+
+  // Contact Intake
+  async submitContact(data: {
+    name: string;
+    email: string;
+    phone?: string;
+    company?: string;
+    inquiryType?: string;
+    estimatedQuantity?: string;
+    scentPreferences?: string[];
+    neededByDate?: string;
+    budget?: string;
+    subject: string;
+    message: string;
+    newsletterOptIn?: boolean;
+  }) {
+    const res = await fetch(`${API_URL}/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return handleResponse<{
+      referenceNumber: string;
+      id: string;
+      name: string;
+      email: string;
+      inquiryType: string;
+      createdAt: string;
+    }>(res);
+  },
+
+  async getContacts() {
+    const res = await fetch(`${API_URL}/contact`, {
+      headers: getHeaders(),
+    });
+    return handleResponse<any[]>(res);
+  },
 };
+

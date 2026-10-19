@@ -11,6 +11,7 @@ type NavItem = { label: string; to?: string; href?: string };
 const rightLinks: NavItem[] = [
   { label: "Candles", to: "/candles" },
   { label: "Greeting Cards", to: "/greeting-cards" },
+  { label: "Contact", to: "/contact" },
 ];
 
 function IconSearch() {
@@ -148,7 +149,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
               <NavAnchor item={{ label: "Home", to: "/" }} className={navClass} />
               <NavAnchor item={{ label: "Shop", to: "/shop" }} className={navClass} />
               <NavAnchor item={{ label: "Collections", to: "/candles" }} className={navClass} />
-              <NavAnchor item={{ label: "About Us", to: "/our-story" }} className={navClass} />
+              <NavAnchor item={{ label: "Our Story", to: "/our-story" }} className={navClass} />
             </nav>
 
             <button
@@ -318,7 +319,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
             />
 
             <NavAnchor
-              item={{ label: "About Us", to: "/our-story" }}
+              item={{ label: "Our Story", to: "/our-story" }}
               className="text-nav text-ink py-1"
               onClick={() => setOpen(false)}
             />

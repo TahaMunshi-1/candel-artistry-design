@@ -14,6 +14,9 @@ import CandleCollectionPage from "./pages/candles/CollectionPage";
 import ProductDetailPage from "./pages/candles/ProductDetailPage";
 import ShopPage from "./pages/shop";
 import GreetingCardsPage from "./pages/greeting-cards";
+import ContactPage from "./pages/contact";
+import PrivacyPolicyPage from "./pages/privacy-policy";
+import TermsPage from "./pages/terms";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverviewPage from "./pages/admin/AdminOverviewPage";
 import AdminCandlesPage from "./pages/admin/AdminCandlesPage";
@@ -51,6 +54,10 @@ function AppRoutes() {
                   <Route path="/paintings" element={<Navigate to="/candles" replace />} />
                   <Route path="/greeting-cards" element={<GreetingCardsPage />} />
                   <Route path="/greeting-cards/:productSlug" element={<ProductDetailPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                  <Route path="/terms-and-conditions" element={<TermsPage />} />
+                  <Route path="/terms" element={<Navigate to="/terms-and-conditions" replace />} />
 
                   <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<AdminOverviewPage />} />
